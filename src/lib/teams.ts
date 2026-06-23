@@ -1,3 +1,5 @@
+import { PLAYER_NAMES } from "./player-names.generated";
+
 // 球队英文名 -> { 中文名, ISO 国旗代码 }。兼容 football-data 可能的别名。
 interface TeamMeta {
   zh: string;
@@ -178,7 +180,7 @@ const PLAYER_ZH: Record<number, string> = {
 };
 
 export function playerZh(id: number, fallback: string): string {
-  return PLAYER_ZH[id] ?? fallback;
+  return PLAYER_ZH[id] ?? PLAYER_NAMES[id] ?? fallback;
 }
 
 /** 球员真实头像（来自 TheSportsDB） */
