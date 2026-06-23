@@ -27,9 +27,58 @@ const CACHE_TTL = 60_000; // 60s，守住免费档 10 次/分钟限流
 type Entry = { ts: number; data: unknown; source: "live" | "snapshot" };
 const cache = new Map<string, Entry>();
 
+/** 球队名称归一化 */
+function normTeam(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[- ]/g, "")
+    .replace(/bosnia.*?herzegovina/g, "bosnia")
+    .replace(/southkorea/g, "korea")
+    .replace(/^korea.*/, "korea")
+    .replace(/côte.*/, "ivorycoast")
+    .replace(/ivoorkust/, "ivorycoast")
+    .replace(/trinidad.*/, "trinidad")
+    .replace(/unitedstates.*/, "usa")
+    .replace(/deutschland/, "germany")
+    .replace(/brasil/, "brazil")
+    .replace(/españa/, "spain")
+    .replace(/türkiye/, "turkiye")
+    .replace(/curacao/, "curacao");
+}
+
+function matchKey(home: string, away: string): string {
+  return `${normTeam(home)}|${normTeam(away)}`;
+}
+
+/** 从快照构建 "home|away" -> goals[] 查找表 */
+function buildGoalsLookup(snap: any): Map<string, unknown[]> {
+  const map = new Map<string, unknown[]>();
+  const snapMatches = snap.matches?.matches;
+  if (!snapMatches) return map;
+  for (const m of snapMatches) {
+    if (m.goals && m.goals.length > 0) {
+      const key = matchKey(m.homeTeam.name, m.awayTeam.name);
+      map.set(key, m.goals);
+    }
+  }
+  return map;
+}
+
+/** 用快照进球数据富化 live 比赛 */
+function injectSnapshotGoals(matches: any[], lookup: Map<string, unknown[]>) {
+  for (const m of matches) {
+    if (m.status === "FINISHED" && !m.goals?.length) {
+      const key = matchKey(m.homeTeam.name, m.awayTeam.name);
+      const goals = lookup.get(key);
+      if (goals) m.goals = goals;
+    }
+  }
+}
+
 const snapshot = JSON.parse(readFileSync(join(__dirname, "data/snapshot.json"), "utf-8")) as Record<string, unknown> & {
   _meta: { asOf: string };
 };
+const goalsLookup = buildGoalsLookup(snapshot);
 
 async function getData(key: string): Promise<Entry> {
   const hit = cache.get(key);
@@ -40,6 +89,10 @@ async function getData(key: string): Promise<Entry> {
       const res = await fetch(ENDPOINTS[key], { headers: { "X-Auth-Token": TOKEN } });
       if (res.ok) {
         const data = await res.json();
+        // 对 matches 端点用快照进球数据富化
+        if (key === "matches" && data.matches) {
+          injectSnapshotGoals(data.matches, goalsLookup);
+        }
         const entry: Entry = { ts: Date.now(), data, source: "live" };
         cache.set(key, entry);
         return entry;
