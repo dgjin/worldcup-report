@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0e1a;
+  --color-surface: #121a2e;
+  --color-surface-2: #1a2440;
+  --color-line: #243154;
+  --color-primary: #e63946;
+  --color-primary-bright: #ff3b5c;
+  --color-gold: #ffd60a;
+  --color-pitch: #2dd36f;
+  --color-ink: #eaf0ff;
+  --color-muted: #8a97b8;
+
+  --font-display: "Oswald", "Noto Sans SC", sans-serif;
+  --font-sans: "Noto Sans SC", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  /* 不用 height:100%（在 iOS 上会按"大视口"解析，留下工具栏高度的可滚动空白） */
+  overscroll-behavior-y: none;
+}
+
+body {
+  margin: 0;
+  /* 动态视口高度：随 iOS 工具栏伸缩，内容到底即文档到底，无多余留白 */
+  min-height: 100dvh;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* 固定背景层（取代 background-attachment: fixed，规避 iOS 兼容问题） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1100px 520px at 50% -8%, #182549 0%, rgba(10, 14, 26, 0) 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(230, 57, 70, 0.12) 0%, rgba(10, 14, 26, 0) 55%),
+    var(--color-bg);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #34457a;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+/* 移动端底部留白精确匹配 nav 高度，防止滚动到底后多余空白 */
+@media (max-width: 767px) {
+  .page-bottom-safe {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (min-width: 768px) {
+  .page-bottom-safe {
+    padding-bottom: 8px;
+  }
+}
+
+.live-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
