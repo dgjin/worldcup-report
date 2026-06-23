@@ -10,7 +10,7 @@
     "snapshot": "node data/build-snapshot.mjs",
     "test": "tsx src/lib/transform.test.ts",
     "lint": "tsc --noEmit",
-    "deploy": "wrangler pages deploy dist/client --project-name=worldcup-report",
+    "deploy": "vite build && npx wrangler pages deploy dist/client --project-name=worldcup-report --branch=worldcup-report --commit-dirty=true",
     "pages-dev": "wrangler pages dev dist/client",
     "build:all": "vite build && cp data/snapshot.json dist/client/data/ 2>/dev/null || true"
   },
