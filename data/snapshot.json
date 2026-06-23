@@ -1258,7 +1258,36 @@
             "home": 2,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 34,
+            "team": {
+              "id": 1,
+              "name": "Mexico"
+            },
+            "scorer": {
+              "id": 500,
+              "name": "H. Lozano"
+            },
+            "assist": {
+              "id": 501,
+              "name": "E. Álvarez"
+            }
+          },
+          {
+            "minute": 78,
+            "team": {
+              "id": 1,
+              "name": "Mexico"
+            },
+            "scorer": {
+              "id": 502,
+              "name": "S. Giménez"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1002,
@@ -1284,7 +1313,51 @@
             "home": 2,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 22,
+            "team": {
+              "id": 2,
+              "name": "South Korea"
+            },
+            "scorer": {
+              "id": 510,
+              "name": "Son Heung-min"
+            },
+            "assist": {
+              "id": 511,
+              "name": "Lee Kang-in"
+            }
+          },
+          {
+            "minute": 56,
+            "team": {
+              "id": 3,
+              "name": "Czechia"
+            },
+            "scorer": {
+              "id": 520,
+              "name": "P. Schick"
+            },
+            "assist": null
+          },
+          {
+            "minute": 83,
+            "team": {
+              "id": 2,
+              "name": "South Korea"
+            },
+            "scorer": {
+              "id": 512,
+              "name": "Hwang Hee-chan"
+            },
+            "assist": {
+              "id": 510,
+              "name": "Son Heung-min"
+            }
+          }
+        ]
       },
       {
         "id": 1003,
@@ -1310,7 +1383,36 @@
             "home": 1,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 41,
+            "team": {
+              "id": 3,
+              "name": "Czechia"
+            },
+            "scorer": {
+              "id": 521,
+              "name": "T. Souček"
+            },
+            "assist": null
+          },
+          {
+            "minute": 67,
+            "team": {
+              "id": 4,
+              "name": "South Africa"
+            },
+            "scorer": {
+              "id": 530,
+              "name": "P. Mokoena"
+            },
+            "assist": {
+              "id": 531,
+              "name": "L. Foster"
+            }
+          }
+        ]
       },
       {
         "id": 1004,
@@ -1336,7 +1438,24 @@
             "home": 1,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 55,
+            "team": {
+              "id": 1,
+              "name": "Mexico"
+            },
+            "scorer": {
+              "id": 502,
+              "name": "S. Giménez"
+            },
+            "assist": {
+              "id": 500,
+              "name": "H. Lozano"
+            }
+          }
+        ]
       },
       {
         "id": 1005,
@@ -1362,7 +1481,75 @@
             "home": 4,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 12,
+            "team": {
+              "id": 6,
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "id": 540,
+              "name": "B. Embolo"
+            },
+            "assist": {
+              "id": 541,
+              "name": "X. Shaqiri"
+            }
+          },
+          {
+            "minute": 38,
+            "team": {
+              "id": 6,
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "id": 542,
+              "name": "R. Vargas"
+            },
+            "assist": null
+          },
+          {
+            "minute": 52,
+            "team": {
+              "id": 7,
+              "name": "Bosnia and Herzegovina"
+            },
+            "scorer": {
+              "id": 550,
+              "name": "E. Džeko"
+            },
+            "assist": null
+          },
+          {
+            "minute": 71,
+            "team": {
+              "id": 6,
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "id": 540,
+              "name": "B. Embolo"
+            },
+            "assist": {
+              "id": 541,
+              "name": "X. Shaqiri"
+            }
+          },
+          {
+            "minute": 89,
+            "team": {
+              "id": 6,
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "id": 543,
+              "name": "Z. Amdouni"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1006,
@@ -1388,7 +1575,91 @@
             "home": 6,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 8,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 560,
+              "name": "A. Davies"
+            },
+            "assist": null
+          },
+          {
+            "minute": 23,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 561,
+              "name": "J. David"
+            },
+            "assist": {
+              "id": 560,
+              "name": "A. Davies"
+            }
+          },
+          {
+            "minute": 40,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 562,
+              "name": "C. Larin"
+            },
+            "assist": {
+              "id": 561,
+              "name": "J. David"
+            }
+          },
+          {
+            "minute": 55,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 560,
+              "name": "A. Davies"
+            },
+            "assist": null
+          },
+          {
+            "minute": 72,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 563,
+              "name": "I. Koné"
+            },
+            "assist": {
+              "id": 560,
+              "name": "A. Davies"
+            }
+          },
+          {
+            "minute": 88,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 561,
+              "name": "J. David"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          }
+        ]
       },
       {
         "id": 1007,
@@ -1414,7 +1685,36 @@
             "home": 1,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 29,
+            "team": {
+              "id": 5,
+              "name": "Canada"
+            },
+            "scorer": {
+              "id": 561,
+              "name": "J. David"
+            },
+            "assist": {
+              "id": 560,
+              "name": "A. Davies"
+            }
+          },
+          {
+            "minute": 74,
+            "team": {
+              "id": 7,
+              "name": "Bosnia and Herzegovina"
+            },
+            "scorer": {
+              "id": 550,
+              "name": "E. Džeko"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1008,
@@ -1440,7 +1740,36 @@
             "home": 1,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 33,
+            "team": {
+              "id": 8,
+              "name": "Qatar"
+            },
+            "scorer": {
+              "id": 570,
+              "name": "A. Afif"
+            },
+            "assist": null
+          },
+          {
+            "minute": 62,
+            "team": {
+              "id": 6,
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "id": 542,
+              "name": "R. Vargas"
+            },
+            "assist": {
+              "id": 540,
+              "name": "B. Embolo"
+            }
+          }
+        ]
       },
       {
         "id": 1009,
@@ -1466,7 +1795,39 @@
             "home": 1,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 19,
+            "team": {
+              "id": 9,
+              "name": "Brazil"
+            },
+            "scorer": {
+              "id": 580,
+              "name": "Vinícius Jr."
+            },
+            "assist": {
+              "id": 581,
+              "name": "Rodrygo"
+            }
+          },
+          {
+            "minute": 65,
+            "team": {
+              "id": 10,
+              "name": "Morocco"
+            },
+            "scorer": {
+              "id": 590,
+              "name": "H. Ziyech"
+            },
+            "assist": {
+              "id": 591,
+              "name": "A. Hakimi"
+            }
+          }
+        ]
       },
       {
         "id": 1010,
@@ -1492,7 +1853,21 @@
             "home": 0,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 73,
+            "team": {
+              "id": 11,
+              "name": "Scotland"
+            },
+            "scorer": {
+              "id": 600,
+              "name": "S. McTominay"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1011,
@@ -1518,7 +1893,24 @@
             "home": 0,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 51,
+            "team": {
+              "id": 10,
+              "name": "Morocco"
+            },
+            "scorer": {
+              "id": 592,
+              "name": "Y. En-Nesyri"
+            },
+            "assist": {
+              "id": 590,
+              "name": "H. Ziyech"
+            }
+          }
+        ]
       },
       {
         "id": 1012,
@@ -1544,7 +1936,51 @@
             "home": 3,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 15,
+            "team": {
+              "id": 9,
+              "name": "Brazil"
+            },
+            "scorer": {
+              "id": 582,
+              "name": "Rodrygo"
+            },
+            "assist": {
+              "id": 580,
+              "name": "Vinícius Jr."
+            }
+          },
+          {
+            "minute": 44,
+            "team": {
+              "id": 9,
+              "name": "Brazil"
+            },
+            "scorer": {
+              "id": 580,
+              "name": "Vinícius Jr."
+            },
+            "assist": null
+          },
+          {
+            "minute": 81,
+            "team": {
+              "id": 9,
+              "name": "Brazil"
+            },
+            "scorer": {
+              "id": 583,
+              "name": "Endrick"
+            },
+            "assist": {
+              "id": 582,
+              "name": "Rodrygo"
+            }
+          }
+        ]
       },
       {
         "id": 1013,
@@ -1570,7 +2006,78 @@
             "home": 4,
             "away": 1
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 11,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 610,
+              "name": "C. Pulisic"
+            },
+            "assist": {
+              "id": 611,
+              "name": "W. McKennie"
+            }
+          },
+          {
+            "minute": 35,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 612,
+              "name": "T. Weah"
+            },
+            "assist": {
+              "id": 610,
+              "name": "C. Pulisic"
+            }
+          },
+          {
+            "minute": 58,
+            "team": {
+              "id": 15,
+              "name": "Paraguay"
+            },
+            "scorer": {
+              "id": 620,
+              "name": "M. Almirón"
+            },
+            "assist": null
+          },
+          {
+            "minute": 72,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 610,
+              "name": "C. Pulisic"
+            },
+            "assist": null
+          },
+          {
+            "minute": 90,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 613,
+              "name": "R. Pepi"
+            },
+            "assist": {
+              "id": 612,
+              "name": "T. Weah"
+            }
+          }
+        ]
       },
       {
         "id": 1014,
@@ -1596,7 +2103,36 @@
             "home": 2,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 27,
+            "team": {
+              "id": 14,
+              "name": "Australia"
+            },
+            "scorer": {
+              "id": 630,
+              "name": "M. Duke"
+            },
+            "assist": {
+              "id": 631,
+              "name": "A. Hrustic"
+            }
+          },
+          {
+            "minute": 69,
+            "team": {
+              "id": 14,
+              "name": "Australia"
+            },
+            "scorer": {
+              "id": 632,
+              "name": "C. Metcalfe"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1015,
@@ -1622,7 +2158,36 @@
             "home": 2,
             "away": 0
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 38,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 611,
+              "name": "W. McKennie"
+            },
+            "assist": {
+              "id": 610,
+              "name": "C. Pulisic"
+            }
+          },
+          {
+            "minute": 82,
+            "team": {
+              "id": 13,
+              "name": "United States"
+            },
+            "scorer": {
+              "id": 610,
+              "name": "C. Pulisic"
+            },
+            "assist": null
+          }
+        ]
       },
       {
         "id": 1016,

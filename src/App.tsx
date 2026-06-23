@@ -124,7 +124,7 @@ export default function App() {
         </div>
       ) : (
         <main>
-          {tab === "standings" && <GroupStandings groups={groups} />}
+          {tab === "standings" && <GroupStandings groups={groups} matches={matches} />}
           {tab === "scorers" && <Scorers scorers={scorers} />}
           {tab === "knockout" && <KnockoutBracket groups={groups} matches={matches} />}
           {tab === "teams" && <TeamCards groups={groups} matches={matches} scorers={scorers} />}

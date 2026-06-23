@@ -58,6 +58,14 @@ export type MatchStatus =
   | "SUSPENDED"
   | "CANCELLED";
 
+export interface MatchGoal {
+  minute: number;
+  team: { id: number; name: string };
+  scorer: { id: number; name: string };
+  assist?: { id: number; name: string } | null;
+  type?: "REGULAR" | "PENALTY" | "OWN_GOAL";
+}
+
 export interface MatchRaw {
   id: number;
   utcDate: string;
@@ -72,6 +80,7 @@ export interface MatchRaw {
     duration?: string;
     fullTime: { home: number | null; away: number | null };
   };
+  goals?: MatchGoal[];
 }
 
 export interface MatchesResponse {

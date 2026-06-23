@@ -100,3 +100,30 @@ export function goalsByMatchday(finished: MatchRaw[]): { matchday: string; goals
 export function teamRecentMatches(teamId: number, finished: MatchRaw[], limit = 5): MatchRaw[] {
   return finished.filter((m) => m.homeTeam.id === teamId || m.awayTeam.id === teamId).slice(0, limit);
 }
+
+/** 过滤今日比赛：已完赛 + 进行中 + 待踢（按北京时间当天） */
+export function todayMatches(split: SplitMatches): { matches: MatchRaw[]; fallback: boolean } {
+  const now = new Date();
+  // 北京时间为 UTC+8，取北京当天 00:00 ~ 24:00 对应的 UTC 范围
+  const bjStart = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), -8, 0, 0));
+  const bjEnd = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 16, 0, 0));
+  const startISO = bjStart.toISOString();
+  const endISO = bjEnd.toISOString();
+
+  // 优先取今天的比赛
+  const todayAll = [
+    ...split.live,
+    ...split.finished.filter((m) => m.utcDate >= startISO && m.utcDate <= endISO),
+    ...split.upcoming.filter((m) => m.utcDate >= startISO && m.utcDate <= endISO),
+  ].sort((a, b) => a.utcDate.localeCompare(b.utcDate));
+
+  if (todayAll.length > 0) return { matches: todayAll, fallback: false };
+
+  // 今天无比赛 → 回退到最近一个比赛日的已完赛比赛
+  if (split.finished.length > 0) {
+    const latestDate = split.finished[0].utcDate.slice(0, 10); // finished 已按日期倒序
+    const recent = split.finished.filter((m) => m.utcDate.slice(0, 10) === latestDate);
+    return { matches: recent.sort((a, b) => a.utcDate.localeCompare(b.utcDate)), fallback: true };
+  }
+  return { matches: [], fallback: false };
+}

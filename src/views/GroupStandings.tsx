@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
-import type { GroupTable, StandingRow } from "../types/worldcup";
-import { bestThirdIds, qualifyState, type QualifyState } from "../lib/transform";
-import { teamZh } from "../lib/teams";
+import type { GroupTable, MatchGoal, MatchRaw, SplitMatches, StandingRow } from "../types/worldcup";
+import { bestThirdIds, qualifyState, todayMatches, type QualifyState } from "../lib/transform";
+import { playerZh, teamZh } from "../lib/teams";
+import { timeLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
 
 const ROW_TONE: Record<QualifyState, string> = {
@@ -111,10 +112,142 @@ function GroupIndex({ groups }: { groups: GroupTable[] }) {
   );
 }
 
-export default function GroupStandings({ groups }: { groups: GroupTable[] }) {
+/* ——— 今日速递 ——— */
+/** 按球队分组显示进球：`23' Son · 78' Park` */
+function GoalStrip({ goals, teamId }: { goals?: MatchGoal[]; teamId: number }) {
+  if (!goals) return null;
+  const teamGoals = goals.filter((g) => g.team.id === teamId).sort((a, b) => a.minute - b.minute);
+  if (teamGoals.length === 0) return null;
+  return (
+    <span className="inline-flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[11px] text-muted">
+      <span className="text-pitch">⚽</span>
+      {teamGoals.map((g, i) => (
+        <span key={i} className="whitespace-nowrap">
+          <span className="font-medium tabular-nums text-muted/80">{g.minute}'</span>{" "}
+          <span className="text-ink/70">{playerZh(g.scorer.id, g.scorer.name)}</span>
+          {g.type === "PENALTY" && <span className="text-gold">(点)</span>}
+          {i < teamGoals.length - 1 && <span className="text-muted/50">·</span>}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function MatchLine({ m }: { m: MatchRaw }) {
+  const isLive = m.status === "IN_PLAY" || m.status === "PAUSED";
+  const isFinished = m.status === "FINISHED";
+  const ht = m.score.fullTime.home;
+  const at = m.score.fullTime.away;
+  const winner = m.score.winner;
+  const hasGoals = m.goals && m.goals.length > 0;
+
+  return (
+    <div className="rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2/40">
+      {/* 主行：状态 + 主队 + 比分 + 客队 */}
+      <div className="flex items-center gap-2">
+        {/* 状态列 */}
+        <span className="w-12 shrink-0 text-center">
+          {isLive ? (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-red-500">
+              <span className="live-dot h-1.5 w-1.5 rounded-full bg-red-500" />
+              直播
+            </span>
+          ) : isFinished ? (
+            <span className="text-[11px] font-semibold text-muted">已结束</span>
+          ) : (
+            <span className="text-sm font-semibold tabular-nums text-ink">{timeLabel(m.utcDate)}</span>
+          )}
+        </span>
+
+        {/* 主队 */}
+        <span className="flex flex-1 items-center justify-end gap-1.5">
+          <span className={cn("truncate text-sm", isFinished && winner === "HOME_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
+            {teamZh(m.homeTeam.name)}
+          </span>
+          <Flag name={m.homeTeam.name} />
+        </span>
+
+        {/* 比分 */}
+        <span className="shrink-0">
+          {isFinished || isLive ? (
+            <span className="inline-flex items-center gap-1 rounded-lg bg-surface-2/60 px-2 py-0.5 font-display text-base font-bold tabular-nums text-ink">
+              <span className={winner === "HOME_TEAM" ? "text-pitch" : ""}>{ht ?? 0}</span>
+              <span className="text-muted/60">-</span>
+              <span className={winner === "AWAY_TEAM" ? "text-pitch" : ""}>{at ?? 0}</span>
+            </span>
+          ) : (
+            <span className="px-2 text-sm text-muted">vs</span>
+          )}
+        </span>
+
+        {/* 客队 */}
+        <span className="flex flex-1 items-center gap-1.5">
+          <Flag name={m.awayTeam.name} />
+          <span className={cn("truncate text-sm", isFinished && winner === "AWAY_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
+            {teamZh(m.awayTeam.name)}
+          </span>
+        </span>
+      </div>
+
+      {/* 进球信息行 */}
+      {hasGoals && (
+        <div className="mt-1 flex items-start gap-2 pl-14">
+          <div className="flex-1 text-right">
+            <GoalStrip goals={m.goals} teamId={m.homeTeam.id} />
+          </div>
+          <span className="w-10 shrink-0" />
+          <div className="flex-1">
+            <GoalStrip goals={m.goals} teamId={m.awayTeam.id} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TodayBriefing({ split }: { split: SplitMatches }) {
+  const { matches, fallback } = todayMatches(split);
+  const finished = matches.filter((m) => m.status === "FINISHED").length;
+  const live = matches.filter((m) => m.status === "IN_PLAY" || m.status === "PAUSED").length;
+  const upcoming = matches.filter((m) => m.status === "TIMED" || m.status === "SCHEDULED").length;
+
+  return (
+    <section className="mb-6">
+      <SectionHeading
+        kicker="每日更新"
+        title={fallback ? "最新战况" : "今日速递"}
+        right={
+          <div className="flex items-center gap-1.5">
+            {live > 0 && <Tag tone="hot">{live} 进行中</Tag>}
+            {finished > 0 && <Tag tone="cool">{finished} 已结束</Tag>}
+            {upcoming > 0 && <Tag tone="gold">{upcoming} 待踢</Tag>}
+          </div>
+        }
+      />
+      {fallback && matches.length > 0 && (
+        <p className="mb-2 text-xs text-muted">今日无比赛，显示最近一个比赛日的结果</p>
+      )}
+
+      <Card className="overflow-hidden">
+        {matches.length === 0 ? (
+          <div className="py-8 text-center text-sm text-muted">暂无比赛数据，赛程更新中 🌙</div>
+        ) : (
+          <div className="divide-y divide-line/30">
+            {matches.map((m) => (
+              <MatchLine key={m.id} m={m} />
+            ))}
+          </div>
+        )}
+      </Card>
+    </section>
+  );
+}
+
+export default function GroupStandings({ groups, matches }: { groups: GroupTable[]; matches: SplitMatches }) {
   const bestThirds = bestThirdIds(groups);
   return (
     <section>
+      <TodayBriefing split={matches} />
       <SectionHeading
         kicker="小组赛"
         title="小组赛积分榜"
