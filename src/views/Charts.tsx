@@ -135,10 +135,10 @@ export default function Charts({
             <Tooltip
               contentStyle={tooltipStyle}
               cursor={{ fill: "rgba(255,255,255,0.04)" }}
-              formatter={(value: number, _: string, entry: { payload: typeof topScorers[0] }) => [
-                `${value} 球${entry.payload.penalties ? `（含点球${entry.payload.penalties}）` : ""}`,
-                entry.payload.team,
-              ]}
+              formatter={(value, _name, entry) => {
+                const p = (entry as { payload: (typeof topScorers)[0] }).payload;
+                return [`${value} 球${p.penalties ? `（含点球${p.penalties}）` : ""}`, p.team];
+              }}
             />
             <Bar dataKey="goals" name="进球" radius={[0, 4, 4, 0]}>
               {topScorers.map((d, i) => (

@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
+import { ChevronDown } from "lucide-react";
 import type { GroupTable, MatchRaw, ScorerRaw, SplitMatches, StandingRow } from "../types/worldcup";
-import { teamRecentMatches } from "../lib/transform";
-import { teamZh, playerZh, coachZh } from "../lib/teams";
+import { teamZh, playerZh, coachZh, isStarPlayer, playerFaceUrl } from "../lib/teams";
+import { dayLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
 import { useTeams, positionGroup, POSITION_GROUPS, ageFromDob, type TeamSquad } from "../api/teams";
 
@@ -42,9 +43,34 @@ function Detail({
   squad: TeamSquad | null;
   teamsLoading: boolean;
 }) {
-  const recent = teamRecentMatches(entry.id, matches);
-  const players = scorers.filter((s) => s.team.id === entry.id).sort((a, b) => b.goals - a.goals);
   const { row } = entry;
+  const [rosterOpen, setRosterOpen] = useState(false);
+
+  // 本队与各对手的全部对阵：已赛在前（近→远），未赛在后（近→远）
+  const teamMatches = useMemo(() => {
+    const mine = matches.filter((m) => m.homeTeam.id === entry.id || m.awayTeam.id === entry.id);
+    const fin = mine.filter((m) => m.status === "FINISHED").sort((a, b) => b.utcDate.localeCompare(a.utcDate));
+    const up = mine.filter((m) => m.status !== "FINISHED").sort((a, b) => a.utcDate.localeCompare(b.utcDate));
+    return [...fin, ...up].slice(0, 6);
+  }, [matches, entry.id]);
+
+  // 核心球员：本队射手（带进球）∪ 已收录明星球员（来自阵容），按进球降序；
+  // 若都没有，则兜底展示锋线核心，保证非空
+  const keyPlayers = useMemo(() => {
+    const byId = new Map<number, { id: number; name: string; goals: number; position?: string | null }>();
+    for (const s of scorers) if (s.team.id === entry.id) byId.set(s.player.id, { id: s.player.id, name: s.player.name, goals: s.goals });
+    if (squad)
+      for (const p of squad.squad)
+        if (isStarPlayer(p.id) && !byId.has(p.id)) byId.set(p.id, { id: p.id, name: p.name, goals: 0, position: p.position });
+    let list = [...byId.values()].sort((a, b) => b.goals - a.goals);
+    if (list.length === 0 && squad) {
+      list = squad.squad
+        .filter((p) => positionGroup(p.position) === "前锋")
+        .slice(0, 4)
+        .map((p) => ({ id: p.id, name: p.name, goals: 0, position: p.position }));
+    }
+    return list.slice(0, 8);
+  }, [scorers, squad, entry.id]);
 
   return (
     <motion.div key={entry.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
@@ -72,88 +98,124 @@ function Detail({
 
         <div className="grid gap-4 px-4 pb-4 md:grid-cols-2">
           <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted">近期战绩</div>
+            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted">对阵战绩</div>
             <div className="space-y-1.5">
-              {recent.length === 0 && <div className="text-sm text-muted">暂无</div>}
-              {recent.map((m) => {
+              {teamMatches.length === 0 && <div className="text-sm text-muted">暂无</div>}
+              {teamMatches.map((m) => {
                 const home = m.homeTeam.id === entry.id;
-                const gf = (home ? m.score.fullTime.home : m.score.fullTime.away) ?? 0;
-                const ga = (home ? m.score.fullTime.away : m.score.fullTime.home) ?? 0;
                 const opp = home ? m.awayTeam : m.homeTeam;
-                const res: "W" | "D" | "L" = gf > ga ? "W" : gf < ga ? "L" : "D";
+                const finished = m.status === "FINISHED";
+                const gf = home ? m.score.fullTime.home : m.score.fullTime.away;
+                const ga = home ? m.score.fullTime.away : m.score.fullTime.home;
+                const res: "W" | "D" | "L" | null =
+                  finished && gf != null && ga != null ? (gf > ga ? "W" : gf < ga ? "L" : "D") : null;
                 return (
                   <div key={m.id} className="flex items-center gap-2 rounded-lg bg-surface-2/30 px-2 py-1.5">
-                    <ResultBadge r={res} />
+                    {res ? (
+                      <ResultBadge r={res} />
+                    ) : (
+                      <span className="grid h-6 w-6 place-items-center rounded-md bg-line/40 text-[10px] font-bold text-muted">
+                        未
+                      </span>
+                    )}
                     <Flag name={opp.name} />
                     <span className="flex-1 truncate text-sm text-ink">{teamZh(opp.name)}</span>
-                    <span className="font-display text-sm font-bold tabular-nums text-ink">
-                      {gf}-{ga}
-                    </span>
+                    {finished ? (
+                      <span className="font-display text-sm font-bold tabular-nums text-ink">
+                        {gf}-{ga}
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-muted">{dayLabel(m.utcDate)}</span>
+                    )}
                   </div>
                 );
               })}
             </div>
           </div>
           <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted">核心射手</div>
+            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-muted">核心球员</div>
             <div className="space-y-1.5">
-              {players.length === 0 && <div className="text-sm text-muted">本队暂无进球记录</div>}
-              {players.map((p) => (
-                <div key={p.player.id} className="flex items-center gap-2 rounded-lg bg-surface-2/30 px-3 py-1.5">
-                  <span className="flex-1 truncate text-sm text-ink">{playerZh(p.player.id, p.player.name)}</span>
-                  <span className="font-display text-sm font-bold text-gold tabular-nums">{p.goals}</span>
-                  <span className="text-[10px] text-muted">球</span>
+              {keyPlayers.length === 0 && (
+                <div className="text-sm text-muted">{teamsLoading ? "加载中…" : "暂无突出球员"}</div>
+              )}
+              {keyPlayers.map((p) => (
+                <div key={p.id} className="flex items-center gap-2.5 rounded-lg bg-surface-2/30 px-2.5 py-1.5">
+                  <img
+                    src={playerFaceUrl(p.id, p.name, entry.name)}
+                    alt=""
+                    loading="lazy"
+                    className="h-8 w-8 shrink-0 rounded-full bg-surface-2 object-cover ring-1 ring-line/60"
+                  />
+                  <span className="flex-1 truncate text-sm text-ink">{playerZh(p.id, p.name)}</span>
+                  {p.goals > 0 ? (
+                    <span className="flex items-baseline gap-0.5">
+                      <span className="font-display text-sm font-bold text-gold tabular-nums">{p.goals}</span>
+                      <span className="text-[10px] text-muted">球</span>
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-muted">{p.position ? positionGroup(p.position) : "球星"}</span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* 阵容名单 */}
-        <div className="border-t border-line/40 px-4 py-4">
-          <div className="mb-2.5 flex items-center justify-between gap-2">
-            <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">
-              阵容名单{squad?.squad?.length ? ` · ${squad.squad.length}人` : ""}
-            </div>
-            {squad?.coach?.name && (
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-muted">主教练</span>
-                <span className="font-semibold text-ink">{coachZh(squad.coach.name)}</span>
-              </div>
-            )}
-          </div>
-          {!squad || squad.squad.length === 0 ? (
-            <div className="rounded-lg bg-surface-2/30 px-3 py-3 text-center text-xs text-muted">
-              {teamsLoading ? "名单加载中…" : "暂无名单数据（需实时数据源）"}
-            </div>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {POSITION_GROUPS.map((g) => {
-                const list = squad.squad.filter((p) => positionGroup(p.position) === g);
-                if (list.length === 0) return null;
-                return (
-                  <div key={g}>
-                    <div className="mb-1.5 flex items-baseline gap-1.5">
-                      <span className="text-xs font-bold text-primary-bright">{g}</span>
-                      <span className="text-[10px] text-muted">{list.length}人</span>
-                    </div>
-                    <div className="space-y-1">
-                      {list.map((p) => {
-                        const age = ageFromDob(p.dateOfBirth);
-                        return (
-                          <div
-                            key={p.id}
-                            className="flex items-center justify-between gap-2 rounded-md bg-surface-2/30 px-2 py-1"
-                          >
-                            <span className="truncate text-xs text-ink">{playerZh(p.id, p.name)}</span>
-                            {age != null && <span className="shrink-0 text-[10px] text-muted">{age}岁</span>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+        {/* 阵容名单（可折叠） */}
+        <div className="border-t border-line/40">
+          <button
+            onClick={() => setRosterOpen((o) => !o)}
+            className="flex w-full items-center justify-between gap-2 px-4 py-3 transition-colors hover:bg-surface-2/20"
+          >
+            <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted">
+              阵容名单
+              {squad?.squad?.length ? <span className="text-ink">{squad.squad.length}人</span> : null}
+            </span>
+            <span className="flex items-center gap-2">
+              {squad?.coach?.name && (
+                <span className="text-xs text-muted">
+                  主教练 <span className="text-ink">{coachZh(squad.coach.name)}</span>
+                </span>
+              )}
+              <ChevronDown className={cn("h-4 w-4 text-muted transition-transform", rosterOpen && "rotate-180")} />
+            </span>
+          </button>
+          {rosterOpen && (
+            <div className="px-4 pb-4">
+              {!squad || squad.squad.length === 0 ? (
+                <div className="rounded-lg bg-surface-2/30 px-3 py-3 text-center text-xs text-muted">
+                  {teamsLoading ? "名单加载中…" : "暂无名单数据（需实时数据源）"}
+                </div>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {POSITION_GROUPS.map((g) => {
+                    const list = squad.squad.filter((p) => positionGroup(p.position) === g);
+                    if (list.length === 0) return null;
+                    return (
+                      <div key={g}>
+                        <div className="mb-1.5 flex items-baseline gap-1.5">
+                          <span className="text-xs font-bold text-primary-bright">{g}</span>
+                          <span className="text-[10px] text-muted">{list.length}人</span>
+                        </div>
+                        <div className="space-y-1">
+                          {list.map((p) => {
+                            const age = ageFromDob(p.dateOfBirth);
+                            return (
+                              <div
+                                key={p.id}
+                                className="flex items-center justify-between gap-2 rounded-md bg-surface-2/30 px-2 py-1"
+                              >
+                                <span className="truncate text-xs text-ink">{playerZh(p.id, p.name)}</span>
+                                {age != null && <span className="shrink-0 text-[10px] text-muted">{age}岁</span>}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -188,7 +250,7 @@ export default function TeamCards({
       {current && (
         <Detail
           entry={current}
-          matches={matches.finished}
+          matches={matches.all}
           scorers={scorers}
           squad={teams?.get(current.id) ?? null}
           teamsLoading={teamsLoading}

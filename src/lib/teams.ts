@@ -203,6 +203,11 @@ const PLAYER_FACES: Record<number, string> = {
   119460: "https://r2.thesportsdb.com/images/media/player/thumb/l14g0v1668623556.jpg", // 植田直通
 };
 
+/** 是否为本应用已收录的"知名/核心"球员（有中文名或真实头像） */
+export function isStarPlayer(id: number): boolean {
+  return id in PLAYER_ZH || id in PLAYER_FACES;
+}
+
 /** 球员头像 URL：优先使用真实照片，否则生成文字头像 */
 export function playerFaceUrl(id: number, name: string, teamName: string | null): string {
   if (PLAYER_FACES[id]) return PLAYER_FACES[id];
