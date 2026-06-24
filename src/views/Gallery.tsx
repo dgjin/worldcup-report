@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Camera, ChevronDown, ExternalLink } from "lucide-react";
+import { Camera, ChevronDown, ExternalLink, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useGallery, type GalleryPhoto } from "../api/gallery";
+import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
 
 /** 灯箱 —— 全屏查看单张照片 */
-function Lightbox({ photo, onClose, source }: { photo: GalleryPhoto; onClose: () => void; source?: string }) {
+function Lightbox({ photo, onClose, source, likes, onLike, liking }: {
+  photo: GalleryPhoto; onClose: () => void; source?: string;
+  likes: Record<string, number>; onLike: (p: GalleryPhoto) => void;
+  liking: Record<string, boolean>;
+}) {
   const isAbcNews = source === "abcnews";
+  const pk = getPhotoKey(photo);
+  const count = likes[pk] ?? 0;
+  const isLiking = liking[pk] ?? false;
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
@@ -18,7 +26,7 @@ function Lightbox({ photo, onClose, source }: { photo: GalleryPhoto; onClose: ()
       <motion.img
         src={photo.src.large}
         alt={photo.alt}
-        className="max-h-[90dvh] max-w-full rounded-2xl object-contain shadow-2xl"
+        className="max-h-[85dvh] max-w-full rounded-2xl object-contain shadow-2xl"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -26,6 +34,19 @@ function Lightbox({ photo, onClose, source }: { photo: GalleryPhoto; onClose: ()
         onClick={(e: React.MouseEvent) => e.stopPropagation()}
       />
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 rounded-full bg-black/70 px-4 py-2 text-sm text-white/80 backdrop-blur">
+        {/* 点赞按钮 */}
+        <button
+          onClick={(e) => { e.stopPropagation(); onLike(photo); }}
+          disabled={isLiking}
+          className={cn(
+            "inline-flex items-center gap-1 transition-colors",
+            count > 0 ? "text-red-400" : "text-white/50 hover:text-red-300",
+          )}
+        >
+          <Heart className={cn("h-4 w-4 transition-all", count > 0 && "fill-current")} />
+          {count > 0 && <span className="text-xs font-medium">{count}</span>}
+        </button>
+        <span className="text-white/20">|</span>
         <span>
           {isAbcNews ? `🏟️ ${photo.photographer}` : `📰 ${photo.photographer}`}
         </span>
@@ -43,20 +64,34 @@ function Lightbox({ photo, onClose, source }: { photo: GalleryPhoto; onClose: ()
   );
 }
 
-/** 照片卡片 —— 带悬停效果和摄影师信息 */
-function PhotoCard({ photo, onClick, priority }: { photo: GalleryPhoto; onClick: () => void; priority?: boolean }) {
+/** 照片卡片 —— 带悬停效果、摄影师信息和点赞按钮 */
+function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
+  photo: GalleryPhoto;
+  onClick: () => void;
+  priority?: boolean;
+  likes: Record<string, number>;
+  onLike: (p: GalleryPhoto) => void;
+  liking: Record<string, boolean>;
+}) {
   const [loaded, setLoaded] = useState(false);
   const ratio = photo.width / photo.height;
+  const pk = getPhotoKey(photo);
+  const count = likes[pk] ?? 0;
+  const isLiking = liking[pk] ?? false;
 
   return (
-    <button
-      onClick={onClick}
+    <div
       className={cn(
         "group relative w-full cursor-pointer overflow-hidden rounded-2xl border border-line/50 bg-surface-2",
         "transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl hover:border-primary/30",
       )}
       style={{ aspectRatio: ratio < 1 ? "3/4" : "16/10" }}
     >
+      {/* 点击查看大图 */}
+      <button onClick={onClick} className="absolute inset-0 z-10">
+        <span className="sr-only">查看大图</span>
+      </button>
+
       {/* 加载占位 */}
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-surface">
@@ -74,10 +109,27 @@ function PhotoCard({ photo, onClick, priority }: { photo: GalleryPhoto; onClick:
           loaded ? "opacity-100" : "opacity-0",
         )}
       />
+
+      {/* 点赞按钮（右上角浮动） */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onLike(photo); }}
+        disabled={isLiking}
+        className={cn(
+          "absolute right-2 top-2 z-20 flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-medium backdrop-blur-md transition-all duration-200",
+          "translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+          count > 0
+            ? "bg-black/50 text-red-300 opacity-100 translate-y-0"
+            : "bg-black/40 text-white/70 hover:bg-black/60 hover:text-red-300",
+        )}
+      >
+        <Heart className={cn("h-3.5 w-3.5 transition-transform", isLiking && "animate-ping")} fill={count > 0 ? "currentColor" : "none"} />
+        {count > 0 && <span>{count}</span>}
+      </button>
+
       {/* 底部遮罩 + 摄影师信息 */}
       <div
         className={cn(
-          "absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8",
+          "absolute inset-x-0 bottom-0 z-20 flex items-center gap-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8",
           "translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
         )}
       >
@@ -86,9 +138,10 @@ function PhotoCard({ photo, onClick, priority }: { photo: GalleryPhoto; onClick:
           {photo.photographer}
         </span>
       </div>
+
       {/* 悬停高亮边框 */}
       <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10 transition-colors group-hover:ring-primary/40" />
-    </button>
+    </div>
   );
 }
 
@@ -115,7 +168,7 @@ function InfiniteScrollTrigger({ onInView, loading }: { onInView: () => void; lo
 }
 
 export default function Gallery() {
-  const { photos, loading, error, loadMore, hasMore, reload, source } = useGallery();
+  const { photos, loading, error, loadMore, hasMore, reload, source, likes, likePhoto, liking } = useGallery();
   const [selected, setSelected] = useState<GalleryPhoto | null>(null);
 
   if (loading) return <Loader label="加载精彩瞬间…" />;
@@ -166,6 +219,9 @@ export default function Gallery() {
                 photo={photo}
                 priority={i < 6}
                 onClick={() => setSelected(photo)}
+                likes={likes}
+                onLike={likePhoto}
+                liking={liking}
               />
             ))}
           </div>
@@ -187,7 +243,14 @@ export default function Gallery() {
       {/* 灯箱 */}
       <AnimatePresence>
         {selected && (
-          <Lightbox photo={selected} onClose={() => setSelected(null)} source={source ?? undefined} />
+          <Lightbox
+            photo={selected}
+            onClose={() => setSelected(null)}
+            source={source ?? undefined}
+            likes={likes}
+            onLike={likePhoto}
+            liking={liking}
+          />
         )}
       </AnimatePresence>
     </section>

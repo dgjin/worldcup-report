@@ -281,6 +281,43 @@ async function start() {
     res.status(502).json({ error: "所有图片源暂时不可用" });
   });
 
+  // ====== 照片点赞 API ======
+
+  app.get("/api/wc/gallery/likes", async (_req, res) => {
+    const sb = getSb();
+    if (!sb) { res.json({}); return; }
+    try {
+      const { data } = await sb.from("gallery_likes").select("photo_key,likes");
+      const map: Record<string, number> = {};
+      for (const r of (data ?? [])) map[r.photo_key] = r.likes;
+      res.set("Cache-Control", "public, max-age=30");
+      res.json(map);
+    } catch (e) {
+      console.error("[likes GET]", (e as Error).message);
+      res.json({});
+    }
+  });
+
+  app.post("/api/wc/gallery/likes", async (req, res) => {
+    const sb = getSb();
+    const pk = req.body?.photoKey;
+    if (!sb || !pk) { res.status(400).json({ error: !sb ? "Supabase not configured" : "缺少 photoKey" }); return; }
+    try {
+      const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", pk).maybeSingle();
+      const current = row?.likes ?? 0;
+      if (row) {
+        await sb.from("gallery_likes").update({ likes: current + 1 }).eq("photo_key", pk);
+      } else {
+        await sb.from("gallery_likes").upsert({ photo_key: pk, likes: 1 }, { onConflict: "photo_key", ignoreDuplicates: false });
+      }
+      res.json({ photoKey: pk, likes: current + 1 });
+    } catch (e) {
+      console.error("[likes POST]", (e as Error).message);
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+  // ====== 照片点赞 API END ======
+
   if (!isProd) {
     const { createServer } = await import("vite");
     const vite = await createServer({ server: { middlewareMode: true }, appType: "spa" });
