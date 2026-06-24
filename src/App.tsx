@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
-import { BarChart3, Camera, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
+import { BarChart3, Camera, Heart, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
 import { useWorldCup } from "./api/client";
+import { useAppLikes } from "./api/app";
 import { splitMatches, toGroupTables, toScorers } from "./lib/transform";
 import { cn } from "./components/ui";
 import { Loader } from "./components/ui";
@@ -26,6 +27,7 @@ const TABS: { key: TabKey; label: string; icon: typeof Trophy }[] = [
 
 export default function App() {
   const { data, loading, error, source, updatedAt, reload } = useWorldCup();
+  const appLikes = useAppLikes();
   const [tab, setTab] = useState<TabKey>("standings");
 
   const groups = useMemo(() => toGroupTables(data?.standings), [data]);
@@ -141,8 +143,36 @@ export default function App() {
         </main>
       )}
 
-          <footer className="mt-6 md:mt-12 border-t border-line/50 pt-5 text-center text-[11px] text-muted">
-            数据源 football-data.org（竞赛 WC）· 自动每 60 秒刷新 · 仅供学习演示
+          <footer className="mt-6 md:mt-12 border-t border-line/50 pt-5">
+            <div className="flex flex-col items-center gap-3">
+              <button
+                onClick={appLikes.likeApp}
+                disabled={appLikes.liking}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all active:scale-95",
+                  appLikes.liked
+                    ? "border-red-500/50 bg-red-500/10 text-red-400"
+                    : "border-line/60 bg-surface/50 text-muted hover:border-red-500/40 hover:text-red-400",
+                )}
+              >
+                <Heart
+                  className={cn("h-4 w-4 transition-transform", appLikes.liking && "animate-ping")}
+                  fill={appLikes.liked ? "currentColor" : "none"}
+                />
+                {appLikes.liked ? "已点赞" : "点赞应用"}
+                {appLikes.likes > 0 && (
+                  <span className={cn(
+                    "tabular-nums",
+                    appLikes.liked ? "text-red-400" : "text-muted",
+                  )}>
+                    {appLikes.likes}
+                  </span>
+                )}
+              </button>
+              <p className="text-center text-[11px] text-muted">
+                数据源 football-data.org（竞赛 WC）· 自动每 60 秒刷新 · 仅供学习演示
+              </p>
+            </div>
           </footer>
         </div>
       </div>
