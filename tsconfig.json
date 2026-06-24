@@ -16,7 +16,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node"]
+    "types": ["node", "@cloudflare/workers-types"]
   },
-  "include": ["src", "server.ts"]
+  "include": ["src", "server.ts", "functions", "worker"]
 }

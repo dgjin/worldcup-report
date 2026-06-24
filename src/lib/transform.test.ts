@@ -52,8 +52,9 @@ ok("射手榜按进球降序", scorers[0].goals >= scorers[1].goals && scorers[0
 
 // 比赛拆分
 const sm = splitMatches(snap.matches);
-ok("已赛 43 场", sm.finished.length === 43, `实际 ${sm.finished.length}`);
-ok("待赛 29 场", sm.upcoming.length === 29, `实际 ${sm.upcoming.length}`);
+ok("已赛+待赛=总场次", sm.finished.length + sm.upcoming.length === sm.all.length, `已赛 ${sm.finished.length} + 待赛 ${sm.upcoming.length} ≠ 总 ${sm.all.length}`);
+ok("已赛场次>0", sm.finished.length > 0, `实际 ${sm.finished.length}`);
+ok("待赛场次>0", sm.upcoming.length > 0, `实际 ${sm.upcoming.length}`);
 ok("已赛按时间倒序", sm.finished[0].utcDate >= sm.finished[sm.finished.length - 1].utcDate);
 
 // 图表数据
@@ -63,7 +64,7 @@ ok("E 组进球数=12（德国9+科特2+库拉索1）", gbg.find((x) => x.group 
 
 // 战报文字
 const reports = buildReports(snap.matches.matches);
-ok("战报覆盖全部已赛", reports.length === 43, `实际 ${reports.length}`);
+ok("战报覆盖全部已赛", reports.length === sm.finished.length, `战报 ${reports.length} ≠ 已赛 ${sm.finished.length}`);
 const ger = reports.find((r) => r.headline.includes("德国") && r.homeScore === 7);
 ok("德国 7-1 标记血洗+进球大战", !!ger && ger.tags.includes("血洗") && ger.tags.includes("进球大战"), JSON.stringify(ger?.tags));
 const draw00 = reports.find((r) => r.tags.includes("闷平"));

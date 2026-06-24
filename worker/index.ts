@@ -3,7 +3,7 @@
  * 每 5 分钟由 cron trigger 触发，调用 Pages 的 /api/wc/sync 端点
  */
 export default {
-  async scheduled(event: ScheduledEvent, env: Env): Promise<void> {
+  async scheduled(_event: ScheduledEvent, env: Env): Promise<void> {
     const syncUrl = env.SYNC_URL;
     const syncSecret = env.SYNC_SECRET ?? "";
 

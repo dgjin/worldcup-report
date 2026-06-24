@@ -1,4 +1,5 @@
 import { createClient as createSupabaseClient, type SupabaseClient } from "@supabase/supabase-js";
+import type { MatchRaw, MatchGoal } from "../../src/types/worldcup";
 
 export type WcDataType = "standings" | "scorers" | "matches" | "teams";
 
@@ -68,7 +69,7 @@ export async function writeWcData(
 /** upsert 比赛列表到 wc_matches（智能保留已有 goals 数据） */
 export async function writeWcMatches(
   sb: SupabaseClient,
-  matches: any[],
+  matches: MatchRaw[],
   source: "live" | "snapshot",
 ): Promise<void> {
   // 先查询现有数据，找出有 goals 的记录
@@ -79,10 +80,10 @@ export async function writeWcMatches(
     .in("id", matchIds);
 
   // 构建 id -> existingGoals 查找表
-  const existingGoals = new Map<number, any[]>();
+  const existingGoals = new Map<number, MatchGoal[]>();
   if (existing) {
     for (const row of existing) {
-      const goals = (row.data as any)?.goals;
+      const goals = (row.data as MatchRaw)?.goals;
       if (goals && goals.length > 0) {
         existingGoals.set(row.id, goals);
       }
@@ -92,7 +93,7 @@ export async function writeWcMatches(
   // 合并：live API 不含 goals，保留 Supabase 中已有的 goals
   const rows = matches.map((m) => {
     const prevGoals = existingGoals.get(m.id);
-    const mergedData = (!m.goals?.length && prevGoals)
+    const mergedData: MatchRaw = (!m.goals?.length && prevGoals)
       ? { ...m, goals: prevGoals }
       : m;
     return {
@@ -143,7 +144,7 @@ function matchKey(home: string, away: string): string {
 /** 用 Supabase 中已存储的 goals 数据富化 live 比赛 */
 export async function injectSupabaseGoals(
   sb: SupabaseClient,
-  matches: any[],
+  matches: MatchRaw[],
 ): Promise<void> {
   // 找出需要补充 goals 的已完赛比赛
   const needGoals = matches.filter(
@@ -160,9 +161,9 @@ export async function injectSupabaseGoals(
 
   if (rows && rows.length > 0) {
     // 构建 id -> goals 查找表
-    const goalsMap = new Map<number, any[]>();
+    const goalsMap = new Map<number, MatchGoal[]>();
     for (const row of rows) {
-      const goals = (row.data as any)?.goals;
+      const goals = (row.data as MatchRaw)?.goals;
       if (goals && goals.length > 0) {
         goalsMap.set(row.id, goals);
       }
@@ -187,9 +188,9 @@ export async function injectSupabaseGoals(
   if (!goalRows || goalRows.length === 0) return;
 
   // 构建 teamKey -> goals 查找表
-  const teamGoalsMap = new Map<string, any[]>();
+  const teamGoalsMap = new Map<string, MatchGoal[]>();
   for (const row of goalRows) {
-    const goals = (row.data as any)?.goals;
+    const goals = (row.data as MatchRaw)?.goals;
     if (goals && goals.length > 0) {
       const key = matchKey(row.home_team, row.away_team);
       teamGoalsMap.set(key, goals);

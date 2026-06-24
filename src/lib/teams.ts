@@ -108,7 +108,7 @@ export function flagUrl(name: string | null | undefined): string | null {
 /** 主教练英文名 -> 中文名（按名字关键词匹配） */
 const COACH_ZH: Record<string, string> = {
   "Scaloni": "斯卡洛尼",
-  "Deschamps": "德希弻",
+  "Deschamps": "德尚",
   "Flick": "弗利克",
   "Spalletti": "斯帕列蒂",
   "De la Fuente": "德拉富恩特",
@@ -124,7 +124,7 @@ const COACH_ZH: Record<string, string> = {
   "Enrique": "恩里克",
   "Mancini": "曼奇尼",
   "Wilmots": "威尔莫兹",
-  "Moriyasu": "森保康射",
+  "Moriyasu": "森保一",
   "Steele": "斯蒂尔",
   "Pearce": "皮尔斯",
   "Renard": "雷纳尔",

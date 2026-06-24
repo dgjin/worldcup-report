@@ -1,5 +1,5 @@
-import type { PagesFunction } from "@cloudflare/pages-functions";
 import { createClient, writeWcData, writeWcMatches } from "../lib/supabase.js";
+import type { MatchRaw } from "../../src/types/worldcup";
 
 interface Env {
   FOOTBALL_DATA_TOKEN?: string;
@@ -10,13 +10,19 @@ interface Env {
 
 const FD_BASE = "https://api.football-data.org/v4/competitions/WC";
 
-export const onRequestPost: PagesFunction<Env> = async (ctx) => {
-  // 简单鉴权：检查 query param 或 header 中的 secret
+/** 从请求中提取并校验 SYNC_SECRET，未通过返回 401 Response，通过返回 null */
+function checkSecret(ctx: { request: Request; env: Env }): Response | null {
   const url = new URL(ctx.request.url);
   const secret = url.searchParams.get("secret") ?? ctx.request.headers.get("X-Sync-Secret") ?? "";
   if (ctx.env.SYNC_SECRET && secret !== ctx.env.SYNC_SECRET) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
   }
+  return null;
+}
+
+export const onRequestPost: PagesFunction<Env> = async (ctx) => {
+  const unauthorized = checkSecret(ctx);
+  if (unauthorized) return unauthorized;
 
   const token = ctx.env.FOOTBALL_DATA_TOKEN;
   if (!token) {
@@ -49,14 +55,15 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         results[type] = `API returned ${res.status}`;
         continue;
       }
-      const data = await res.json();
+      const data = await res.json() as Record<string, unknown>;
 
       if (type === "matches" && data.matches) {
-        await writeWcMatches(sb, data.matches, "live");
-        results[type] = `${data.matches.length} matches synced`;
-      } else {
+        const matches = data.matches as MatchRaw[];
+        await writeWcMatches(sb, matches, "live");
+        results[type] = `${matches.length} matches synced`;
+      } else if (type !== "matches") {
         await writeWcData(sb, type, data, "live");
-        const count = data[type]?.length ?? 0;
+        const count = Array.isArray(data[type]) ? (data[type] as unknown[]).length : 0;
         results[type] = `${count} ${type} synced`;
       }
     } catch (e) {
@@ -71,6 +78,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 
 // 也支持 GET（用于简单测试）
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
+  const unauthorized = checkSecret(ctx);
+  if (unauthorized) return unauthorized;
+
   const sbUrl = ctx.env.SUPABASE_URL;
   const sbKey = ctx.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!sbUrl || !sbKey) {

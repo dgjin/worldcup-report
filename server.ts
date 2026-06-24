@@ -1,15 +1,14 @@
 import express from "express";
-import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   createClient as createSbClient,
-  readWcData,
-  readWcMatches,
   writeWcData,
   writeWcMatches,
-  injectSupabaseGoals,
+  type WcDataType,
 } from "./functions/lib/supabase.js";
+import { getWcData, toJson } from "./functions/lib/snapshot.js";
+import type { MatchRaw } from "./src/types/worldcup";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // 加载 .env
@@ -22,10 +21,11 @@ const PORT = Number(process.env.PORT) || 5273;
 const TOKEN = process.env.FOOTBALL_DATA_TOKEN?.trim();
 const SB_URL = process.env.SUPABASE_URL?.trim();
 const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+const SYNC_SECRET = process.env.SYNC_SECRET?.trim();
 const isProd = process.env.NODE_ENV === "production";
 
 const FD_BASE = "https://api.football-data.org/v4/competitions/WC";
-const ENDPOINTS: Record<string, string> = {
+const ENDPOINTS: Record<WcDataType, string> = {
   standings: `${FD_BASE}/standings`,
   scorers: `${FD_BASE}/scorers?limit=30`,
   matches: `${FD_BASE}/matches`,
@@ -35,7 +35,7 @@ const CACHE_TTL = 60_000;
 
 type Source = "live" | "supabase" | "snapshot";
 type Entry = { ts: number; data: unknown; source: Source };
-const cache = new Map<string, Entry>();
+const cache = new Map<WcDataType, Entry>();
 
 // Supabase 客户端（懒初始化）
 let sb: SupabaseClient | null = null;
@@ -49,96 +49,47 @@ function getSb(): SupabaseClient | null {
   }
 }
 
-const snapshot = JSON.parse(readFileSync(join(__dirname, "data/snapshot.json"), "utf-8")) as Record<string, unknown> & {
-  _meta: { asOf: string };
-};
-
-async function getData(key: string): Promise<Entry> {
-  const hit = cache.get(key);
-  if (hit && Date.now() - hit.ts < CACHE_TTL) return hit;
-
-  // 1. 尝试 live API
-  if (TOKEN) {
-    try {
-      const res = await fetch(ENDPOINTS[key], { headers: { "X-Auth-Token": TOKEN } });
-      if (res.ok) {
-        const data = await res.json();
-        // 对 matches 用 Supabase goals 富化
-        if (key === "matches" && data.matches) {
-          const client = getSb();
-          if (client) {
-            try { await injectSupabaseGoals(client, data.matches); } catch {}
-          }
-        }
-        // fire-and-forget 写入 Supabase
-        const client = getSb();
-        if (client) {
-          if (key === "matches" && data.matches) {
-            writeWcMatches(client, data.matches, "live").catch(() => {});
-          } else if (key !== "matches") {
-            writeWcData(client, key as "standings" | "scorers" | "teams", data, "live").catch(() => {});
-          }
-        }
-        const entry: Entry = { ts: Date.now(), data, source: "live" };
-        cache.set(key, entry);
-        return entry;
-      }
-      console.warn(`[wc] football-data ${key} 返回 ${res.status}，回退`);
-    } catch (e) {
-      console.warn(`[wc] football-data ${key} 请求失败：`, (e as Error).message);
-    }
+/** 鉴权校验：通过返回 null，未通过返回 true（并发送 401） */
+function authSync(req: express.Request, res: express.Response): boolean {
+  const secret = (req.query.secret as string) ?? req.get("X-Sync-Secret") ?? "";
+  if (SYNC_SECRET && secret !== SYNC_SECRET) {
+    res.status(401).json({ error: "Unauthorized" });
+    return true;
   }
-
-  // 2. 尝试 Supabase
-  const client = getSb();
-  if (client) {
-    try {
-      if (key === "matches") {
-        const result = await readWcMatches(client);
-        if (result && result.matches.length > 0) {
-          const entry: Entry = { ts: Date.now(), data: { matches: result.matches }, source: "supabase" };
-          cache.set(key, entry);
-          return entry;
-        }
-      } else {
-        const result = await readWcData(client, key as "standings" | "scorers" | "teams");
-        if (result) {
-          const entry: Entry = { ts: Date.now(), data: result.data, source: "supabase" };
-          cache.set(key, entry);
-          return entry;
-        }
-      }
-    } catch (e) {
-      console.warn(`[wc] Supabase ${key} 读取失败：`, (e as Error).message);
-    }
-  }
-
-  // 3. 兜底 snapshot.json
-  return { ts: Date.now(), data: snapshot[key], source: "snapshot" };
+  return false;
 }
 
 async function start() {
   const app = express();
 
-  for (const key of Object.keys(ENDPOINTS)) {
+  for (const key of Object.keys(ENDPOINTS) as WcDataType[]) {
     app.get(`/api/wc/${key}`, async (_req, res) => {
-      const { data, source } = await getData(key);
-      const cacheControl =
-        source === "live" ? "no-store"
-        : source === "supabase" ? "public, max-age=120"
-        : "public, max-age=3600";
+      // 本地内存缓存，避免开发时频繁打外部 API
+      const hit = cache.get(key);
+      if (hit && Date.now() - hit.ts < CACHE_TTL) {
+        const body = await toJson(hit.data, hit.source, key === "teams" ? 21600 : undefined);
+        const json = await body.json();
+        res.json(json);
+        return;
+      }
+      const sbConfig =
+        SB_URL && SB_KEY ? { url: SB_URL, key: SB_KEY } : undefined;
+      const { data, source } = await getWcData(key, TOKEN, sbConfig);
+      if (!data) {
+        res.status(502).json({ error: "No data" });
+        return;
+      }
+      cache.set(key, { ts: Date.now(), data, source });
+      const body = toJson(data, source, key === "teams" ? 21600 : undefined);
       res.set("X-Data-Source", source);
-      res.set("Cache-Control", cacheControl);
-      res.json({
-        ...(data as object),
-        _source: source,
-        _asOf: source === "snapshot" ? snapshot._meta.asOf : new Date().toISOString(),
-      });
+      res.set("Cache-Control", body.headers.get("Cache-Control") ?? "no-store");
+      res.json(await body.json());
     });
   }
 
   // 同步端点
-  app.post("/api/sync", async (_req, res) => {
+  app.post("/api/sync", async (req, res) => {
+    if (authSync(req, res)) return;
     if (!TOKEN) {
       res.status(500).json({ error: "No FOOTBALL_DATA_TOKEN" });
       return;
@@ -149,17 +100,19 @@ async function start() {
       return;
     }
     const results: Record<string, string> = {};
-    for (const [key, url] of Object.entries(ENDPOINTS)) {
+    for (const [key, url] of Object.entries(ENDPOINTS) as [WcDataType, string][]) {
       try {
         const r = await fetch(url, { headers: { "X-Auth-Token": TOKEN } });
         if (!r.ok) { results[key] = `API ${r.status}`; continue; }
-        const d = await r.json();
+        const d = (await r.json()) as Record<string, unknown>;
         if (key === "matches" && d.matches) {
-          await writeWcMatches(client, d.matches, "live");
-          results[key] = `${d.matches.length} synced`;
+          const matches = d.matches as MatchRaw[];
+          await writeWcMatches(client, matches, "live");
+          results[key] = `${matches.length} synced`;
         } else {
           await writeWcData(client, key as "standings" | "scorers" | "teams", d, "live");
-          results[key] = `${(d[key] as any[])?.length ?? 0} synced`;
+          const count = Array.isArray(d[key]) ? (d[key] as unknown[]).length : 0;
+          results[key] = `${count} synced`;
         }
         // 清除缓存，强制下次请求读最新数据
         cache.delete(key);
@@ -170,7 +123,8 @@ async function start() {
     res.json({ ok: true, results, syncedAt: new Date().toISOString() });
   });
 
-  app.get("/api/sync", async (_req, res) => {
+  app.get("/api/sync", async (req, res) => {
+    if (authSync(req, res)) return;
     const client = getSb();
     if (!client) { res.status(500).json({ error: "Supabase not configured" }); return; }
     const { data: meta } = await client.from("wc_sync_meta").select("*");
@@ -188,7 +142,7 @@ async function start() {
   }
 
   app.listen(PORT, () => {
-    const modes = [];
+    const modes: string[] = [];
     if (TOKEN) modes.push("live API");
     if (SB_URL) modes.push("Supabase");
     modes.push("snapshot");

@@ -9,8 +9,9 @@ import {
   type WcDataType,
 } from "./supabase.js";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { MatchRaw } from "../../src/types/worldcup";
 
-const SNAP = snapshot as Record<string, unknown> & { _meta: { asof: string } };
+const SNAP = snapshot as Record<string, unknown> & { _meta: { asOf?: string; asof?: string } };
 
 const FD_BASE = "https://api.football-data.org/v4/competitions/WC";
 
@@ -29,10 +30,10 @@ export interface SupabaseConfig {
 }
 
 /** fire-and-forget 写入 Supabase（不阻塞响应） */
-function fireAndForget(sb: SupabaseClient, type: WcDataType, data: any): void {
+function fireAndForget(sb: SupabaseClient, type: WcDataType, data: Record<string, unknown>): void {
   const source = "live";
   if (type === "matches" && data.matches) {
-    writeWcMatches(sb, data.matches, source).catch(() => {});
+    writeWcMatches(sb, data.matches as MatchRaw[], source).catch(() => {});
   } else if (type !== "matches") {
     writeWcData(sb, type as "standings" | "scorers" | "teams", data, source).catch(() => {});
   }
@@ -50,12 +51,12 @@ export async function getWcData(
         headers: { "X-Auth-Token": token },
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as Record<string, unknown>;
         // 对 matches 端点用 Supabase goals 数据富化
         if (type === "matches" && data.matches && sbConfig) {
           try {
             const sb = createClient(sbConfig.url, sbConfig.key);
-            await injectSupabaseGoals(sb, data.matches);
+            await injectSupabaseGoals(sb, data.matches as MatchRaw[]);
           } catch {
             // Supabase goals 注入失败不影响响应
           }
@@ -116,7 +117,7 @@ export function toJson(
       _source: source,
       _asOf:
         source === "snapshot"
-          ? (SNAP._meta as any).asOf ?? (SNAP._meta as any).asof
+          ? (SNAP._meta.asOf ?? SNAP._meta.asof)
           : new Date().toISOString(),
     }),
     {
