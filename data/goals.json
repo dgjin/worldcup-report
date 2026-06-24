@@ -1,0 +1,745 @@
+{
+  "Mexico|South Africa": [
+    {
+      "minute": 34,
+      "team": {
+        "id": 1,
+        "name": "Mexico"
+      },
+      "scorer": {
+        "id": 500,
+        "name": "H. Lozano"
+      },
+      "assist": {
+        "id": 501,
+        "name": "E. Álvarez"
+      }
+    },
+    {
+      "minute": 78,
+      "team": {
+        "id": 1,
+        "name": "Mexico"
+      },
+      "scorer": {
+        "id": 502,
+        "name": "S. Giménez"
+      },
+      "assist": null
+    }
+  ],
+  "South Korea|Czechia": [
+    {
+      "minute": 22,
+      "team": {
+        "id": 2,
+        "name": "South Korea"
+      },
+      "scorer": {
+        "id": 510,
+        "name": "Son Heung-min"
+      },
+      "assist": {
+        "id": 511,
+        "name": "Lee Kang-in"
+      }
+    },
+    {
+      "minute": 56,
+      "team": {
+        "id": 3,
+        "name": "Czechia"
+      },
+      "scorer": {
+        "id": 520,
+        "name": "P. Schick"
+      },
+      "assist": null
+    },
+    {
+      "minute": 83,
+      "team": {
+        "id": 2,
+        "name": "South Korea"
+      },
+      "scorer": {
+        "id": 512,
+        "name": "Hwang Hee-chan"
+      },
+      "assist": {
+        "id": 510,
+        "name": "Son Heung-min"
+      }
+    }
+  ],
+  "Czechia|South Africa": [
+    {
+      "minute": 41,
+      "team": {
+        "id": 3,
+        "name": "Czechia"
+      },
+      "scorer": {
+        "id": 521,
+        "name": "T. Souček"
+      },
+      "assist": null
+    },
+    {
+      "minute": 67,
+      "team": {
+        "id": 4,
+        "name": "South Africa"
+      },
+      "scorer": {
+        "id": 530,
+        "name": "P. Mokoena"
+      },
+      "assist": {
+        "id": 531,
+        "name": "L. Foster"
+      }
+    }
+  ],
+  "Mexico|South Korea": [
+    {
+      "minute": 55,
+      "team": {
+        "id": 1,
+        "name": "Mexico"
+      },
+      "scorer": {
+        "id": 502,
+        "name": "S. Giménez"
+      },
+      "assist": {
+        "id": 500,
+        "name": "H. Lozano"
+      }
+    }
+  ],
+  "Switzerland|Bosnia and Herzegovina": [
+    {
+      "minute": 12,
+      "team": {
+        "id": 6,
+        "name": "Switzerland"
+      },
+      "scorer": {
+        "id": 540,
+        "name": "B. Embolo"
+      },
+      "assist": {
+        "id": 541,
+        "name": "X. Shaqiri"
+      }
+    },
+    {
+      "minute": 38,
+      "team": {
+        "id": 6,
+        "name": "Switzerland"
+      },
+      "scorer": {
+        "id": 542,
+        "name": "R. Vargas"
+      },
+      "assist": null
+    },
+    {
+      "minute": 52,
+      "team": {
+        "id": 7,
+        "name": "Bosnia and Herzegovina"
+      },
+      "scorer": {
+        "id": 550,
+        "name": "E. Džeko"
+      },
+      "assist": null
+    },
+    {
+      "minute": 71,
+      "team": {
+        "id": 6,
+        "name": "Switzerland"
+      },
+      "scorer": {
+        "id": 540,
+        "name": "B. Embolo"
+      },
+      "assist": {
+        "id": 541,
+        "name": "X. Shaqiri"
+      }
+    },
+    {
+      "minute": 89,
+      "team": {
+        "id": 6,
+        "name": "Switzerland"
+      },
+      "scorer": {
+        "id": 543,
+        "name": "Z. Amdouni"
+      },
+      "assist": null
+    }
+  ],
+  "Canada|Qatar": [
+    {
+      "minute": 8,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 560,
+        "name": "A. Davies"
+      },
+      "assist": null
+    },
+    {
+      "minute": 23,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 561,
+        "name": "J. David"
+      },
+      "assist": {
+        "id": 560,
+        "name": "A. Davies"
+      }
+    },
+    {
+      "minute": 40,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 562,
+        "name": "C. Larin"
+      },
+      "assist": {
+        "id": 561,
+        "name": "J. David"
+      }
+    },
+    {
+      "minute": 55,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 560,
+        "name": "A. Davies"
+      },
+      "assist": null
+    },
+    {
+      "minute": 72,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 563,
+        "name": "I. Koné"
+      },
+      "assist": {
+        "id": 560,
+        "name": "A. Davies"
+      }
+    },
+    {
+      "minute": 88,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 561,
+        "name": "J. David"
+      },
+      "assist": null,
+      "type": "PENALTY"
+    }
+  ],
+  "Canada|Bosnia and Herzegovina": [
+    {
+      "minute": 29,
+      "team": {
+        "id": 5,
+        "name": "Canada"
+      },
+      "scorer": {
+        "id": 561,
+        "name": "J. David"
+      },
+      "assist": {
+        "id": 560,
+        "name": "A. Davies"
+      }
+    },
+    {
+      "minute": 74,
+      "team": {
+        "id": 7,
+        "name": "Bosnia and Herzegovina"
+      },
+      "scorer": {
+        "id": 550,
+        "name": "E. Džeko"
+      },
+      "assist": null
+    }
+  ],
+  "Qatar|Switzerland": [
+    {
+      "minute": 33,
+      "team": {
+        "id": 8,
+        "name": "Qatar"
+      },
+      "scorer": {
+        "id": 570,
+        "name": "A. Afif"
+      },
+      "assist": null
+    },
+    {
+      "minute": 62,
+      "team": {
+        "id": 6,
+        "name": "Switzerland"
+      },
+      "scorer": {
+        "id": 542,
+        "name": "R. Vargas"
+      },
+      "assist": {
+        "id": 540,
+        "name": "B. Embolo"
+      }
+    }
+  ],
+  "Brazil|Morocco": [
+    {
+      "minute": 19,
+      "team": {
+        "id": 9,
+        "name": "Brazil"
+      },
+      "scorer": {
+        "id": 580,
+        "name": "Vinícius Jr."
+      },
+      "assist": {
+        "id": 581,
+        "name": "Rodrygo"
+      }
+    },
+    {
+      "minute": 65,
+      "team": {
+        "id": 10,
+        "name": "Morocco"
+      },
+      "scorer": {
+        "id": 590,
+        "name": "H. Ziyech"
+      },
+      "assist": {
+        "id": 591,
+        "name": "A. Hakimi"
+      }
+    }
+  ],
+  "Haiti|Scotland": [
+    {
+      "minute": 73,
+      "team": {
+        "id": 11,
+        "name": "Scotland"
+      },
+      "scorer": {
+        "id": 600,
+        "name": "S. McTominay"
+      },
+      "assist": null
+    }
+  ],
+  "Scotland|Morocco": [
+    {
+      "minute": 51,
+      "team": {
+        "id": 10,
+        "name": "Morocco"
+      },
+      "scorer": {
+        "id": 592,
+        "name": "Y. En-Nesyri"
+      },
+      "assist": {
+        "id": 590,
+        "name": "H. Ziyech"
+      }
+    }
+  ],
+  "Brazil|Haiti": [
+    {
+      "minute": 15,
+      "team": {
+        "id": 9,
+        "name": "Brazil"
+      },
+      "scorer": {
+        "id": 582,
+        "name": "Rodrygo"
+      },
+      "assist": {
+        "id": 580,
+        "name": "Vinícius Jr."
+      }
+    },
+    {
+      "minute": 44,
+      "team": {
+        "id": 9,
+        "name": "Brazil"
+      },
+      "scorer": {
+        "id": 580,
+        "name": "Vinícius Jr."
+      },
+      "assist": null
+    },
+    {
+      "minute": 81,
+      "team": {
+        "id": 9,
+        "name": "Brazil"
+      },
+      "scorer": {
+        "id": 583,
+        "name": "Endrick"
+      },
+      "assist": {
+        "id": 582,
+        "name": "Rodrygo"
+      }
+    }
+  ],
+  "United States|Paraguay": [
+    {
+      "minute": 11,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 610,
+        "name": "C. Pulisic"
+      },
+      "assist": {
+        "id": 611,
+        "name": "W. McKennie"
+      }
+    },
+    {
+      "minute": 35,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 612,
+        "name": "T. Weah"
+      },
+      "assist": {
+        "id": 610,
+        "name": "C. Pulisic"
+      }
+    },
+    {
+      "minute": 58,
+      "team": {
+        "id": 15,
+        "name": "Paraguay"
+      },
+      "scorer": {
+        "id": 620,
+        "name": "M. Almirón"
+      },
+      "assist": null
+    },
+    {
+      "minute": 72,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 610,
+        "name": "C. Pulisic"
+      },
+      "assist": null
+    },
+    {
+      "minute": 90,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 613,
+        "name": "R. Pepi"
+      },
+      "assist": {
+        "id": 612,
+        "name": "T. Weah"
+      }
+    }
+  ],
+  "Australia|Türkiye": [
+    {
+      "minute": 27,
+      "team": {
+        "id": 14,
+        "name": "Australia"
+      },
+      "scorer": {
+        "id": 630,
+        "name": "M. Duke"
+      },
+      "assist": {
+        "id": 631,
+        "name": "A. Hrustic"
+      }
+    },
+    {
+      "minute": 69,
+      "team": {
+        "id": 14,
+        "name": "Australia"
+      },
+      "scorer": {
+        "id": 632,
+        "name": "C. Metcalfe"
+      },
+      "assist": null
+    }
+  ],
+  "United States|Australia": [
+    {
+      "minute": 38,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 611,
+        "name": "W. McKennie"
+      },
+      "assist": {
+        "id": 610,
+        "name": "C. Pulisic"
+      }
+    },
+    {
+      "minute": 82,
+      "team": {
+        "id": 13,
+        "name": "United States"
+      },
+      "scorer": {
+        "id": 610,
+        "name": "C. Pulisic"
+      },
+      "assist": null
+    }
+  ],
+  "Norway|Senegal": [
+    {
+      "minute": 43,
+      "team": {
+        "id": 34,
+        "name": "Norway"
+      },
+      "scorer": {
+        "id": 600,
+        "name": "M. Pedersen"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 48,
+      "team": {
+        "id": 34,
+        "name": "Norway"
+      },
+      "scorer": {
+        "id": 601,
+        "name": "E. Haaland"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 53,
+      "team": {
+        "id": 35,
+        "name": "Senegal"
+      },
+      "scorer": {
+        "id": 602,
+        "name": "I. Sarr"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 58,
+      "team": {
+        "id": 34,
+        "name": "Norway"
+      },
+      "scorer": {
+        "id": 601,
+        "name": "E. Haaland"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 93,
+      "team": {
+        "id": 35,
+        "name": "Senegal"
+      },
+      "scorer": {
+        "id": 602,
+        "name": "I. Sarr"
+      },
+      "assist": {
+        "id": 603,
+        "name": "N. Jackson"
+      },
+      "type": "REGULAR"
+    }
+  ],
+  "Portugal|Uzbekistan": [
+    {
+      "minute": 6,
+      "team": {
+        "id": 43,
+        "name": "Portugal"
+      },
+      "scorer": {
+        "id": 610,
+        "name": "Cristiano Ronaldo"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 17,
+      "team": {
+        "id": 43,
+        "name": "Portugal"
+      },
+      "scorer": {
+        "id": 611,
+        "name": "Nuno Mendes"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 39,
+      "team": {
+        "id": 43,
+        "name": "Portugal"
+      },
+      "scorer": {
+        "id": 610,
+        "name": "Cristiano Ronaldo"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 60,
+      "team": {
+        "id": 43,
+        "name": "Portugal"
+      },
+      "scorer": {
+        "id": 612,
+        "name": "Nematov"
+      },
+      "assist": null,
+      "type": "OWN_GOAL"
+    },
+    {
+      "minute": 87,
+      "team": {
+        "id": 43,
+        "name": "Portugal"
+      },
+      "scorer": {
+        "id": 613,
+        "name": "R. Leão"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    }
+  ],
+  "Algeria|Jordan": [
+    {
+      "minute": 34,
+      "team": {
+        "id": 39,
+        "name": "Jordan"
+      },
+      "scorer": {
+        "id": 620,
+        "name": "M. Al-Tamari"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 68,
+      "team": {
+        "id": 40,
+        "name": "Algeria"
+      },
+      "scorer": {
+        "id": 621,
+        "name": "N. Benbouali"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    },
+    {
+      "minute": 89,
+      "team": {
+        "id": 40,
+        "name": "Algeria"
+      },
+      "scorer": {
+        "id": 622,
+        "name": "A. Gouiri"
+      },
+      "assist": null,
+      "type": "REGULAR"
+    }
+  ]
+}

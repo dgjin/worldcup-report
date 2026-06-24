@@ -1,7 +1,7 @@
 {
   "_meta": {
     "source": "snapshot",
-    "asOf": "2026-06-23",
+    "asOf": "2026-06-24",
     "note": "赛果与积分为真实数据（截至 2026-06-23，交叉验证自 NBC/ESPN）；射手榜为示例数据，真·实时请配置 FOOTBALL_DATA_TOKEN。"
   },
   "competition": {
@@ -741,35 +741,35 @@
           {
             "position": 3,
             "team": {
-              "id": 39,
-              "name": "Jordan",
-              "tla": "JOR"
+              "id": 40,
+              "name": "Algeria",
+              "tla": "ALG"
             },
-            "playedGames": 1,
+            "playedGames": 2,
             "form": null,
-            "won": 0,
+            "won": 1,
             "draw": 0,
             "lost": 1,
-            "points": 0,
-            "goalsFor": 1,
-            "goalsAgainst": 3,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 4,
             "goalDifference": -2
           },
           {
             "position": 4,
             "team": {
-              "id": 40,
-              "name": "Algeria",
-              "tla": "ALG"
+              "id": 39,
+              "name": "Jordan",
+              "tla": "JOR"
             },
-            "playedGames": 1,
+            "playedGames": 2,
             "form": null,
             "won": 0,
             "draw": 0,
-            "lost": 1,
+            "lost": 2,
             "points": 0,
-            "goalsFor": 0,
-            "goalsAgainst": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 5,
             "goalDifference": -3
           }
         ]
@@ -781,6 +781,23 @@
         "table": [
           {
             "position": 1,
+            "team": {
+              "id": 43,
+              "name": "Portugal",
+              "tla": "POR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 6,
+            "goalsAgainst": 1,
+            "goalDifference": 5
+          },
+          {
+            "position": 2,
             "team": {
               "id": 41,
               "name": "Colombia",
@@ -797,28 +814,11 @@
             "goalDifference": 2
           },
           {
-            "position": 2,
+            "position": 3,
             "team": {
               "id": 42,
               "name": "DR Congo",
               "tla": "COD"
-            },
-            "playedGames": 1,
-            "form": null,
-            "won": 0,
-            "draw": 1,
-            "lost": 0,
-            "points": 1,
-            "goalsFor": 1,
-            "goalsAgainst": 1,
-            "goalDifference": 0
-          },
-          {
-            "position": 3,
-            "team": {
-              "id": 43,
-              "name": "Portugal",
-              "tla": "POR"
             },
             "playedGames": 1,
             "form": null,
@@ -837,15 +837,15 @@
               "name": "Uzbekistan",
               "tla": "UZB"
             },
-            "playedGames": 1,
+            "playedGames": 2,
             "form": null,
             "won": 0,
             "draw": 0,
-            "lost": 1,
+            "lost": 2,
             "points": 0,
             "goalsFor": 1,
-            "goalsAgainst": 3,
-            "goalDifference": -2
+            "goalsAgainst": 8,
+            "goalDifference": -7
           }
         ]
       },
@@ -861,12 +861,12 @@
               "name": "England",
               "tla": "ENG"
             },
-            "playedGames": 1,
+            "playedGames": 2,
             "form": null,
             "won": 1,
-            "draw": 0,
+            "draw": 1,
             "lost": 0,
-            "points": 3,
+            "points": 4,
             "goalsFor": 4,
             "goalsAgainst": 2,
             "goalDifference": 2
@@ -878,12 +878,12 @@
               "name": "Ghana",
               "tla": "GHA"
             },
-            "playedGames": 1,
+            "playedGames": 2,
             "form": null,
             "won": 1,
-            "draw": 0,
+            "draw": 1,
             "lost": 0,
-            "points": 3,
+            "points": 4,
             "goalsFor": 1,
             "goalsAgainst": 0,
             "goalDifference": 1
@@ -2711,7 +2711,7 @@
       },
       {
         "id": 1036,
-        "utcDate": "2026-06-22T12:00:00Z",
+        "utcDate": "2026-06-23T12:00:00Z",
         "status": "FINISHED",
         "matchday": 2,
         "stage": "GROUP_STAGE",
@@ -2733,7 +2733,77 @@
             "home": 3,
             "away": 2
           }
-        }
+        },
+        "goals": [
+          {
+            "minute": 43,
+            "team": {
+              "id": 34,
+              "name": "Norway"
+            },
+            "scorer": {
+              "id": 600,
+              "name": "M. Pedersen"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 48,
+            "team": {
+              "id": 34,
+              "name": "Norway"
+            },
+            "scorer": {
+              "id": 601,
+              "name": "E. Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 53,
+            "team": {
+              "id": 35,
+              "name": "Senegal"
+            },
+            "scorer": {
+              "id": 602,
+              "name": "I. Sarr"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 58,
+            "team": {
+              "id": 34,
+              "name": "Norway"
+            },
+            "scorer": {
+              "id": 601,
+              "name": "E. Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 93,
+            "team": {
+              "id": 35,
+              "name": "Senegal"
+            },
+            "scorer": {
+              "id": 602,
+              "name": "I. Sarr"
+            },
+            "assist": {
+              "id": 603,
+              "name": "N. Jackson"
+            },
+            "type": "REGULAR"
+          }
+        ]
       },
       {
         "id": 1037,
@@ -2815,6 +2885,73 @@
       },
       {
         "id": 1040,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 40,
+          "name": "Algeria",
+          "tla": "ALG"
+        },
+        "awayTeam": {
+          "id": 39,
+          "name": "Jordan",
+          "tla": "JOR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 34,
+            "team": {
+              "id": 39,
+              "name": "Jordan"
+            },
+            "scorer": {
+              "id": 620,
+              "name": "M. Al-Tamari"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 68,
+            "team": {
+              "id": 40,
+              "name": "Algeria"
+            },
+            "scorer": {
+              "id": 621,
+              "name": "N. Benbouali"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 89,
+            "team": {
+              "id": 40,
+              "name": "Algeria"
+            },
+            "scorer": {
+              "id": 622,
+              "name": "A. Gouiri"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1041,
         "utcDate": "2026-06-17T12:00:00Z",
         "status": "FINISHED",
         "matchday": 1,
@@ -2840,7 +2977,7 @@
         }
       },
       {
-        "id": 1041,
+        "id": 1042,
         "utcDate": "2026-06-17T12:00:00Z",
         "status": "FINISHED",
         "matchday": 1,
@@ -2866,7 +3003,100 @@
         }
       },
       {
-        "id": 1042,
+        "id": 1043,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 43,
+          "name": "Portugal",
+          "tla": "POR"
+        },
+        "awayTeam": {
+          "id": 44,
+          "name": "Uzbekistan",
+          "tla": "UZB"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 5,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 6,
+            "team": {
+              "id": 43,
+              "name": "Portugal"
+            },
+            "scorer": {
+              "id": 610,
+              "name": "Cristiano Ronaldo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 17,
+            "team": {
+              "id": 43,
+              "name": "Portugal"
+            },
+            "scorer": {
+              "id": 611,
+              "name": "Nuno Mendes"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 39,
+            "team": {
+              "id": 43,
+              "name": "Portugal"
+            },
+            "scorer": {
+              "id": 610,
+              "name": "Cristiano Ronaldo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 60,
+            "team": {
+              "id": 43,
+              "name": "Portugal"
+            },
+            "scorer": {
+              "id": 612,
+              "name": "Nematov"
+            },
+            "assist": null,
+            "type": "OWN_GOAL"
+          },
+          {
+            "minute": 87,
+            "team": {
+              "id": 43,
+              "name": "Portugal"
+            },
+            "scorer": {
+              "id": 613,
+              "name": "R. Leão"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1044,
         "utcDate": "2026-06-17T12:00:00Z",
         "status": "FINISHED",
         "matchday": 1,
@@ -2892,7 +3122,7 @@
         }
       },
       {
-        "id": 1043,
+        "id": 1045,
         "utcDate": "2026-06-17T12:00:00Z",
         "status": "FINISHED",
         "matchday": 1,
@@ -2918,59 +3148,33 @@
         }
       },
       {
-        "id": 1044,
-        "utcDate": "2026-06-23T12:00:00Z",
-        "status": "TIMED",
-        "matchday": 2,
-        "stage": "GROUP_STAGE",
-        "group": "GROUP_J",
-        "homeTeam": {
-          "id": 40,
-          "name": "Algeria",
-          "tla": "ALG"
-        },
-        "awayTeam": {
-          "id": 39,
-          "name": "Jordan",
-          "tla": "JOR"
-        },
-        "score": {
-          "winner": null,
-          "duration": "REGULAR",
-          "fullTime": {
-            "home": null,
-            "away": null
-          }
-        }
-      },
-      {
-        "id": 1045,
-        "utcDate": "2026-06-23T12:00:00Z",
-        "status": "TIMED",
-        "matchday": 2,
-        "stage": "GROUP_STAGE",
-        "group": "GROUP_K",
-        "homeTeam": {
-          "id": 43,
-          "name": "Portugal",
-          "tla": "POR"
-        },
-        "awayTeam": {
-          "id": 44,
-          "name": "Uzbekistan",
-          "tla": "UZB"
-        },
-        "score": {
-          "winner": null,
-          "duration": "REGULAR",
-          "fullTime": {
-            "home": null,
-            "away": null
-          }
-        }
-      },
-      {
         "id": 1046,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 45,
+          "name": "England",
+          "tla": "ENG"
+        },
+        "awayTeam": {
+          "id": 46,
+          "name": "Ghana",
+          "tla": "GHA"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 0
+          }
+        }
+      },
+      {
+        "id": 1047,
         "utcDate": "2026-06-23T12:00:00Z",
         "status": "TIMED",
         "matchday": 2,
@@ -2985,32 +3189,6 @@
           "id": 42,
           "name": "DR Congo",
           "tla": "COD"
-        },
-        "score": {
-          "winner": null,
-          "duration": "REGULAR",
-          "fullTime": {
-            "home": null,
-            "away": null
-          }
-        }
-      },
-      {
-        "id": 1047,
-        "utcDate": "2026-06-23T12:00:00Z",
-        "status": "TIMED",
-        "matchday": 2,
-        "stage": "GROUP_STAGE",
-        "group": "GROUP_L",
-        "homeTeam": {
-          "id": 45,
-          "name": "England",
-          "tla": "ENG"
-        },
-        "awayTeam": {
-          "id": 46,
-          "name": "Ghana",
-          "tla": "GHA"
         },
         "score": {
           "winner": null,

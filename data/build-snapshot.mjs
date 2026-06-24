@@ -1,11 +1,14 @@
 // 由真实赛果构建 data/snapshot.json（football-data.org v4 同构）。
 // 积分榜由比分推导，保证内部一致。赛果截至 2026-06-23，交叉验证自 NBC / ESPN。
 // 用法：node data/build-snapshot.mjs   （或 npm run snapshot）
-import { writeFileSync } from "node:fs";
+import { writeFileSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// 进球数据查找表（homeTeam|awayTeam -> goals[]）
+const goalsDB = JSON.parse(readFileSync(join(__dirname, "goals.json"), "utf-8"));
 
 // 球队注册表：英文名 -> { id, tla }（中文名与国旗在前端按英文名映射）
 const T = {
@@ -44,18 +47,19 @@ const finished = [
   ["H", 1, "Spain", 0, "Cape Verde", 0, "2026-06-16"], ["H", 1, "Saudi Arabia", 1, "Uruguay", 1, "2026-06-16"],
   ["H", 2, "Spain", 4, "Saudi Arabia", 0, "2026-06-22"], ["H", 2, "Uruguay", 2, "Cape Verde", 2, "2026-06-22"],
   ["I", 1, "France", 3, "Senegal", 1, "2026-06-17"], ["I", 1, "Iraq", 1, "Norway", 4, "2026-06-17"],
-  ["I", 2, "France", 3, "Iraq", 0, "2026-06-22"], ["I", 2, "Norway", 3, "Senegal", 2, "2026-06-22"],
+  ["I", 2, "France", 3, "Iraq", 0, "2026-06-22"], ["I", 2, "Norway", 3, "Senegal", 2, "2026-06-23"],
   ["J", 1, "Argentina", 3, "Algeria", 0, "2026-06-17"], ["J", 1, "Austria", 3, "Jordan", 1, "2026-06-17"],
-  ["J", 2, "Argentina", 2, "Austria", 0, "2026-06-22"],
+  ["J", 2, "Argentina", 2, "Austria", 0, "2026-06-22"], ["J", 2, "Algeria", 2, "Jordan", 1, "2026-06-23"],
   ["K", 1, "Colombia", 3, "Uzbekistan", 1, "2026-06-17"], ["K", 1, "Portugal", 1, "DR Congo", 1, "2026-06-17"],
+  ["K", 2, "Portugal", 5, "Uzbekistan", 0, "2026-06-23"],
   ["L", 1, "England", 4, "Croatia", 2, "2026-06-17"], ["L", 1, "Ghana", 1, "Panama", 0, "2026-06-17"],
+  ["L", 2, "England", 0, "Ghana", 0, "2026-06-23"],
 ];
 
-// 待赛（强制对阵，由"谁还没碰过谁"推导）：[组, 轮次, 主, 客, 日期]
+// 待赛（强制对阵，由“谁还没碰过谁”推导）：[组, 轮次, 主, 客, 日期]
 const upcoming = [
-  ["J", 2, "Algeria", "Jordan", "2026-06-23"],
-  ["K", 2, "Portugal", "Uzbekistan", "2026-06-23"], ["K", 2, "Colombia", "DR Congo", "2026-06-23"],
-  ["L", 2, "England", "Ghana", "2026-06-23"], ["L", 2, "Panama", "Croatia", "2026-06-23"],
+  ["K", 2, "Colombia", "DR Congo", "2026-06-23"],
+  ["L", 2, "Panama", "Croatia", "2026-06-23"],
   ["A", 3, "Mexico", "Czechia", "2026-06-24"], ["A", 3, "South Korea", "South Africa", "2026-06-24"],
   ["B", 3, "Canada", "Switzerland", "2026-06-24"], ["B", 3, "Bosnia and Herzegovina", "Qatar", "2026-06-24"],
   ["C", 3, "Brazil", "Scotland", "2026-06-25"], ["C", 3, "Morocco", "Haiti", "2026-06-25"],
@@ -84,11 +88,13 @@ const scorers = [
 let matchId = 1000;
 const matches = [];
 for (const [g, md, h, hs, a, as, date] of finished) {
+  const goals = goalsDB[`${h}|${a}`] || undefined;
   matches.push({
     id: ++matchId, utcDate: `${date}T12:00:00Z`, status: "FINISHED", matchday: md,
     stage: "GROUP_STAGE", group: `GROUP_${g}`,
     homeTeam: team(h), awayTeam: team(a),
     score: { winner: hs > as ? "HOME_TEAM" : as > hs ? "AWAY_TEAM" : "DRAW", duration: "REGULAR", fullTime: { home: hs, away: as } },
+    ...(goals ? { goals } : {}),
   });
 }
 for (const [g, md, h, a, date] of upcoming) {
@@ -128,7 +134,7 @@ const standings = Object.keys(groups).sort().map((g) => {
 const snapshot = {
   _meta: {
     source: "snapshot",
-    asOf: "2026-06-23",
+    asOf: "2026-06-24",
     note: "赛果与积分为真实数据（截至 2026-06-23，交叉验证自 NBC/ESPN）；射手榜为示例数据，真·实时请配置 FOOTBALL_DATA_TOKEN。",
   },
   competition: { id: 2000, code: "WC", name: "FIFA World Cup", type: "CUP", emblem: "https://crests.football-data.org/qatar.png" },
