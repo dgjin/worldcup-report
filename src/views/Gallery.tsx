@@ -1,19 +1,63 @@
-import React, { useState } from "react";
-import { Camera, ChevronDown, ExternalLink, Heart } from "lucide-react";
+import React, { useState, useCallback, useEffect } from "react";
+import { Camera, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
 
-/** 灯箱 —— 全屏查看单张照片 */
-function Lightbox({ photo, onClose, source, likes, onLike, liking }: {
-  photo: GalleryPhoto; onClose: () => void; source?: string;
-  likes: Record<string, number>; onLike: (p: GalleryPhoto) => void;
+/** 灯箱 —— 全屏查看照片，支持左右滑动浏览 */
+function Lightbox({
+  photos,
+  index,
+  onClose,
+  onNavigate,
+  source,
+  likes,
+  onLike,
+  liking,
+}: {
+  photos: GalleryPhoto[];
+  index: number;
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+  source?: string;
+  likes: Record<string, number>;
+  onLike: (p: GalleryPhoto) => void;
   liking: Record<string, boolean>;
 }) {
+  const photo = photos[index];
   const isAbcNews = source === "abcnews";
   const pk = getPhotoKey(photo);
   const count = likes[pk] ?? 0;
   const isLiking = liking[pk] ?? false;
+
+  const goPrev = useCallback(() => {
+    onNavigate(index > 0 ? index - 1 : photos.length - 1);
+  }, [index, photos.length, onNavigate]);
+
+  const goNext = useCallback(() => {
+    onNavigate(index < photos.length - 1 ? index + 1 : 0);
+  }, [index, photos.length, onNavigate]);
+
+  // 键盘导航
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") goPrev();
+      else if (e.key === "ArrowRight") goNext();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose, goPrev, goNext]);
+
+  // 触摸滑动
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart == null) return;
+    const dx = e.changedTouches[0].clientX - touchStart;
+    if (Math.abs(dx) > 50) { dx > 0 ? goPrev() : goNext(); }
+    setTouchStart(null);
+  };
 
   return (
     <motion.div
@@ -22,21 +66,49 @@ function Lightbox({ photo, onClose, source, likes, onLike, liking }: {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
-      <motion.img
-        src={photo.src.large}
-        alt={photo.alt}
-        className="max-h-[85dvh] max-w-full rounded-2xl object-contain shadow-2xl"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
-      />
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 rounded-full bg-black/70 px-4 py-2 text-sm text-white/80 backdrop-blur">
+      {/* 左右导航箭头 */}
+      {photos.length > 1 && (
+        <>
+          <button
+            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            className="absolute left-2 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white md:left-4"
+            aria-label="上一张"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            className="absolute right-2 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white md:right-4"
+            aria-label="下一张"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+        </>
+      )}
+
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={photo.id}
+          src={photo.src.large}
+          alt={photo.alt}
+          className="max-h-[85dvh] max-w-full rounded-2xl object-contain shadow-2xl"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          draggable={false}
+        />
+      </AnimatePresence>
+
+      {/* 底部信息栏 */}
+      <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full bg-black/70 px-4 py-2 text-sm text-white/80 backdrop-blur" onClick={(e) => e.stopPropagation()}>
         {/* 点赞按钮 */}
         <button
-          onClick={(e) => { e.stopPropagation(); onLike(photo); }}
+          onClick={() => onLike(photo)}
           disabled={isLiking}
           className={cn(
             "inline-flex items-center gap-1 transition-colors",
@@ -47,6 +119,15 @@ function Lightbox({ photo, onClose, source, likes, onLike, liking }: {
           {count > 0 && <span className="text-xs font-medium">{count}</span>}
         </button>
         <span className="text-white/20">|</span>
+        {/* 照片计数 */}
+        {photos.length > 1 && (
+          <>
+            <span className="text-xs font-medium tabular-nums text-white/60">
+              {index + 1} / {photos.length}
+            </span>
+            <span className="text-white/20">|</span>
+          </>
+        )}
         <span>
           {isAbcNews ? `🏟️ ${photo.photographer}` : `📰 ${photo.photographer}`}
         </span>
@@ -163,7 +244,7 @@ function InfiniteScrollTrigger({ onInView, loading }: { onInView: () => void; lo
 
 export default function Gallery() {
   const { photos, loading, error, loadMore, hasMore, reload, source, likes, likePhoto, liking } = useGallery();
-  const [selected, setSelected] = useState<GalleryPhoto | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
   if (loading) return <Loader label="加载精彩瞬间…" />;
 
@@ -212,7 +293,7 @@ export default function Gallery() {
                 key={photo.id}
                 photo={photo}
                 priority={i < 6}
-                onClick={() => setSelected(photo)}
+                onClick={() => setSelectedIdx(i)}
                 likes={likes}
                 onLike={likePhoto}
                 liking={liking}
@@ -236,10 +317,12 @@ export default function Gallery() {
 
       {/* 灯箱 */}
       <AnimatePresence>
-        {selected && (
+        {selectedIdx != null && photos[selectedIdx] && (
           <Lightbox
-            photo={selected}
-            onClose={() => setSelected(null)}
+            photos={photos}
+            index={selectedIdx}
+            onClose={() => setSelectedIdx(null)}
+            onNavigate={setSelectedIdx}
             source={source ?? undefined}
             likes={likes}
             onLike={likePhoto}

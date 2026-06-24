@@ -114,22 +114,22 @@ function GroupIndex({ groups }: { groups: GroupTable[] }) {
 
 /* ——— 今日速递 ——— */
 /** 按球队分组显示进球：`23' Son · 78' Park` */
-function GoalStrip({ goals, teamId }: { goals?: MatchGoal[]; teamId: number }) {
+function GoalStrip({ goals, teamId, align }: { goals?: MatchGoal[]; teamId: number; align?: "left" | "right" }) {
   if (!goals) return null;
   const teamGoals = goals.filter((g) => g.team.id === teamId).sort((a, b) => a.minute - b.minute);
   if (teamGoals.length === 0) return null;
   return (
-    <span className="inline-flex flex-wrap items-center gap-x-1 gap-y-0.5 text-[11px] text-muted">
-      <span className="text-pitch">⚽</span>
+    <div className={cn("flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10px] leading-tight", align === "right" ? "justify-end" : "justify-start")}>
       {teamGoals.map((g, i) => (
-        <span key={i} className="whitespace-nowrap">
-          <span className="font-medium tabular-nums text-muted/80">{g.minute}'</span>{" "}
-          <span className="text-ink/70">{playerZh(g.scorer.id, g.scorer.name)}</span>
+        <span key={i} className="inline-flex items-center gap-0.5 whitespace-nowrap">
+          <span className="text-pitch/80">⚽</span>
+          <span className="font-medium tabular-nums text-muted/80">{g.minute}'</span>
+          <span className="text-ink/60">{playerZh(g.scorer.id, g.scorer.name)}</span>
           {g.type === "PENALTY" && <span className="text-gold">(点)</span>}
-          {i < teamGoals.length - 1 && <span className="text-muted/50">·</span>}
+          {g.type === "OWN_GOAL" && <span className="text-primary-bright">(乌)</span>}
         </span>
       ))}
-    </span>
+    </div>
   );
 }
 
@@ -143,7 +143,6 @@ function MatchLine({ m }: { m: MatchRaw }) {
 
   return (
     <div className="rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2/40">
-      {/* 主行：状态 + 主队 + 比分 + 客队 */}
       <div className="flex items-center gap-2">
         {/* 状态列 */}
         <span className="w-12 shrink-0 text-center">
@@ -159,12 +158,15 @@ function MatchLine({ m }: { m: MatchRaw }) {
           )}
         </span>
 
-        {/* 主队 */}
-        <span className="flex flex-1 items-center justify-end gap-1.5">
-          <span className={cn("truncate text-sm", isFinished && winner === "HOME_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
-            {teamZh(m.homeTeam.name)}
+        {/* 主队 + 进球 */}
+        <span className="flex flex-1 flex-col items-end gap-0.5">
+          <span className="flex items-center gap-1.5">
+            <span className={cn("truncate text-sm", isFinished && winner === "HOME_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
+              {teamZh(m.homeTeam.name)}
+            </span>
+            <Flag name={m.homeTeam.name} />
           </span>
-          <Flag name={m.homeTeam.name} />
+          {hasGoals && <GoalStrip goals={m.goals} teamId={m.homeTeam.id} align="right" />}
         </span>
 
         {/* 比分 */}
@@ -180,27 +182,17 @@ function MatchLine({ m }: { m: MatchRaw }) {
           )}
         </span>
 
-        {/* 客队 */}
-        <span className="flex flex-1 items-center gap-1.5">
-          <Flag name={m.awayTeam.name} />
-          <span className={cn("truncate text-sm", isFinished && winner === "AWAY_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
-            {teamZh(m.awayTeam.name)}
+        {/* 客队 + 进球 */}
+        <span className="flex flex-1 flex-col items-start gap-0.5">
+          <span className="flex items-center gap-1.5">
+            <Flag name={m.awayTeam.name} />
+            <span className={cn("truncate text-sm", isFinished && winner === "AWAY_TEAM" ? "font-bold text-ink" : "font-medium text-ink/80")}>
+              {teamZh(m.awayTeam.name)}
+            </span>
           </span>
+          {hasGoals && <GoalStrip goals={m.goals} teamId={m.awayTeam.id} align="left" />}
         </span>
       </div>
-
-      {/* 进球信息行 */}
-      {hasGoals && (
-        <div className="mt-1 flex items-start gap-2 pl-14">
-          <div className="flex-1 text-right">
-            <GoalStrip goals={m.goals} teamId={m.homeTeam.id} />
-          </div>
-          <span className="w-10 shrink-0" />
-          <div className="flex-1">
-            <GoalStrip goals={m.goals} teamId={m.awayTeam.id} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
