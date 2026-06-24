@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import type { GroupTable, MatchRaw, ScorerRaw, SplitMatches, StandingRow } from "../types/worldcup";
 import { teamZh, playerZh, coachZh, isStarPlayer, playerFaceUrl } from "../lib/teams";
@@ -224,6 +224,74 @@ function Detail({
   );
 }
 
+/** 可折叠小组区块 */
+function GroupSection({
+  group,
+  entries,
+  current,
+  onSelect,
+}: {
+  group: GroupTable;
+  entries: TeamEntry[];
+  current: TeamEntry | null;
+  onSelect: (id: number) => void;
+}) {
+  const [open, setOpen] = useState(true);
+  const played = Math.max(...group.table.map((r) => r.playedGames), 0);
+  return (
+    <div className="rounded-2xl border border-line/60 bg-surface/40 overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-2 px-4 py-3 transition-colors hover:bg-surface-2/30"
+      >
+        <div className="flex items-center gap-2.5">
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-primary font-display text-sm font-bold text-white shadow">
+            {group.letter}
+          </span>
+          <span className="font-display text-sm font-semibold tracking-wide text-ink">小组 {group.letter}</span>
+          <span className="text-[10px] text-muted">{played >= 3 ? "已收官" : `${entries.length} 队`}</span>
+        </div>
+        <ChevronDown className={cn("h-4 w-4 text-muted transition-transform duration-200", !open && "-rotate-90")} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="grid grid-cols-2 gap-2 px-4 pb-4 sm:grid-cols-4">
+              {entries.map((e) => (
+                <button
+                  key={e.id}
+                  onClick={() => onSelect(e.id)}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg border px-3 py-2 text-left transition-colors",
+                    current?.id === e.id
+                      ? "border-primary/60 bg-primary/10 shadow-sm"
+                      : "border-line/40 bg-surface/50 hover:border-line hover:bg-surface-2/60",
+                  )}
+                >
+                  <Flag name={e.name} className="!h-5 !w-[1.8rem]" />
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-xs font-medium text-ink">{teamZh(e.name)}</div>
+                    <div className="text-[10px] text-muted">
+                      {e.row.points} 分 · {e.row.won}胜{e.row.draw}平{e.row.lost}负
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function TeamCards({
   groups,
   matches,
@@ -244,6 +312,17 @@ export default function TeamCards({
   const current = entries.find((e) => e.id === selected) ?? entries[0];
   const { teams, loading: teamsLoading } = useTeams();
 
+  // 按小组分组：group.letter → TeamEntry[]
+  const grouped = useMemo(() => {
+    const map = new Map<string, TeamEntry[]>();
+    for (const e of entries) {
+      const arr = map.get(e.group) ?? [];
+      arr.push(e);
+      map.set(e.group, arr);
+    }
+    return map;
+  }, [entries]);
+
   return (
     <section>
       <SectionHeading kicker="球队" title="球队资料卡" right={<span className="text-[11px] text-muted">点选球队查看详情</span>} />
@@ -257,21 +336,15 @@ export default function TeamCards({
         />
       )}
 
-      <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-        {entries.map((e) => (
-          <button
-            key={e.id}
-            onClick={() => setSelected(e.id)}
-            className={cn(
-              "flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-left transition-colors",
-              current?.id === e.id
-                ? "border-primary/60 bg-primary/10"
-                : "border-line/50 bg-surface/40 hover:border-line hover:bg-surface-2/50",
-            )}
-          >
-            <Flag name={e.name} />
-            <span className="truncate text-xs text-ink">{teamZh(e.name)}</span>
-          </button>
+      <div className="mt-5 grid gap-3">
+        {groups.map((g) => (
+          <GroupSection
+            key={g.letter}
+            group={g}
+            entries={grouped.get(g.letter) ?? []}
+            current={current}
+            onSelect={setSelected}
+          />
         ))}
       </div>
     </section>
