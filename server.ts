@@ -137,6 +137,46 @@ async function start() {
     });
   }
 
+  // 同步端点
+  app.post("/api/sync", async (_req, res) => {
+    if (!TOKEN) {
+      res.status(500).json({ error: "No FOOTBALL_DATA_TOKEN" });
+      return;
+    }
+    const client = getSb();
+    if (!client) {
+      res.status(500).json({ error: "Supabase not configured" });
+      return;
+    }
+    const results: Record<string, string> = {};
+    for (const [key, url] of Object.entries(ENDPOINTS)) {
+      try {
+        const r = await fetch(url, { headers: { "X-Auth-Token": TOKEN } });
+        if (!r.ok) { results[key] = `API ${r.status}`; continue; }
+        const d = await r.json();
+        if (key === "matches" && d.matches) {
+          await writeWcMatches(client, d.matches, "live");
+          results[key] = `${d.matches.length} synced`;
+        } else {
+          await writeWcData(client, key as "standings" | "scorers" | "teams", d, "live");
+          results[key] = `${(d[key] as any[])?.length ?? 0} synced`;
+        }
+        // 清除缓存，强制下次请求读最新数据
+        cache.delete(key);
+      } catch (e) {
+        results[key] = `Error: ${(e as Error).message}`;
+      }
+    }
+    res.json({ ok: true, results, syncedAt: new Date().toISOString() });
+  });
+
+  app.get("/api/sync", async (_req, res) => {
+    const client = getSb();
+    if (!client) { res.status(500).json({ error: "Supabase not configured" }); return; }
+    const { data: meta } = await client.from("wc_sync_meta").select("*");
+    res.json({ syncMeta: meta });
+  });
+
   if (!isProd) {
     const { createServer } = await import("vite");
     const vite = await createServer({ server: { middlewareMode: true }, appType: "spa" });

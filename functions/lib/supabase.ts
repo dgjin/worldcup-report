@@ -65,22 +65,47 @@ export async function writeWcData(
   ]);
 }
 
-/** upsert 比赛列表到 wc_matches */
+/** upsert 比赛列表到 wc_matches（智能保留已有 goals 数据） */
 export async function writeWcMatches(
   sb: SupabaseClient,
   matches: any[],
   source: "live" | "snapshot",
 ): Promise<void> {
-  const rows = matches.map((m) => ({
-    id: m.id,
-    data: m,
-    home_team: m.homeTeam?.name ?? "",
-    away_team: m.awayTeam?.name ?? "",
-    status: m.status ?? "TIMED",
-    utc_date: m.utcDate ?? new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  }));
-  // 分批 upsert（Supabase 单次上限 ~1000 行，这里远不够）
+  // 先查询现有数据，找出有 goals 的记录
+  const matchIds = matches.map((m) => m.id);
+  const { data: existing } = await sb
+    .from("wc_matches")
+    .select("id, data")
+    .in("id", matchIds);
+
+  // 构建 id -> existingGoals 查找表
+  const existingGoals = new Map<number, any[]>();
+  if (existing) {
+    for (const row of existing) {
+      const goals = (row.data as any)?.goals;
+      if (goals && goals.length > 0) {
+        existingGoals.set(row.id, goals);
+      }
+    }
+  }
+
+  // 合并：live API 不含 goals，保留 Supabase 中已有的 goals
+  const rows = matches.map((m) => {
+    const prevGoals = existingGoals.get(m.id);
+    const mergedData = (!m.goals?.length && prevGoals)
+      ? { ...m, goals: prevGoals }
+      : m;
+    return {
+      id: m.id,
+      data: mergedData,
+      home_team: m.homeTeam?.name ?? "",
+      away_team: m.awayTeam?.name ?? "",
+      status: m.status ?? "TIMED",
+      utc_date: m.utcDate ?? new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+  });
+
   if (rows.length > 0) {
     await sb.from("wc_matches").upsert(rows, { onConflict: "id" });
   }

@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/wc/*"],
+  "include": ["/api/wc/*", "/api/sync"],
   "exclude": []
 }

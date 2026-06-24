@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "worldcup-sync",
+  "main": "index.ts",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "SYNC_URL": "https://worldcup-report.pages.dev/api/sync"
+  },
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  }
+}
