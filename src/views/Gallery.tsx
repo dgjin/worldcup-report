@@ -110,29 +110,23 @@ function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
         )}
       />
 
-      {/* 点赞按钮（右上角浮动） */}
+      {/* 点赞按钮（右上角浮动，始终可见） */}
       <button
         onClick={(e) => { e.stopPropagation(); onLike(photo); }}
         disabled={isLiking}
         className={cn(
-          "absolute right-2 top-2 z-20 flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-medium backdrop-blur-md transition-all duration-200",
-          "translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+          "absolute right-2 top-2 z-20 flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-medium backdrop-blur-md transition-all duration-200 active:scale-90",
           count > 0
-            ? "bg-black/50 text-red-300 opacity-100 translate-y-0"
-            : "bg-black/40 text-white/70 hover:bg-black/60 hover:text-red-300",
+            ? "bg-red-500/80 text-white"
+            : "bg-black/45 text-white/80 hover:bg-black/70 hover:text-red-300",
         )}
       >
         <Heart className={cn("h-3.5 w-3.5 transition-transform", isLiking && "animate-ping")} fill={count > 0 ? "currentColor" : "none"} />
         {count > 0 && <span>{count}</span>}
       </button>
 
-      {/* 底部遮罩 + 摄影师信息 */}
-      <div
-        className={cn(
-          "absolute inset-x-0 bottom-0 z-20 flex items-center gap-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8",
-          "translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100",
-        )}
-      >
+      {/* 底部遮罩 + 摄影师信息（始终可见） */}
+      <div className="absolute inset-x-0 bottom-0 z-20 flex items-center gap-2 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 pb-3 pt-8">
         <Camera className="h-3.5 w-3.5 text-white/70" />
         <span className="text-[11px] font-medium text-white/80 truncate">
           {photo.photographer}
