@@ -60,6 +60,25 @@ export default function App() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
+          {/* 点赞按钮 */}
+          <button
+            onClick={appLikes.likeApp}
+            disabled={appLikes.liking}
+            className={cn(
+              "flex flex-col items-center gap-0.5 rounded-xl border px-2.5 py-1.5 transition-all active:scale-90",
+              appLikes.liked
+                ? "border-red-500/30 bg-red-500/10 text-red-400"
+                : "border-line/60 bg-surface/60 text-muted hover:border-red-400/40 hover:text-red-400",
+            )}
+            title={appLikes.liked ? "已点赞" : "点赞应用"}
+          >
+            <Heart
+              className={cn("h-4 w-4 transition-transform", appLikes.liking && "animate-ping")}
+              fill={appLikes.liked ? "currentColor" : "none"}
+            />
+            <span className="text-[11px] font-semibold tabular-nums">{appLikes.likes}</span>
+          </button>
+
           <div className="text-right">
             <div className="flex items-center justify-end gap-1.5">
               {source === "live" ? (
@@ -143,36 +162,8 @@ export default function App() {
         </main>
       )}
 
-          <footer className="mt-6 md:mt-12 border-t border-line/50 pt-5">
-            <div className="flex flex-col items-center gap-3">
-              <button
-                onClick={appLikes.likeApp}
-                disabled={appLikes.liking}
-                className={cn(
-                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all active:scale-95",
-                  appLikes.liked
-                    ? "border-red-500/50 bg-red-500/10 text-red-400"
-                    : "border-line/60 bg-surface/50 text-muted hover:border-red-500/40 hover:text-red-400",
-                )}
-              >
-                <Heart
-                  className={cn("h-4 w-4 transition-transform", appLikes.liking && "animate-ping")}
-                  fill={appLikes.liked ? "currentColor" : "none"}
-                />
-                {appLikes.liked ? "已点赞" : "点赞应用"}
-                {appLikes.likes > 0 && (
-                  <span className={cn(
-                    "tabular-nums",
-                    appLikes.liked ? "text-red-400" : "text-muted",
-                  )}>
-                    {appLikes.likes}
-                  </span>
-                )}
-              </button>
-              <p className="text-center text-[11px] text-muted">
-                数据源 football-data.org（竞赛 WC）· 自动每 60 秒刷新 · 仅供学习演示
-              </p>
-            </div>
+          <footer className="mt-6 md:mt-12 border-t border-line/50 pt-5 text-center text-[11px] text-muted">
+            数据源 football-data.org（竞赛 WC）· 自动每 60 秒刷新 · 仅供学习演示
           </footer>
         </div>
       </div>
