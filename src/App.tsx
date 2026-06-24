@@ -63,6 +63,11 @@ export default function App() {
                   <span className="live-dot h-2 w-2 rounded-full bg-pitch" />
                   <span className="text-xs font-semibold text-pitch">实时数据</span>
                 </>
+              ) : source === "supabase" ? (
+                <>
+                  <span className="live-dot h-2 w-2 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-semibold text-emerald-600">数据库</span>
+                </>
               ) : (
                 <>
                   <span className="h-2 w-2 rounded-full bg-gold" />

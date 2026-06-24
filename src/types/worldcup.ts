@@ -1,4 +1,4 @@
-export type DataSource = "live" | "snapshot";
+export type DataSource = "live" | "supabase" | "snapshot";
 
 export interface ApiTeam {
   id: number;
