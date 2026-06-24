@@ -46,6 +46,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       const rows = await sbFetch(sb, "gallery_likes?select=photo_key,likes");
       const map: Record<string, number> = {};
       for (const r of (rows ?? [])) {
+        if (r.photo_key === "__app__") continue; // 应用全局点赞的保留键，不计入照片
         map[r.photo_key] = r.likes;
       }
       return new Response(JSON.stringify(map), { headers });
@@ -61,7 +62,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       const existing = await sbFetch(sb, `gallery_likes?photo_key=eq.${encodeURIComponent(pk)}&select=likes`);
       const currentLikes = existing?.[0]?.likes ?? 0;
 
-      await sbFetch(sb, "gallery_likes", {
+      await sbFetch(sb, existing?.length ? `gallery_likes?photo_key=eq.${encodeURIComponent(pk)}` : "gallery_likes", {
         method: existing?.length ? "PATCH" : "POST",
         body: JSON.stringify(existing?.length
           ? { likes: currentLikes + 1 }

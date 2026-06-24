@@ -113,6 +113,18 @@ export default function App() {
         </div>
       </header>
 
+      {/* 点赞引导（未点赞时显示，点击即点赞） */}
+      {!appLikes.liked && (
+        <button
+          onClick={appLikes.likeApp}
+          disabled={appLikes.liking}
+          className="mb-4 flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/25 bg-red-500/[0.07] px-4 py-2.5 text-xs font-medium text-red-300 transition-colors hover:bg-red-500/15 active:scale-[0.99] disabled:opacity-60"
+        >
+          <Heart className="h-3.5 w-3.5 shrink-0" fill="none" />
+          如果对你有帮助，请点赞鼓励一下 ❤
+        </button>
+      )}
+
       {/* 快照模式提示 */}
       {source === "snapshot" && (
         <div className="mb-4 rounded-xl border border-gold/30 bg-gold/[0.07] px-4 py-2.5 text-xs text-gold/90">
