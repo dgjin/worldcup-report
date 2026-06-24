@@ -5,7 +5,6 @@ import { teamZh } from "../lib/teams";
 import { dayKey, dayLabel, timeLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
 import KnockoutDraw from "./KnockoutDraw";
-import ChampionPrediction from "./ChampionPrediction";
 
 const ROUNDS = [
   { name: "32 强赛", n: 16 },
@@ -142,13 +141,8 @@ export default function KnockoutBracket({ groups, matches }: { groups: GroupTabl
         <Fixtures upcoming={matches.upcoming} />
       </div>
 
-      <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
-        <div className="min-w-0 xl:flex-1">
-          <KnockoutDraw matches={knockoutMatches} />
-        </div>
-        <div className="xl:w-[360px] xl:shrink-0">
-          <ChampionPrediction groups={groups} />
-        </div>
+      <div>
+        <KnockoutDraw matches={knockoutMatches} />
       </div>
 
       <div>

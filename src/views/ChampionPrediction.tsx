@@ -105,7 +105,7 @@ export default function ChampionPrediction({ groups }: { groups: GroupTable[] })
   const maxProb = picks[0].prob;
 
   return (
-    <div>
+    <div className="mx-auto max-w-2xl">
       <SectionHeading
         kicker="多维度推演"
         title="冠军预测"

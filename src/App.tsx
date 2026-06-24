@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { BarChart3, Camera, Heart, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
+import { BarChart3, Camera, Crown, Heart, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
 import { useWorldCup } from "./api/client";
 import { useAppLikes } from "./api/app";
 import { splitMatches, toGroupTables, toScorers } from "./lib/transform";
@@ -8,17 +8,19 @@ import { Loader } from "./components/ui";
 import GroupStandings from "./views/GroupStandings";
 import Scorers from "./views/Scorers";
 import KnockoutBracket from "./views/KnockoutBracket";
+import ChampionPrediction from "./views/ChampionPrediction";
 import TeamCards from "./views/TeamCards";
 import Charts from "./views/Charts";
 import MatchReport from "./views/MatchReport";
 import Gallery from "./views/Gallery";
 
-type TabKey = "standings" | "scorers" | "knockout" | "teams" | "charts" | "report" | "gallery";
+type TabKey = "standings" | "scorers" | "knockout" | "prediction" | "teams" | "charts" | "report" | "gallery";
 
 const TABS: { key: TabKey; label: string; icon: typeof Trophy }[] = [
   { key: "standings", label: "积分榜", icon: Shield },
   { key: "scorers", label: "射手榜", icon: Target },
   { key: "knockout", label: "淘汰赛", icon: Trophy },
+  { key: "prediction", label: "预测", icon: Crown },
   { key: "teams", label: "球队", icon: Users },
   { key: "charts", label: "数据", icon: BarChart3 },
   { key: "report", label: "战报", icon: ScrollText },
@@ -167,6 +169,7 @@ export default function App() {
           {tab === "standings" && <GroupStandings groups={groups} matches={matches} />}
           {tab === "scorers" && <Scorers scorers={scorers} />}
           {tab === "knockout" && <KnockoutBracket groups={groups} matches={matches} />}
+          {tab === "prediction" && <ChampionPrediction groups={groups} />}
           {tab === "teams" && <TeamCards groups={groups} matches={matches} scorers={scorers} />}
           {tab === "charts" && <Charts groups={groups} matches={matches} scorers={scorers} />}
           {tab === "report" && <MatchReport matches={matches} />}
