@@ -7,7 +7,13 @@
   "vars": {
     "SYNC_URL": "https://worldcup-report.pages.dev/api/sync"
   },
+  "kv_namespaces": [
+    {
+      "binding": "GALLERY_CACHE",
+      "id": "52cbc6e7d07d4a7baeb016e1cef53bbb"
+    }
+  ],
   "triggers": {
-    "crons": ["*/5 * * * *"]
+    "crons": ["*/5 * * * *", "0 8 * * *"]
   }
 }

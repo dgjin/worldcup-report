@@ -9,6 +9,7 @@
     "start": "node dist/server.cjs",
     "snapshot": "node data/build-snapshot.mjs",
     "test": "tsx src/lib/transform.test.ts",
+    "collect": "node scripts/collect-gallery.mjs",
     "lint": "tsc --noEmit",
     "deploy": "vite build && npx wrangler pages deploy dist/client --project-name=worldcup-report --branch=main --commit-dirty=true",
     "pages-dev": "wrangler pages dev dist/client",

@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { BarChart3, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
+import { BarChart3, Camera, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
 import { useWorldCup } from "./api/client";
 import { splitMatches, toGroupTables, toScorers } from "./lib/transform";
 import { cn } from "./components/ui";
@@ -10,8 +10,9 @@ import KnockoutBracket from "./views/KnockoutBracket";
 import TeamCards from "./views/TeamCards";
 import Charts from "./views/Charts";
 import MatchReport from "./views/MatchReport";
+import Gallery from "./views/Gallery";
 
-type TabKey = "standings" | "scorers" | "knockout" | "teams" | "charts" | "report";
+type TabKey = "standings" | "scorers" | "knockout" | "teams" | "charts" | "report" | "gallery";
 
 const TABS: { key: TabKey; label: string; icon: typeof Trophy }[] = [
   { key: "standings", label: "积分榜", icon: Shield },
@@ -20,6 +21,7 @@ const TABS: { key: TabKey; label: string; icon: typeof Trophy }[] = [
   { key: "teams", label: "球队", icon: Users },
   { key: "charts", label: "数据", icon: BarChart3 },
   { key: "report", label: "战报", icon: ScrollText },
+  { key: "gallery", label: "精彩瞬间", icon: Camera },
 ];
 
 export default function App() {
@@ -135,6 +137,7 @@ export default function App() {
           {tab === "teams" && <TeamCards groups={groups} matches={matches} scorers={scorers} />}
           {tab === "charts" && <Charts groups={groups} matches={matches} scorers={scorers} />}
           {tab === "report" && <MatchReport matches={matches} />}
+          {tab === "gallery" && <Gallery />}
         </main>
       )}
 
