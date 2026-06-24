@@ -1,4 +1,4 @@
-import type { ApiTeam, MatchRaw } from "../types/worldcup";
+import type { ApiTeam, MatchGoal, MatchRaw } from "../types/worldcup";
 import { groupLetter } from "./transform";
 import { teamZh } from "./teams";
 
@@ -26,6 +26,7 @@ export interface ReportItem {
   awayScore: number;
   tags: string[];
   headline: string;
+  goals?: MatchGoal[];
 }
 
 /** 由已完赛比赛生成中文战报（模板化，无需 LLM），按时间倒序 */
@@ -88,6 +89,7 @@ export function buildReports(matches: MatchRaw[]): ReportItem[] {
         awayScore: as,
         tags,
         headline,
+        goals: m.goals,
       };
     })
     .sort((x, y) => y.date.localeCompare(x.date));

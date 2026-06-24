@@ -40,7 +40,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 
   // 同步所有 4 个端点
   const endpoints = [
-    { type: "matches" as const, path: "/matches" },
+    { type: "matches" as const, path: "/matches?dateFrom=2026-06-10&dateTo=2026-07-20" },
     { type: "standings" as const, path: "/standings" },
     { type: "scorers" as const, path: "/scorers?limit=30" },
     { type: "teams" as const, path: "/teams" },

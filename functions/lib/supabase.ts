@@ -1,5 +1,5 @@
 import { createClient as createSupabaseClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { MatchRaw, MatchGoal } from "../../src/types/worldcup";
+import type { MatchRaw } from "../../src/types/worldcup";
 
 export type WcDataType = "standings" | "scorers" | "matches" | "teams";
 
@@ -66,46 +66,21 @@ export async function writeWcData(
   ]);
 }
 
-/** upsert 比赛列表到 wc_matches（智能保留已有 goals 数据） */
+/** upsert 比赛列表到 wc_matches（收费 API 直接含 goals，无需保留逻辑） */
 export async function writeWcMatches(
   sb: SupabaseClient,
   matches: MatchRaw[],
   source: "live" | "snapshot",
 ): Promise<void> {
-  // 先查询现有数据，找出有 goals 的记录
-  const matchIds = matches.map((m) => m.id);
-  const { data: existing } = await sb
-    .from("wc_matches")
-    .select("id, data")
-    .in("id", matchIds);
-
-  // 构建 id -> existingGoals 查找表
-  const existingGoals = new Map<number, MatchGoal[]>();
-  if (existing) {
-    for (const row of existing) {
-      const goals = (row.data as MatchRaw)?.goals;
-      if (goals && goals.length > 0) {
-        existingGoals.set(row.id, goals);
-      }
-    }
-  }
-
-  // 合并：live API 不含 goals，保留 Supabase 中已有的 goals
-  const rows = matches.map((m) => {
-    const prevGoals = existingGoals.get(m.id);
-    const mergedData: MatchRaw = (!m.goals?.length && prevGoals)
-      ? { ...m, goals: prevGoals }
-      : m;
-    return {
-      id: m.id,
-      data: mergedData,
-      home_team: m.homeTeam?.name ?? "",
-      away_team: m.awayTeam?.name ?? "",
-      status: m.status ?? "TIMED",
-      utc_date: m.utcDate ?? new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-  });
+  const rows = matches.map((m) => ({
+    id: m.id,
+    data: m,
+    home_team: m.homeTeam?.name ?? "",
+    away_team: m.awayTeam?.name ?? "",
+    status: m.status ?? "TIMED",
+    utc_date: m.utcDate ?? new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }));
 
   if (rows.length > 0) {
     await sb.from("wc_matches").upsert(rows, { onConflict: "id" });
@@ -114,93 +89,4 @@ export async function writeWcMatches(
     { type: "matches", last_sync_at: new Date().toISOString(), source },
     { onConflict: "type" },
   );
-}
-
-// ---- Goals 注入 ----
-
-/** 球队名称归一化（处理 live API 与快照名称差异） */
-function normTeam(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[- ]/g, "")
-    .replace(/bosnia.*?herzegovina/g, "bosnia")
-    .replace(/southkorea/g, "korea")
-    .replace(/^korea.*/, "korea")
-    .replace(/côte.*/, "ivorycoast")
-    .replace(/ivoorkust/, "ivorycoast")
-    .replace(/trinidad.*/, "trinidad")
-    .replace(/unitedstates.*/, "usa")
-    .replace(/deutschland/, "germany")
-    .replace(/brasil/, "brazil")
-    .replace(/españa/, "spain")
-    .replace(/türkiye/, "turkiye")
-    .replace(/curacao/, "curacao");
-}
-
-function matchKey(home: string, away: string): string {
-  return `${normTeam(home)}|${normTeam(away)}`;
-}
-
-/** 用 Supabase 中已存储的 goals 数据富化 live 比赛 */
-export async function injectSupabaseGoals(
-  sb: SupabaseClient,
-  matches: MatchRaw[],
-): Promise<void> {
-  // 找出需要补充 goals 的已完赛比赛
-  const needGoals = matches.filter(
-    (m) => m.status === "FINISHED" && !m.goals?.length,
-  );
-  if (needGoals.length === 0) return;
-
-  // 策略1: 按 match ID 匹配（live API 同步写入时 ID 一致）
-  const matchIds = needGoals.map((m) => m.id);
-  const { data: rows } = await sb
-    .from("wc_matches")
-    .select("id, data")
-    .in("id", matchIds);
-
-  if (rows && rows.length > 0) {
-    // 构建 id -> goals 查找表
-    const goalsMap = new Map<number, MatchGoal[]>();
-    for (const row of rows) {
-      const goals = (row.data as MatchRaw)?.goals;
-      if (goals && goals.length > 0) {
-        goalsMap.set(row.id, goals);
-      }
-    }
-    // 注入（ID 匹配成功的）
-    for (const m of needGoals) {
-      const goals = goalsMap.get(m.id);
-      if (goals) m.goals = goals;
-    }
-  }
-
-  // 策略2: ID 未匹配的，按球队名对匹配（快照 ID 1001-1072 vs live ID 537xxx）
-  const stillNeedGoals = needGoals.filter((m) => !m.goals?.length);
-  if (stillNeedGoals.length === 0) return;
-
-  // 查询所有有 goals 数据的 FINISHED 比赛
-  const { data: goalRows } = await sb
-    .from("wc_matches")
-    .select("home_team, away_team, data")
-    .eq("status", "FINISHED");
-
-  if (!goalRows || goalRows.length === 0) return;
-
-  // 构建 teamKey -> goals 查找表
-  const teamGoalsMap = new Map<string, MatchGoal[]>();
-  for (const row of goalRows) {
-    const goals = (row.data as MatchRaw)?.goals;
-    if (goals && goals.length > 0) {
-      const key = matchKey(row.home_team, row.away_team);
-      teamGoalsMap.set(key, goals);
-    }
-  }
-
-  // 按球队名注入
-  for (const m of stillNeedGoals) {
-    const key = matchKey(m.homeTeam?.name ?? "", m.awayTeam?.name ?? "");
-    const goals = teamGoalsMap.get(key);
-    if (goals) m.goals = goals;
-  }
 }

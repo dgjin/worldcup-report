@@ -30,7 +30,7 @@ const FD_BASE = "https://api.football-data.org/v4/competitions/WC";
 const ENDPOINTS: Record<WcDataType, string> = {
   standings: `${FD_BASE}/standings`,
   scorers: `${FD_BASE}/scorers?limit=30`,
-  matches: `${FD_BASE}/matches`,
+  matches: `${FD_BASE}/matches?dateFrom=2026-06-10&dateTo=2026-07-20`,
   teams: `${FD_BASE}/teams`,
 };
 const CACHE_TTL = 60_000;

@@ -5,7 +5,6 @@ import {
   readWcMatches,
   writeWcData,
   writeWcMatches,
-  injectSupabaseGoals,
   type WcDataType,
 } from "./supabase.js";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -18,7 +17,7 @@ const FD_BASE = "https://api.football-data.org/v4/competitions/WC";
 const PATHS: Record<WcDataType, string> = {
   standings: "/standings",
   scorers: "/scorers?limit=30",
-  matches: "/matches",
+  matches: "/matches?dateFrom=2026-06-10&dateTo=2026-07-20",
   teams: "/teams",
 };
 
@@ -52,16 +51,7 @@ export async function getWcData(
       });
       if (res.ok) {
         const data = (await res.json()) as Record<string, unknown>;
-        // 对 matches 端点用 Supabase goals 数据富化
-        if (type === "matches" && data.matches && sbConfig) {
-          try {
-            const sb = createClient(sbConfig.url, sbConfig.key);
-            await injectSupabaseGoals(sb, data.matches as MatchRaw[]);
-          } catch {
-            // Supabase goals 注入失败不影响响应
-          }
-        }
-        // fire-and-forget 写入 Supabase
+        // fire-and-forget 写入 Supabase（收费 API 已含 goals 数据）
         if (sbConfig) {
           try {
             const sb = createClient(sbConfig.url, sbConfig.key);

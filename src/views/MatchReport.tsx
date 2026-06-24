@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
-import type { SplitMatches } from "../types/worldcup";
+import type { MatchGoal, SplitMatches } from "../types/worldcup";
 import { buildReports, type ReportItem } from "../lib/report";
 import { dayLabel } from "../lib/format";
-import { teamZh } from "../lib/teams";
+import { teamZh, playerZh } from "../lib/teams";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
 
 function tagTone(tag: string): "default" | "hot" | "gold" | "cool" {
@@ -11,6 +11,45 @@ function tagTone(tag: string): "default" | "hot" | "gold" | "cool" {
   if (tag === "进球大战") return "cool";
   if (tag === "血洗" || tag === "大胜" || tag === "一球小胜") return "gold";
   return "default";
+}
+
+/** 进球详情列表 */
+function GoalList({ goals, homeId, awayId }: { goals?: MatchGoal[]; homeId: number; awayId: number }) {
+  if (!goals || goals.length === 0) return null;
+  const sorted = [...goals].sort((a, b) => a.minute - b.minute);
+  const home = sorted.filter((g) => g.team.id === homeId);
+  const away = sorted.filter((g) => g.team.id === awayId);
+  if (home.length === 0 && away.length === 0) return null;
+
+  const GoalLine = ({ g }: { g: MatchGoal }) => (
+    <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs">
+      <span className="font-medium tabular-nums text-muted/80">{g.minute}'</span>
+      <span className="text-ink/80">{playerZh(g.scorer.id, g.scorer.name)}</span>
+      {g.type === "PENALTY" && <span className="text-gold">(点)</span>}
+      {g.type === "OWN_GOAL" && <span className="text-primary-bright">(乌)</span>}
+    </span>
+  );
+
+  return (
+    <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 border-t border-line/30 pt-2">
+      <div className="space-y-0.5">
+        {home.map((g, i) => (
+          <div key={i} className="flex items-center gap-1">
+            <span className="text-pitch text-xs">⚽</span>
+            <GoalLine g={g} />
+          </div>
+        ))}
+      </div>
+      <div className="space-y-0.5 text-right">
+        {away.map((g, i) => (
+          <div key={i} className="flex items-center justify-end gap-1">
+            <GoalLine g={g} />
+            <span className="text-pitch text-xs">⚽</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function ReportCard({ item, index }: { item: ReportItem; index: number }) {
@@ -47,6 +86,7 @@ function ReportCard({ item, index }: { item: ReportItem; index: number }) {
             ))}
           </div>
         )}
+        <GoalList goals={item.goals} homeId={item.home.id} awayId={item.away.id} />
       </Card>
     </motion.div>
   );
