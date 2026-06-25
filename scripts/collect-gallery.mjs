@@ -144,9 +144,10 @@ async function collectApNews() {
         allPhotos.push({
           id: 400000 + allPhotos.length,
           src: {
-            large: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/1600x1067!/quality/90/?url=${encodeURIComponent(au)}`,
-            medium: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/800x533!/quality/90/?url=${encodeURIComponent(au)}`,
-            small: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/400x267!/quality/90/?url=${encodeURIComponent(au)}`,
+            // dims.apnews.com 有热链保护，直接使用 assets.apnews.com 原图
+            large: au,
+            medium: au,
+            small: au,
           },
           photographer,
           alt: `2026 世界杯精彩瞬间 (${photographer})`,

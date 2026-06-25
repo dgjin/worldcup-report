@@ -318,10 +318,10 @@ async function collectApNews(env: Env): Promise<{ ok: boolean; count: number; er
         allPhotos.push({
           id: 400000 + totalFetched,
           src: {
-            // 通过 dims 服务生成不同尺寸
-            large: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/1600x1067!/quality/90/?url=${encodeURIComponent(au.url)}`,
-            medium: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/800x533!/quality/90/?url=${encodeURIComponent(au.url)}`,
-            small: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/400x267!/quality/90/?url=${encodeURIComponent(au.url)}`,
+            // dims.apnews.com 有热链保护，直接使用 assets.apnews.com 原图
+            large: au.url,
+            medium: au.url,
+            small: au.url,
           },
           photographer,
           alt: `2026 世界杯精彩瞬间 (${photographer})`,
