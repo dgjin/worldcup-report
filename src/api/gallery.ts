@@ -14,6 +14,8 @@ export interface GalleryData {
   photos: GalleryPhoto[];
   next_page?: string;
   source?: "newsapi" | "abcnews";
+  collectedAt?: string;
+  stale?: boolean;
 }
 
 export interface GalleryState {
@@ -24,6 +26,10 @@ export interface GalleryState {
   hasMore: boolean;
   reload: () => void;
   source: "newsapi" | "abcnews" | null;
+  collectedAt: string | null;
+  stale: boolean;
+  refreshing: boolean;
+  refresh: () => void;
   /** 点赞数映射 { photoKey → likes } */
   likes: Record<string, number>;
   /** 点赞照片 */
@@ -33,9 +39,18 @@ export interface GalleryState {
 }
 
 async function fetchGallery(page: number, signal?: AbortSignal): Promise<GalleryData> {
-  const res = await fetch(`/api/wc/gallery?page=${page}`, { signal });
+  const res = await fetch(`/api/wc/gallery?page=${page}&_t=${Date.now()}`, { signal, cache: "no-store" });
   if (!res.ok) throw new Error(`Gallery API 返回 ${res.status}`);
   return (await res.json()) as GalleryData;
+}
+
+async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number }> {
+  const res = await fetch("/api/wc/gallery/refresh", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error(`刷新失败: HTTP ${res.status}`);
+  return (await res.json()) as GalleryData & { ok?: boolean; message?: string; total?: number };
 }
 
 async function fetchLikes(): Promise<Record<string, number>> {
@@ -63,13 +78,16 @@ export function getPhotoKey(photo: GalleryPhoto): string {
   return photo.src.medium.split("/").pop()?.split("?")[0] ?? String(photo.id);
 }
 
-/** 分页加载精彩瞬间照片 + 点赞数据 */
+/** 分页加载精彩瞬间照片 + 点赞数据 + 手动刷新 */
 export function useGallery(): GalleryState {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [source, setSource] = useState<"newsapi" | "abcnews" | null>(null);
+  const [collectedAt, setCollectedAt] = useState<string | null>(null);
+  const [stale, setStale] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [likes, setLikes] = useState<Record<string, number>>({});
   const [liking, setLiking] = useState<Record<string, boolean>>({});
   const pageRef = useRef(1);
@@ -92,6 +110,8 @@ export function useGallery(): GalleryState {
       setPhotos(prev => append ? [...prev, ...data.photos] : data.photos);
       setHasMore(Boolean(data.next_page));
       setSource(data.source ?? null);
+      setCollectedAt(data.collectedAt ?? null);
+      setStale(data.stale ?? false);
       setLikes(likeData);
       setError(null);
       pageRef.current = page;
@@ -125,6 +145,27 @@ export function useGallery(): GalleryState {
     load(1);
   }, [load]);
 
+  const refresh = useCallback(async () => {
+    if (refreshing) return;
+    setRefreshing(true);
+    try {
+      const data = await refreshGallery();
+      if (data.photos) {
+        setPhotos(data.photos);
+        setHasMore(Boolean(data.next_page));
+        setSource("abcnews");
+        setCollectedAt(data.collectedAt ?? new Date().toISOString());
+        setStale(false);
+        setError(null);
+        pageRef.current = 1;
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refreshing]);
+
   const likePhoto = useCallback(async (photo: GalleryPhoto) => {
     const pk = getPhotoKey(photo);
     if (liking[pk]) return; // 防重复
@@ -143,5 +184,5 @@ export function useGallery(): GalleryState {
     }
   }, [liking]);
 
-  return { photos, loading, error, loadMore, hasMore, reload, source, likes, likePhoto, liking };
+  return { photos, loading, error, loadMore, hasMore, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking };
 }

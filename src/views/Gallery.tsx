@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Camera, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Heart } from "lucide-react";
+import { Camera, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Heart, RefreshCw, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
@@ -243,8 +243,13 @@ function InfiniteScrollTrigger({ onInView, loading }: { onInView: () => void; lo
 }
 
 export default function Gallery() {
-  const { photos, loading, error, loadMore, hasMore, reload, source, likes, likePhoto, liking } = useGallery();
+  const { photos, loading, error, loadMore, hasMore, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking } = useGallery();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+
+  // 格式化更新时间
+  const updatedAt = collectedAt
+    ? new Date(collectedAt).toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })
+    : null;
 
   if (loading) return <Loader label="加载精彩瞬间…" />;
 
@@ -268,14 +273,35 @@ export default function Gallery() {
         kicker="GALLERY"
         title="精彩瞬间"
         right={
-          <button
-            onClick={reload}
-            className="text-xs text-muted hover:text-ink transition-colors"
-          >
-            刷新
-          </button>
+          <div className="flex items-center gap-2">
+            {updatedAt && (
+              <span className="text-[10px] text-muted/60">
+                更新于 {updatedAt}
+              </span>
+            )}
+            <button
+              onClick={refresh}
+              disabled={refreshing}
+              className={cn(
+                "flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium transition-colors",
+                refreshing
+                  ? "border-primary/30 bg-primary/10 text-primary/60"
+                  : "border-line/60 bg-surface/60 text-muted hover:border-primary/50 hover:text-ink",
+              )}
+            >
+              <RefreshCw className={cn("h-3 w-3", refreshing && "animate-spin")} />
+              {refreshing ? "更新中..." : "更新图片"}
+            </button>
+          </div>
         }
       />
+
+      {stale && !refreshing && (
+        <div className="flex items-center gap-1.5 rounded-lg border border-gold/30 bg-gold/[0.07] px-3 py-1.5 text-[11px] text-gold/80">
+          <AlertCircle className="h-3 w-3 shrink-0" />
+          图片数据已过期，正在后台自动更新。也可点击「更新图片」手动刷新。
+        </div>
+      )}
 
       {photos.length === 0 ? (
         <Card className="p-12 text-center">

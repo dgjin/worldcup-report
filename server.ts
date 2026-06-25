@@ -281,6 +281,29 @@ async function start() {
     res.status(502).json({ error: "所有图片源暂时不可用" });
   });
 
+  // ====== 精彩瞬间手动刷新 API ======
+  app.post("/api/wc/gallery/refresh", async (_req, res) => {
+    try {
+      const abcPhotos = await tryAbcNews();
+      if (!abcPhotos || abcPhotos.length === 0) {
+        res.status(502).json({ ok: false, error: "未能从 ABC News 获取图片" });
+        return;
+      }
+      const collectedAt = new Date().toISOString();
+      res.json({
+        ok: true,
+        message: `成功收集 ${abcPhotos.length} 张照片`,
+        collectedAt,
+        photos: abcPhotos.slice(0, 24),
+        next_page: abcPhotos.length > 24 ? "2" : undefined,
+        source: "abcnews",
+        total: abcPhotos.length,
+      });
+    } catch (e) {
+      res.status(500).json({ ok: false, error: (e as Error).message });
+    }
+  });
+
   // ====== 照片点赞 API ======
 
   app.get("/api/wc/gallery/likes", async (_req, res) => {

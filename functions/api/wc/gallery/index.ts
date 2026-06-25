@@ -33,7 +33,9 @@ const NEWS_QUERIES = [
   "世界杯+2026+足球+比赛",
 ];
 
-// ============ 策略 0: KV 缓存（Worker 每日自动收集） ============
+// ============ 策略 0: KV 缓存（自动刷新） ============
+const KV_TTL_MS = 24 * 60 * 60 * 1000; // 24 小时
+
 async function fetchFromKV(kv: KVNamespace): Promise<{ photos: GalleryPhoto[]; collectedAt: string } | null> {
   try {
     const raw = await kv.get("latest", "json");
@@ -43,6 +45,19 @@ async function fetchFromKV(kv: KVNamespace): Promise<{ photos: GalleryPhoto[]; c
     return data;
   } catch {
     return null;
+  }
+}
+
+/** 后台异步刷新 KV（不阻塞响应） */
+async function bgRefreshKV(kv: KVNamespace): Promise<void> {
+  try {
+    const photos = await fetchAbcNews();
+    if (photos && photos.length > 0) {
+      await kv.put("latest", JSON.stringify({ photos, collectedAt: new Date().toISOString() }));
+      console.log(`[gallery] KV 后台刷新成功，${photos.length} 张照片`);
+    }
+  } catch (e) {
+    console.error("[gallery] KV 后台刷新失败:", (e as Error).message);
   }
 }
 
@@ -133,10 +148,18 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 
   const headers = { "Content-Type": "application/json" };
 
-  // 策略 0: KV 缓存（Worker 每日自动采集，最快最稳定）
+  // 策略 0: KV 缓存（超过 24h 自动后台刷新）
   if (kv) {
     const cached = await fetchFromKV(kv);
     if (cached) {
+      const age = Date.now() - new Date(cached.collectedAt).getTime();
+      const isStale = age > KV_TTL_MS;
+
+      // KV 过期 → 后台异步刷新（不阻塞当前响应）
+      if (isStale) {
+        ctx.waitUntil(bgRefreshKV(kv));
+      }
+
       const start = (page - 1) * PER_PAGE;
       const slice = cached.photos.slice(start, start + PER_PAGE);
       return new Response(JSON.stringify({
@@ -144,6 +167,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
         next_page: start + PER_PAGE < cached.photos.length ? String(page + 1) : undefined,
         source: "abcnews",
         collectedAt: cached.collectedAt,
+        stale: isStale,
       }), {
         headers: {
           ...headers,
