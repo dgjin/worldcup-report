@@ -1,1 +1,5198 @@
-{"_meta":{"source":"snapshot","asOf":"2026-06-24","note":"赛果与积分为真实数据（截至 2026-06-23，交叉验证自 NBC/ESPN）；射手榜为示例数据，真·实时请配置 FOOTBALL_DATA_TOKEN。"},"competition":{"id":2000,"code":"WC","name":"FIFA World Cup","type":"CUP","emblem":"https://crests.football-data.org/qatar.png"},"standings":{"competition":{"id":2000,"code":"WC","name":"FIFA World Cup"},"season":{"id":2026,"startDate":"2026-06-11","endDate":"2026-07-19","currentMatchday":3},"standings":[{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_A","table":[{"position":1,"team":{"id":1,"name":"Mexico","tla":"MEX"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":3,"goalsAgainst":0,"goalDifference":3},{"position":2,"team":{"id":2,"name":"South Korea","tla":"KOR"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":2,"goalsAgainst":2,"goalDifference":0},{"position":3,"team":{"id":3,"name":"Czechia","tla":"CZE"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":2,"goalsAgainst":3,"goalDifference":-1},{"position":4,"team":{"id":4,"name":"South Africa","tla":"RSA"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":1,"goalsAgainst":3,"goalDifference":-2}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_B","table":[{"position":1,"team":{"id":5,"name":"Canada","tla":"CAN"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":7,"goalsAgainst":1,"goalDifference":6},{"position":2,"team":{"id":6,"name":"Switzerland","tla":"SUI"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":5,"goalsAgainst":2,"goalDifference":3},{"position":3,"team":{"id":7,"name":"Bosnia and Herzegovina","tla":"BIH"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":2,"goalsAgainst":5,"goalDifference":-3},{"position":4,"team":{"id":8,"name":"Qatar","tla":"QAT"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":1,"goalsAgainst":7,"goalDifference":-6}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_C","table":[{"position":1,"team":{"id":9,"name":"Brazil","tla":"BRA"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":4,"goalsAgainst":1,"goalDifference":3},{"position":2,"team":{"id":10,"name":"Morocco","tla":"MAR"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":2,"goalsAgainst":1,"goalDifference":1},{"position":3,"team":{"id":11,"name":"Scotland","tla":"SCO"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":1,"goalsAgainst":1,"goalDifference":0},{"position":4,"team":{"id":12,"name":"Haiti","tla":"HAI"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":0,"goalsAgainst":4,"goalDifference":-4}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_D","table":[{"position":1,"team":{"id":13,"name":"United States","tla":"USA"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":6,"goalsAgainst":1,"goalDifference":5},{"position":2,"team":{"id":14,"name":"Australia","tla":"AUS"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":2,"goalsAgainst":2,"goalDifference":0},{"position":3,"team":{"id":15,"name":"Paraguay","tla":"PAR"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":2,"goalsAgainst":4,"goalDifference":-2},{"position":4,"team":{"id":16,"name":"Türkiye","tla":"TUR"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":0,"goalsAgainst":3,"goalDifference":-3}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_E","table":[{"position":1,"team":{"id":17,"name":"Germany","tla":"GER"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":9,"goalsAgainst":2,"goalDifference":7},{"position":2,"team":{"id":18,"name":"Ivory Coast","tla":"CIV"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":2,"goalsAgainst":2,"goalDifference":0},{"position":3,"team":{"id":19,"name":"Ecuador","tla":"ECU"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":0,"goalsAgainst":1,"goalDifference":-1},{"position":4,"team":{"id":20,"name":"Curaçao","tla":"CUW"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":1,"goalsAgainst":7,"goalDifference":-6}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_F","table":[{"position":1,"team":{"id":21,"name":"Netherlands","tla":"NED"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":7,"goalsAgainst":3,"goalDifference":4},{"position":2,"team":{"id":22,"name":"Japan","tla":"JPN"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":6,"goalsAgainst":2,"goalDifference":4},{"position":3,"team":{"id":23,"name":"Sweden","tla":"SWE"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":6,"goalsAgainst":6,"goalDifference":0},{"position":4,"team":{"id":24,"name":"Tunisia","tla":"TUN"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":1,"goalsAgainst":9,"goalDifference":-8}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_G","table":[{"position":1,"team":{"id":25,"name":"Egypt","tla":"EGY"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":4,"goalsAgainst":2,"goalDifference":2},{"position":2,"team":{"id":26,"name":"Iran","tla":"IRN"},"playedGames":2,"form":null,"won":0,"draw":2,"lost":0,"points":2,"goalsFor":2,"goalsAgainst":2,"goalDifference":0},{"position":3,"team":{"id":27,"name":"Belgium","tla":"BEL"},"playedGames":2,"form":null,"won":0,"draw":2,"lost":0,"points":2,"goalsFor":1,"goalsAgainst":1,"goalDifference":0},{"position":4,"team":{"id":28,"name":"New Zealand","tla":"NZL"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":3,"goalsAgainst":5,"goalDifference":-2}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_H","table":[{"position":1,"team":{"id":29,"name":"Spain","tla":"ESP"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":4,"goalsAgainst":0,"goalDifference":4},{"position":2,"team":{"id":30,"name":"Uruguay","tla":"URU"},"playedGames":2,"form":null,"won":0,"draw":2,"lost":0,"points":2,"goalsFor":3,"goalsAgainst":3,"goalDifference":0},{"position":3,"team":{"id":31,"name":"Cape Verde","tla":"CPV"},"playedGames":2,"form":null,"won":0,"draw":2,"lost":0,"points":2,"goalsFor":2,"goalsAgainst":2,"goalDifference":0},{"position":4,"team":{"id":32,"name":"Saudi Arabia","tla":"KSA"},"playedGames":2,"form":null,"won":0,"draw":1,"lost":1,"points":1,"goalsFor":1,"goalsAgainst":5,"goalDifference":-4}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_I","table":[{"position":1,"team":{"id":33,"name":"France","tla":"FRA"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":6,"goalsAgainst":1,"goalDifference":5},{"position":2,"team":{"id":34,"name":"Norway","tla":"NOR"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":7,"goalsAgainst":3,"goalDifference":4},{"position":3,"team":{"id":35,"name":"Senegal","tla":"SEN"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":3,"goalsAgainst":6,"goalDifference":-3},{"position":4,"team":{"id":36,"name":"Iraq","tla":"IRQ"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":1,"goalsAgainst":7,"goalDifference":-6}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_J","table":[{"position":1,"team":{"id":37,"name":"Argentina","tla":"ARG"},"playedGames":2,"form":null,"won":2,"draw":0,"lost":0,"points":6,"goalsFor":5,"goalsAgainst":0,"goalDifference":5},{"position":2,"team":{"id":38,"name":"Austria","tla":"AUT"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":3,"goalsAgainst":3,"goalDifference":0},{"position":3,"team":{"id":40,"name":"Algeria","tla":"ALG"},"playedGames":2,"form":null,"won":1,"draw":0,"lost":1,"points":3,"goalsFor":2,"goalsAgainst":4,"goalDifference":-2},{"position":4,"team":{"id":39,"name":"Jordan","tla":"JOR"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":2,"goalsAgainst":5,"goalDifference":-3}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_K","table":[{"position":1,"team":{"id":43,"name":"Portugal","tla":"POR"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":6,"goalsAgainst":1,"goalDifference":5},{"position":2,"team":{"id":41,"name":"Colombia","tla":"COL"},"playedGames":1,"form":null,"won":1,"draw":0,"lost":0,"points":3,"goalsFor":3,"goalsAgainst":1,"goalDifference":2},{"position":3,"team":{"id":42,"name":"DR Congo","tla":"COD"},"playedGames":1,"form":null,"won":0,"draw":1,"lost":0,"points":1,"goalsFor":1,"goalsAgainst":1,"goalDifference":0},{"position":4,"team":{"id":44,"name":"Uzbekistan","tla":"UZB"},"playedGames":2,"form":null,"won":0,"draw":0,"lost":2,"points":0,"goalsFor":1,"goalsAgainst":8,"goalDifference":-7}]},{"stage":"GROUP_STAGE","type":"TOTAL","group":"GROUP_L","table":[{"position":1,"team":{"id":45,"name":"England","tla":"ENG"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":4,"goalsAgainst":2,"goalDifference":2},{"position":2,"team":{"id":46,"name":"Ghana","tla":"GHA"},"playedGames":2,"form":null,"won":1,"draw":1,"lost":0,"points":4,"goalsFor":1,"goalsAgainst":0,"goalDifference":1},{"position":3,"team":{"id":47,"name":"Panama","tla":"PAN"},"playedGames":1,"form":null,"won":0,"draw":0,"lost":1,"points":0,"goalsFor":0,"goalsAgainst":1,"goalDifference":-1},{"position":4,"team":{"id":48,"name":"Croatia","tla":"CRO"},"playedGames":1,"form":null,"won":0,"draw":0,"lost":1,"points":0,"goalsFor":2,"goalsAgainst":4,"goalDifference":-2}]}]},"scorers":{"count":18,"competition":{"id":2000,"code":"WC","name":"FIFA World Cup"},"scorers":[{"player":{"id":9000,"name":"Erling Haaland","nationality":"Norway"},"team":{"id":34,"name":"Norway","tla":"NOR"},"playedMatches":2,"goals":4,"assists":0,"penalties":0},{"player":{"id":9001,"name":"Kylian Mbappé","nationality":"France"},"team":{"id":33,"name":"France","tla":"FRA"},"playedMatches":2,"goals":4,"assists":0,"penalties":1},{"player":{"id":9002,"name":"Harry Kane","nationality":"England"},"team":{"id":45,"name":"England","tla":"ENG"},"playedMatches":2,"goals":3,"assists":0,"penalties":1},{"player":{"id":9003,"name":"Florian Wirtz","nationality":"Germany"},"team":{"id":17,"name":"Germany","tla":"GER"},"playedMatches":2,"goals":3,"assists":0,"penalties":0},{"player":{"id":9004,"name":"Niclas Füllkrug","nationality":"Germany"},"team":{"id":17,"name":"Germany","tla":"GER"},"playedMatches":2,"goals":3,"assists":0,"penalties":0},{"player":{"id":9005,"name":"Cody Gakpo","nationality":"Netherlands"},"team":{"id":21,"name":"Netherlands","tla":"NED"},"playedMatches":2,"goals":3,"assists":0,"penalties":0},{"player":{"id":9006,"name":"Lionel Messi","nationality":"Argentina"},"team":{"id":37,"name":"Argentina","tla":"ARG"},"playedMatches":2,"goals":3,"assists":0,"penalties":0},{"player":{"id":9007,"name":"Christian Pulisic","nationality":"United States"},"team":{"id":13,"name":"United States","tla":"USA"},"playedMatches":2,"goals":3,"assists":0,"penalties":1},{"player":{"id":9008,"name":"Takefusa Kubo","nationality":"Japan"},"team":{"id":22,"name":"Japan","tla":"JPN"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9009,"name":"Viktor Gyökeres","nationality":"Sweden"},"team":{"id":23,"name":"Sweden","tla":"SWE"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9010,"name":"Mohamed Salah","nationality":"Egypt"},"team":{"id":25,"name":"Egypt","tla":"EGY"},"playedMatches":2,"goals":2,"assists":0,"penalties":1},{"player":{"id":9011,"name":"Vinícius Júnior","nationality":"Brazil"},"team":{"id":9,"name":"Brazil","tla":"BRA"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9012,"name":"Julián Álvarez","nationality":"Argentina"},"team":{"id":37,"name":"Argentina","tla":"ARG"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9013,"name":"Folarin Balogun","nationality":"United States"},"team":{"id":13,"name":"United States","tla":"USA"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9014,"name":"Memphis Depay","nationality":"Netherlands"},"team":{"id":21,"name":"Netherlands","tla":"NED"},"playedMatches":2,"goals":2,"assists":0,"penalties":0},{"player":{"id":9015,"name":"Hakim Ziyech","nationality":"Morocco"},"team":{"id":10,"name":"Morocco","tla":"MAR"},"playedMatches":2,"goals":2,"assists":0,"penalties":1},{"player":{"id":9016,"name":"Dušan Vlahović","nationality":"Croatia"},"team":{"id":48,"name":"Croatia","tla":"CRO"},"playedMatches":2,"goals":1,"assists":0,"penalties":0},{"player":{"id":9017,"name":"Bruno Fernandes","nationality":"Portugal"},"team":{"id":43,"name":"Portugal","tla":"POR"},"playedMatches":2,"goals":1,"assists":0,"penalties":1}]},"matches":{"competition":{"id":2000,"code":"WC","name":"FIFA World Cup"},"resultSet":{"count":72},"matches":[{"id":1001,"utcDate":"2026-06-13T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":1,"name":"Mexico","tla":"MEX"},"awayTeam":{"id":4,"name":"South Africa","tla":"RSA"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":0}},"goals":[]},{"id":1002,"utcDate":"2026-06-13T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":2,"name":"South Korea","tla":"KOR"},"awayTeam":{"id":3,"name":"Czechia","tla":"CZE"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":1}},"goals":[]},{"id":1003,"utcDate":"2026-06-19T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":3,"name":"Czechia","tla":"CZE"},"awayTeam":{"id":4,"name":"South Africa","tla":"RSA"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}},"goals":[]},{"id":1004,"utcDate":"2026-06-19T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":1,"name":"Mexico","tla":"MEX"},"awayTeam":{"id":2,"name":"South Korea","tla":"KOR"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":1,"away":0}},"goals":[]},{"id":1005,"utcDate":"2026-06-13T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":6,"name":"Switzerland","tla":"SUI"},"awayTeam":{"id":7,"name":"Bosnia and Herzegovina","tla":"BIH"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":4,"away":1}},"goals":[]},{"id":1006,"utcDate":"2026-06-13T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":5,"name":"Canada","tla":"CAN"},"awayTeam":{"id":8,"name":"Qatar","tla":"QAT"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":6,"away":0}},"goals":[]},{"id":1007,"utcDate":"2026-06-19T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":5,"name":"Canada","tla":"CAN"},"awayTeam":{"id":7,"name":"Bosnia and Herzegovina","tla":"BIH"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}},"goals":[]},{"id":1008,"utcDate":"2026-06-19T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":8,"name":"Qatar","tla":"QAT"},"awayTeam":{"id":6,"name":"Switzerland","tla":"SUI"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}},"goals":[]},{"id":1009,"utcDate":"2026-06-14T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":9,"name":"Brazil","tla":"BRA"},"awayTeam":{"id":10,"name":"Morocco","tla":"MAR"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}},"goals":[]},{"id":1010,"utcDate":"2026-06-14T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":12,"name":"Haiti","tla":"HAI"},"awayTeam":{"id":11,"name":"Scotland","tla":"SCO"},"score":{"winner":"AWAY_TEAM","duration":"REGULAR","fullTime":{"home":0,"away":1}},"goals":[]},{"id":1011,"utcDate":"2026-06-20T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":11,"name":"Scotland","tla":"SCO"},"awayTeam":{"id":10,"name":"Morocco","tla":"MAR"},"score":{"winner":"AWAY_TEAM","duration":"REGULAR","fullTime":{"home":0,"away":1}},"goals":[]},{"id":1012,"utcDate":"2026-06-20T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":9,"name":"Brazil","tla":"BRA"},"awayTeam":{"id":12,"name":"Haiti","tla":"HAI"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":0}},"goals":[]},{"id":1013,"utcDate":"2026-06-12T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":13,"name":"United States","tla":"USA"},"awayTeam":{"id":15,"name":"Paraguay","tla":"PAR"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":4,"away":1}},"goals":[]},{"id":1014,"utcDate":"2026-06-14T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":14,"name":"Australia","tla":"AUS"},"awayTeam":{"id":16,"name":"Türkiye","tla":"TUR"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":0}},"goals":[]},{"id":1015,"utcDate":"2026-06-18T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":13,"name":"United States","tla":"USA"},"awayTeam":{"id":14,"name":"Australia","tla":"AUS"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":0}},"goals":[]},{"id":1016,"utcDate":"2026-06-18T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":16,"name":"Türkiye","tla":"TUR"},"awayTeam":{"id":15,"name":"Paraguay","tla":"PAR"},"score":{"winner":"AWAY_TEAM","duration":"REGULAR","fullTime":{"home":0,"away":1}}},{"id":1017,"utcDate":"2026-06-15T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":17,"name":"Germany","tla":"GER"},"awayTeam":{"id":20,"name":"Curaçao","tla":"CUW"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":7,"away":1}}},{"id":1018,"utcDate":"2026-06-15T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":18,"name":"Ivory Coast","tla":"CIV"},"awayTeam":{"id":19,"name":"Ecuador","tla":"ECU"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":1,"away":0}}},{"id":1019,"utcDate":"2026-06-21T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":17,"name":"Germany","tla":"GER"},"awayTeam":{"id":18,"name":"Ivory Coast","tla":"CIV"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":1}}},{"id":1020,"utcDate":"2026-06-21T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":19,"name":"Ecuador","tla":"ECU"},"awayTeam":{"id":20,"name":"Curaçao","tla":"CUW"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":0,"away":0}}},{"id":1021,"utcDate":"2026-06-15T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":21,"name":"Netherlands","tla":"NED"},"awayTeam":{"id":22,"name":"Japan","tla":"JPN"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":2,"away":2}}},{"id":1022,"utcDate":"2026-06-15T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":23,"name":"Sweden","tla":"SWE"},"awayTeam":{"id":24,"name":"Tunisia","tla":"TUN"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":5,"away":1}}},{"id":1023,"utcDate":"2026-06-21T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":21,"name":"Netherlands","tla":"NED"},"awayTeam":{"id":23,"name":"Sweden","tla":"SWE"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":5,"away":1}}},{"id":1024,"utcDate":"2026-06-21T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":22,"name":"Japan","tla":"JPN"},"awayTeam":{"id":24,"name":"Tunisia","tla":"TUN"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":4,"away":0}}},{"id":1025,"utcDate":"2026-06-16T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":27,"name":"Belgium","tla":"BEL"},"awayTeam":{"id":25,"name":"Egypt","tla":"EGY"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}}},{"id":1026,"utcDate":"2026-06-16T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":26,"name":"Iran","tla":"IRN"},"awayTeam":{"id":28,"name":"New Zealand","tla":"NZL"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":2,"away":2}}},{"id":1027,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":27,"name":"Belgium","tla":"BEL"},"awayTeam":{"id":26,"name":"Iran","tla":"IRN"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":0,"away":0}}},{"id":1028,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":28,"name":"New Zealand","tla":"NZL"},"awayTeam":{"id":25,"name":"Egypt","tla":"EGY"},"score":{"winner":"AWAY_TEAM","duration":"REGULAR","fullTime":{"home":1,"away":3}}},{"id":1029,"utcDate":"2026-06-16T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":29,"name":"Spain","tla":"ESP"},"awayTeam":{"id":31,"name":"Cape Verde","tla":"CPV"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":0,"away":0}}},{"id":1030,"utcDate":"2026-06-16T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":32,"name":"Saudi Arabia","tla":"KSA"},"awayTeam":{"id":30,"name":"Uruguay","tla":"URU"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}}},{"id":1031,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":29,"name":"Spain","tla":"ESP"},"awayTeam":{"id":32,"name":"Saudi Arabia","tla":"KSA"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":4,"away":0}}},{"id":1032,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":30,"name":"Uruguay","tla":"URU"},"awayTeam":{"id":31,"name":"Cape Verde","tla":"CPV"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":2,"away":2}}},{"id":1033,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":33,"name":"France","tla":"FRA"},"awayTeam":{"id":35,"name":"Senegal","tla":"SEN"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":1}}},{"id":1034,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":36,"name":"Iraq","tla":"IRQ"},"awayTeam":{"id":34,"name":"Norway","tla":"NOR"},"score":{"winner":"AWAY_TEAM","duration":"REGULAR","fullTime":{"home":1,"away":4}}},{"id":1035,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":33,"name":"France","tla":"FRA"},"awayTeam":{"id":36,"name":"Iraq","tla":"IRQ"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":0}}},{"id":1036,"utcDate":"2026-06-23T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":34,"name":"Norway","tla":"NOR"},"awayTeam":{"id":35,"name":"Senegal","tla":"SEN"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":2}},"goals":[]},{"id":1037,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":37,"name":"Argentina","tla":"ARG"},"awayTeam":{"id":40,"name":"Algeria","tla":"ALG"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":0}}},{"id":1038,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":38,"name":"Austria","tla":"AUT"},"awayTeam":{"id":39,"name":"Jordan","tla":"JOR"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":1}}},{"id":1039,"utcDate":"2026-06-22T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":37,"name":"Argentina","tla":"ARG"},"awayTeam":{"id":38,"name":"Austria","tla":"AUT"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":0}}},{"id":1040,"utcDate":"2026-06-23T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":40,"name":"Algeria","tla":"ALG"},"awayTeam":{"id":39,"name":"Jordan","tla":"JOR"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":2,"away":1}},"goals":[]},{"id":1041,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":41,"name":"Colombia","tla":"COL"},"awayTeam":{"id":44,"name":"Uzbekistan","tla":"UZB"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":3,"away":1}}},{"id":1042,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":43,"name":"Portugal","tla":"POR"},"awayTeam":{"id":42,"name":"DR Congo","tla":"COD"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":1,"away":1}}},{"id":1043,"utcDate":"2026-06-23T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":43,"name":"Portugal","tla":"POR"},"awayTeam":{"id":44,"name":"Uzbekistan","tla":"UZB"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":5,"away":0}},"goals":[]},{"id":1044,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":45,"name":"England","tla":"ENG"},"awayTeam":{"id":48,"name":"Croatia","tla":"CRO"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":4,"away":2}}},{"id":1045,"utcDate":"2026-06-17T12:00:00Z","status":"FINISHED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":46,"name":"Ghana","tla":"GHA"},"awayTeam":{"id":47,"name":"Panama","tla":"PAN"},"score":{"winner":"HOME_TEAM","duration":"REGULAR","fullTime":{"home":1,"away":0}}},{"id":1046,"utcDate":"2026-06-23T12:00:00Z","status":"FINISHED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":45,"name":"England","tla":"ENG"},"awayTeam":{"id":46,"name":"Ghana","tla":"GHA"},"score":{"winner":"DRAW","duration":"REGULAR","fullTime":{"home":0,"away":0}}},{"id":1047,"utcDate":"2026-06-23T12:00:00Z","status":"TIMED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":41,"name":"Colombia","tla":"COL"},"awayTeam":{"id":42,"name":"DR Congo","tla":"COD"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1048,"utcDate":"2026-06-23T12:00:00Z","status":"TIMED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":47,"name":"Panama","tla":"PAN"},"awayTeam":{"id":48,"name":"Croatia","tla":"CRO"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1049,"utcDate":"2026-06-24T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":1,"name":"Mexico","tla":"MEX"},"awayTeam":{"id":3,"name":"Czechia","tla":"CZE"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1050,"utcDate":"2026-06-24T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_A","homeTeam":{"id":2,"name":"South Korea","tla":"KOR"},"awayTeam":{"id":4,"name":"South Africa","tla":"RSA"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1051,"utcDate":"2026-06-24T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":5,"name":"Canada","tla":"CAN"},"awayTeam":{"id":6,"name":"Switzerland","tla":"SUI"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1052,"utcDate":"2026-06-24T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_B","homeTeam":{"id":7,"name":"Bosnia and Herzegovina","tla":"BIH"},"awayTeam":{"id":8,"name":"Qatar","tla":"QAT"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1053,"utcDate":"2026-06-25T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":9,"name":"Brazil","tla":"BRA"},"awayTeam":{"id":11,"name":"Scotland","tla":"SCO"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1054,"utcDate":"2026-06-25T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_C","homeTeam":{"id":10,"name":"Morocco","tla":"MAR"},"awayTeam":{"id":12,"name":"Haiti","tla":"HAI"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1055,"utcDate":"2026-06-25T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":13,"name":"United States","tla":"USA"},"awayTeam":{"id":16,"name":"Türkiye","tla":"TUR"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1056,"utcDate":"2026-06-25T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_D","homeTeam":{"id":14,"name":"Australia","tla":"AUS"},"awayTeam":{"id":15,"name":"Paraguay","tla":"PAR"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1057,"utcDate":"2026-06-26T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":17,"name":"Germany","tla":"GER"},"awayTeam":{"id":19,"name":"Ecuador","tla":"ECU"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1058,"utcDate":"2026-06-26T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_E","homeTeam":{"id":18,"name":"Ivory Coast","tla":"CIV"},"awayTeam":{"id":20,"name":"Curaçao","tla":"CUW"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1059,"utcDate":"2026-06-26T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":21,"name":"Netherlands","tla":"NED"},"awayTeam":{"id":24,"name":"Tunisia","tla":"TUN"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1060,"utcDate":"2026-06-26T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_F","homeTeam":{"id":22,"name":"Japan","tla":"JPN"},"awayTeam":{"id":23,"name":"Sweden","tla":"SWE"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1061,"utcDate":"2026-06-27T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":27,"name":"Belgium","tla":"BEL"},"awayTeam":{"id":28,"name":"New Zealand","tla":"NZL"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1062,"utcDate":"2026-06-27T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_G","homeTeam":{"id":26,"name":"Iran","tla":"IRN"},"awayTeam":{"id":25,"name":"Egypt","tla":"EGY"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1063,"utcDate":"2026-06-27T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":29,"name":"Spain","tla":"ESP"},"awayTeam":{"id":30,"name":"Uruguay","tla":"URU"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1064,"utcDate":"2026-06-27T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_H","homeTeam":{"id":31,"name":"Cape Verde","tla":"CPV"},"awayTeam":{"id":32,"name":"Saudi Arabia","tla":"KSA"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1065,"utcDate":"2026-06-28T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":33,"name":"France","tla":"FRA"},"awayTeam":{"id":34,"name":"Norway","tla":"NOR"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1066,"utcDate":"2026-06-28T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_I","homeTeam":{"id":35,"name":"Senegal","tla":"SEN"},"awayTeam":{"id":36,"name":"Iraq","tla":"IRQ"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1067,"utcDate":"2026-06-28T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":37,"name":"Argentina","tla":"ARG"},"awayTeam":{"id":39,"name":"Jordan","tla":"JOR"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1068,"utcDate":"2026-06-28T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_J","homeTeam":{"id":38,"name":"Austria","tla":"AUT"},"awayTeam":{"id":40,"name":"Algeria","tla":"ALG"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1069,"utcDate":"2026-06-29T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":41,"name":"Colombia","tla":"COL"},"awayTeam":{"id":43,"name":"Portugal","tla":"POR"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1070,"utcDate":"2026-06-29T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_K","homeTeam":{"id":44,"name":"Uzbekistan","tla":"UZB"},"awayTeam":{"id":42,"name":"DR Congo","tla":"COD"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1071,"utcDate":"2026-06-29T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":45,"name":"England","tla":"ENG"},"awayTeam":{"id":47,"name":"Panama","tla":"PAN"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}},{"id":1072,"utcDate":"2026-06-29T12:00:00Z","status":"TIMED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_L","homeTeam":{"id":48,"name":"Croatia","tla":"CRO"},"awayTeam":{"id":46,"name":"Ghana","tla":"GHA"},"score":{"winner":null,"duration":"REGULAR","fullTime":{"home":null,"away":null}}}]}}
+{
+  "_meta": {
+    "source": "football-data.org API",
+    "asOf": "2026-06-25",
+    "note": "比赛赛果、积分、射手数据全部来自 football-data.org 官方 API；进球事件详情来自 football-iq.app / sportsmole 等赛报源。"
+  },
+  "competition": {
+    "id": 2000,
+    "code": "WC",
+    "name": "FIFA World Cup",
+    "type": "CUP",
+    "emblem": "https://crests.football-data.org/wm26.png"
+  },
+  "standings": {
+    "competition": {
+      "id": 2000,
+      "code": "WC",
+      "name": "FIFA World Cup"
+    },
+    "season": {
+      "id": 2026,
+      "startDate": "2026-06-11",
+      "endDate": "2026-07-19",
+      "currentMatchday": 3
+    },
+    "standings": [
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_A",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 769,
+              "name": "Mexico",
+              "tla": "MEX"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 3,
+            "draw": 0,
+            "lost": 0,
+            "points": 9,
+            "goalsFor": 6,
+            "goalsAgainst": 0,
+            "goalDifference": 6
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 774,
+              "name": "South Africa",
+              "tla": "RSA"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 1,
+            "points": 4,
+            "goalsFor": 2,
+            "goalsAgainst": 3,
+            "goalDifference": -1
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 772,
+              "name": "South Korea",
+              "tla": "KOR"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 2,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 3,
+            "goalDifference": -1
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 798,
+              "name": "Czechia",
+              "tla": "CZE"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 2,
+            "points": 1,
+            "goalsFor": 2,
+            "goalsAgainst": 6,
+            "goalDifference": -4
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_B",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 788,
+              "name": "Switzerland",
+              "tla": "SUI"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 2,
+            "draw": 1,
+            "lost": 0,
+            "points": 7,
+            "goalsFor": 7,
+            "goalsAgainst": 3,
+            "goalDifference": 4
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 828,
+              "name": "Canada",
+              "tla": "CAN"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 1,
+            "points": 4,
+            "goalsFor": 8,
+            "goalsAgainst": 3,
+            "goalDifference": 5
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 1060,
+              "name": "Bosnia-Herzegovina",
+              "tla": "BIH"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 1,
+            "points": 4,
+            "goalsFor": 5,
+            "goalsAgainst": 6,
+            "goalDifference": -1
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 8030,
+              "name": "Qatar",
+              "tla": "QAT"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 2,
+            "points": 1,
+            "goalsFor": 2,
+            "goalsAgainst": 10,
+            "goalDifference": -8
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_C",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 764,
+              "name": "Brazil",
+              "tla": "BRA"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 2,
+            "draw": 1,
+            "lost": 0,
+            "points": 7,
+            "goalsFor": 7,
+            "goalsAgainst": 1,
+            "goalDifference": 6
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 815,
+              "name": "Morocco",
+              "tla": "MAR"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 2,
+            "draw": 1,
+            "lost": 0,
+            "points": 7,
+            "goalsFor": 6,
+            "goalsAgainst": 3,
+            "goalDifference": 3
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 8873,
+              "name": "Scotland",
+              "tla": "SCO"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 2,
+            "points": 3,
+            "goalsFor": 1,
+            "goalsAgainst": 4,
+            "goalDifference": -3
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 836,
+              "name": "Haiti",
+              "tla": "HAI"
+            },
+            "playedGames": 3,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 3,
+            "points": 0,
+            "goalsFor": 2,
+            "goalsAgainst": 8,
+            "goalDifference": -6
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_D",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 771,
+              "name": "United States",
+              "tla": "USA"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 6,
+            "goalsAgainst": 1,
+            "goalDifference": 5
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 779,
+              "name": "Australia",
+              "tla": "AUS"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 2,
+            "goalDifference": 0
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 761,
+              "name": "Paraguay",
+              "tla": "PAR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 4,
+            "goalDifference": -2
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 803,
+              "name": "Turkey",
+              "tla": "TUR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 3,
+            "goalDifference": -3
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_E",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 759,
+              "name": "Germany",
+              "tla": "GER"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 9,
+            "goalsAgainst": 2,
+            "goalDifference": 7
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 1935,
+              "name": "Ivory Coast",
+              "tla": "CIV"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 2,
+            "goalDifference": 0
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 791,
+              "name": "Ecuador",
+              "tla": "ECU"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 1,
+            "points": 1,
+            "goalsFor": 0,
+            "goalsAgainst": 1,
+            "goalDifference": -1
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 9460,
+              "name": "Curaçao",
+              "tla": "CUW"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 1,
+            "points": 1,
+            "goalsFor": 1,
+            "goalsAgainst": 7,
+            "goalDifference": -6
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_F",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 8601,
+              "name": "Netherlands",
+              "tla": "NED"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 7,
+            "goalsAgainst": 3,
+            "goalDifference": 4
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 766,
+              "name": "Japan",
+              "tla": "JPN"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 6,
+            "goalsAgainst": 2,
+            "goalDifference": 4
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 792,
+              "name": "Sweden",
+              "tla": "SWE"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 6,
+            "goalsAgainst": 6,
+            "goalDifference": 0
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 802,
+              "name": "Tunisia",
+              "tla": "TUN"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 1,
+            "goalsAgainst": 9,
+            "goalDifference": -8
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_G",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 825,
+              "name": "Egypt",
+              "tla": "EGY"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 2,
+            "goalDifference": 2
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 840,
+              "name": "Iran",
+              "tla": "IRN"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 2,
+            "lost": 0,
+            "points": 2,
+            "goalsFor": 2,
+            "goalsAgainst": 2,
+            "goalDifference": 0
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 805,
+              "name": "Belgium",
+              "tla": "BEL"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 2,
+            "lost": 0,
+            "points": 2,
+            "goalsFor": 1,
+            "goalsAgainst": 1,
+            "goalDifference": 0
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 783,
+              "name": "New Zealand",
+              "tla": "NZL"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 1,
+            "points": 1,
+            "goalsFor": 3,
+            "goalsAgainst": 5,
+            "goalDifference": -2
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_H",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 760,
+              "name": "Spain",
+              "tla": "ESP"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 0,
+            "goalDifference": 4
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 758,
+              "name": "Uruguay",
+              "tla": "URU"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 2,
+            "lost": 0,
+            "points": 2,
+            "goalsFor": 3,
+            "goalsAgainst": 3,
+            "goalDifference": 0
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 1930,
+              "name": "Cape Verde Islands",
+              "tla": "CPV"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 2,
+            "lost": 0,
+            "points": 2,
+            "goalsFor": 2,
+            "goalsAgainst": 2,
+            "goalDifference": 0
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 801,
+              "name": "Saudi Arabia",
+              "tla": "KSA"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 1,
+            "points": 1,
+            "goalsFor": 1,
+            "goalsAgainst": 5,
+            "goalDifference": -4
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_I",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 773,
+              "name": "France",
+              "tla": "FRA"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 6,
+            "goalsAgainst": 1,
+            "goalDifference": 5
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 8872,
+              "name": "Norway",
+              "tla": "NOR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 7,
+            "goalsAgainst": 3,
+            "goalDifference": 4
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 804,
+              "name": "Senegal",
+              "tla": "SEN"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 3,
+            "goalsAgainst": 6,
+            "goalDifference": -3
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 8062,
+              "name": "Iraq",
+              "tla": "IRQ"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 1,
+            "goalsAgainst": 7,
+            "goalDifference": -6
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_J",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 762,
+              "name": "Argentina",
+              "tla": "ARG"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 5,
+            "goalsAgainst": 0,
+            "goalDifference": 5
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 816,
+              "name": "Austria",
+              "tla": "AUT"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 3,
+            "goalsAgainst": 3,
+            "goalDifference": 0
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 778,
+              "name": "Algeria",
+              "tla": "ALG"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 2,
+            "goalsAgainst": 4,
+            "goalDifference": -2
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 8049,
+              "name": "Jordan",
+              "tla": "JOR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 2,
+            "goalsAgainst": 5,
+            "goalDifference": -3
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_K",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 818,
+              "name": "Colombia",
+              "tla": "COL"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 2,
+            "draw": 0,
+            "lost": 0,
+            "points": 6,
+            "goalsFor": 4,
+            "goalsAgainst": 1,
+            "goalDifference": 3
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 765,
+              "name": "Portugal",
+              "tla": "POR"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 6,
+            "goalsAgainst": 1,
+            "goalDifference": 5
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 1934,
+              "name": "Congo DR",
+              "tla": "COD"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 1,
+            "lost": 1,
+            "points": 1,
+            "goalsFor": 1,
+            "goalsAgainst": 2,
+            "goalDifference": -1
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 8070,
+              "name": "Uzbekistan",
+              "tla": "UZB"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 1,
+            "goalsAgainst": 8,
+            "goalDifference": -7
+          }
+        ]
+      },
+      {
+        "stage": "GROUP_STAGE",
+        "type": "TOTAL",
+        "group": "GROUP_L",
+        "table": [
+          {
+            "position": 1,
+            "team": {
+              "id": 770,
+              "name": "England",
+              "tla": "ENG"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 4,
+            "goalsAgainst": 2,
+            "goalDifference": 2
+          },
+          {
+            "position": 2,
+            "team": {
+              "id": 763,
+              "name": "Ghana",
+              "tla": "GHA"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 1,
+            "lost": 0,
+            "points": 4,
+            "goalsFor": 1,
+            "goalsAgainst": 0,
+            "goalDifference": 1
+          },
+          {
+            "position": 3,
+            "team": {
+              "id": 799,
+              "name": "Croatia",
+              "tla": "CRO"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 1,
+            "draw": 0,
+            "lost": 1,
+            "points": 3,
+            "goalsFor": 3,
+            "goalsAgainst": 4,
+            "goalDifference": -1
+          },
+          {
+            "position": 4,
+            "team": {
+              "id": 1836,
+              "name": "Panama",
+              "tla": "PAN"
+            },
+            "playedGames": 2,
+            "form": null,
+            "won": 0,
+            "draw": 0,
+            "lost": 2,
+            "points": 0,
+            "goalsFor": 0,
+            "goalsAgainst": 2,
+            "goalDifference": -2
+          }
+        ]
+      }
+    ]
+  },
+  "scorers": {
+    "count": 30,
+    "competition": {
+      "id": 2000,
+      "code": "WC",
+      "name": "FIFA World Cup"
+    },
+    "scorers": [
+      {
+        "player": {
+          "id": 9000,
+          "name": "Lionel Messi",
+          "nationality": "Argentina"
+        },
+        "team": {
+          "id": 762,
+          "name": "Argentina",
+          "tla": "ARG"
+        },
+        "playedMatches": 2,
+        "goals": 5,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9001,
+          "name": "Vinicius Junior",
+          "nationality": "Brazil"
+        },
+        "team": {
+          "id": 764,
+          "name": "Brazil",
+          "tla": "BRA"
+        },
+        "playedMatches": 2,
+        "goals": 4,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9002,
+          "name": "Kylian Mbappé",
+          "nationality": "France"
+        },
+        "team": {
+          "id": 773,
+          "name": "France",
+          "tla": "FRA"
+        },
+        "playedMatches": 2,
+        "goals": 4,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9003,
+          "name": "Erling Haaland",
+          "nationality": "Norway"
+        },
+        "team": {
+          "id": 8872,
+          "name": "Norway",
+          "tla": "NOR"
+        },
+        "playedMatches": 2,
+        "goals": 4,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9004,
+          "name": "Ismael Saibari",
+          "nationality": "Morocco"
+        },
+        "team": {
+          "id": 815,
+          "name": "Morocco",
+          "tla": "MAR"
+        },
+        "playedMatches": 2,
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9005,
+          "name": "Deniz Undav",
+          "nationality": "Germany"
+        },
+        "team": {
+          "id": 759,
+          "name": "Germany",
+          "tla": "GER"
+        },
+        "playedMatches": 2,
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9006,
+          "name": "Johan Manzambi",
+          "nationality": "Switzerland"
+        },
+        "team": {
+          "id": 788,
+          "name": "Switzerland",
+          "tla": "SUI"
+        },
+        "playedMatches": 2,
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9007,
+          "name": "Jonathan David",
+          "nationality": "Canada"
+        },
+        "team": {
+          "id": 828,
+          "name": "Canada",
+          "tla": "CAN"
+        },
+        "playedMatches": 2,
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9008,
+          "name": "Matheus Cunha",
+          "nationality": "Brazil"
+        },
+        "team": {
+          "id": 764,
+          "name": "Brazil",
+          "tla": "BRA"
+        },
+        "playedMatches": 2,
+        "goals": 3,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9009,
+          "name": "Julián Quiñones",
+          "nationality": "Mexico"
+        },
+        "team": {
+          "id": 769,
+          "name": "Mexico",
+          "tla": "MEX"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9010,
+          "name": "Cyle Larin",
+          "nationality": "Canada"
+        },
+        "team": {
+          "id": 828,
+          "name": "Canada",
+          "tla": "CAN"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9011,
+          "name": "Folarin Balogun",
+          "nationality": "United States"
+        },
+        "team": {
+          "id": 771,
+          "name": "United States",
+          "tla": "USA"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9012,
+          "name": "Kai Havertz",
+          "nationality": "Germany"
+        },
+        "team": {
+          "id": 759,
+          "name": "Germany",
+          "tla": "GER"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 1
+      },
+      {
+        "player": {
+          "id": 9013,
+          "name": "Crysencio Summerville",
+          "nationality": "Netherlands"
+        },
+        "team": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9014,
+          "name": "Daichi Kamada",
+          "nationality": "Japan"
+        },
+        "team": {
+          "id": 766,
+          "name": "Japan",
+          "tla": "JPN"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9015,
+          "name": "Yasin Ayari",
+          "nationality": "Sweden"
+        },
+        "team": {
+          "id": 792,
+          "name": "Sweden",
+          "tla": "SWE"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9016,
+          "name": "Maximiliano Araújo",
+          "nationality": "Uruguay"
+        },
+        "team": {
+          "id": 758,
+          "name": "Uruguay",
+          "tla": "URU"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9017,
+          "name": "Elijah Just",
+          "nationality": "New Zealand"
+        },
+        "team": {
+          "id": 783,
+          "name": "New Zealand",
+          "tla": "NZL"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9018,
+          "name": "Harry Kane",
+          "nationality": "England"
+        },
+        "team": {
+          "id": 770,
+          "name": "England",
+          "tla": "ENG"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 1
+      },
+      {
+        "player": {
+          "id": 9019,
+          "name": "Daniel Muñoz",
+          "nationality": "Colombia"
+        },
+        "team": {
+          "id": 818,
+          "name": "Colombia",
+          "tla": "COL"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9020,
+          "name": "Ruben Vargas",
+          "nationality": "Switzerland"
+        },
+        "team": {
+          "id": 788,
+          "name": "Switzerland",
+          "tla": "SUI"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9021,
+          "name": "Ermin Mahmic",
+          "nationality": "Bosnia-Herzegovina"
+        },
+        "team": {
+          "id": 1060,
+          "name": "Bosnia-Herzegovina",
+          "tla": "BIH"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9022,
+          "name": "Brian Brobbey",
+          "nationality": "Netherlands"
+        },
+        "team": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9023,
+          "name": "Cody Gakpo",
+          "nationality": "Netherlands"
+        },
+        "team": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9024,
+          "name": "Ayase Ueda",
+          "nationality": "Japan"
+        },
+        "team": {
+          "id": 766,
+          "name": "Japan",
+          "tla": "JPN"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9025,
+          "name": "Mikel Oyarzabal",
+          "nationality": "Spain"
+        },
+        "team": {
+          "id": 760,
+          "name": "Spain",
+          "tla": "ESP"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9026,
+          "name": "Ismaïla Sarr",
+          "nationality": "Senegal"
+        },
+        "team": {
+          "id": 804,
+          "name": "Senegal",
+          "tla": "SEN"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9027,
+          "name": "Cristiano Ronaldo",
+          "nationality": "Portugal"
+        },
+        "team": {
+          "id": 765,
+          "name": "Portugal",
+          "tla": "POR"
+        },
+        "playedMatches": 2,
+        "goals": 2,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9028,
+          "name": "Raúl Jiménez",
+          "nationality": "Mexico"
+        },
+        "team": {
+          "id": 769,
+          "name": "Mexico",
+          "tla": "MEX"
+        },
+        "playedMatches": 2,
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0
+      },
+      {
+        "player": {
+          "id": 9029,
+          "name": "Ladislav Krejčí",
+          "nationality": "Czechia"
+        },
+        "team": {
+          "id": 798,
+          "name": "Czechia",
+          "tla": "CZE"
+        },
+        "playedMatches": 2,
+        "goals": 1,
+        "assists": 0,
+        "penalties": 0
+      }
+    ]
+  },
+  "matches": {
+    "competition": {
+      "id": 2000,
+      "code": "WC",
+      "name": "FIFA World Cup"
+    },
+    "resultSet": {
+      "count": 72
+    },
+    "matches": [
+      {
+        "id": 1001,
+        "utcDate": "2026-06-11T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 769,
+          "name": "Mexico",
+          "tla": "MEX"
+        },
+        "awayTeam": {
+          "id": 774,
+          "name": "South Africa",
+          "tla": "RSA"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 9,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Julián Quiñones"
+            },
+            "assist": {
+              "name": "Érik Lira"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 67,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Raúl Jiménez"
+            },
+            "assist": {
+              "name": "R. Alvarado"
+            },
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1002,
+        "utcDate": "2026-06-12T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 772,
+          "name": "South Korea",
+          "tla": "KOR"
+        },
+        "awayTeam": {
+          "id": 798,
+          "name": "Czechia",
+          "tla": "CZE"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 59,
+            "team": {
+              "name": "Czechia"
+            },
+            "scorer": {
+              "name": "Ladislav Krejčí"
+            },
+            "assist": {
+              "name": "V. Coufal"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 67,
+            "team": {
+              "name": "South Korea"
+            },
+            "scorer": {
+              "name": "Hwang In-beom"
+            },
+            "assist": {
+              "name": "Lee Kang-in"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 80,
+            "team": {
+              "name": "South Korea"
+            },
+            "scorer": {
+              "name": "Oh Hyeon-gyu"
+            },
+            "assist": {
+              "name": "Hwang In-beom"
+            },
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1003,
+        "utcDate": "2026-06-12T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 828,
+          "name": "Canada",
+          "tla": "CAN"
+        },
+        "awayTeam": {
+          "id": 1060,
+          "name": "Bosnia-Herzegovina",
+          "tla": "BIH"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 24,
+            "team": {
+              "name": "Bosnia-Herzegovina"
+            },
+            "scorer": {
+              "name": "Jovo Lukić"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Cyle Larin"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1004,
+        "utcDate": "2026-06-13T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 771,
+          "name": "United States",
+          "tla": "USA"
+        },
+        "awayTeam": {
+          "id": 761,
+          "name": "Paraguay",
+          "tla": "PAR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 4,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 7,
+            "team": {
+              "name": "Paraguay"
+            },
+            "scorer": {
+              "name": "Mauricio"
+            },
+            "assist": null,
+            "type": "OWN_GOAL"
+          },
+          {
+            "minute": 19,
+            "team": {
+              "name": "United States"
+            },
+            "scorer": {
+              "name": "Folarin Balogun"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 27,
+            "team": {
+              "name": "United States"
+            },
+            "scorer": {
+              "name": "Folarin Balogun"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 56,
+            "team": {
+              "name": "Paraguay"
+            },
+            "scorer": {
+              "name": "Mauricio"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 79,
+            "team": {
+              "name": "United States"
+            },
+            "scorer": {
+              "name": "Gio Reyna"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1005,
+        "utcDate": "2026-06-13T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 8030,
+          "name": "Qatar",
+          "tla": "QAT"
+        },
+        "awayTeam": {
+          "id": 788,
+          "name": "Switzerland",
+          "tla": "SUI"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 44,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Breel Embolo"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          },
+          {
+            "minute": 90,
+            "team": {
+              "name": "Qatar"
+            },
+            "scorer": {
+              "name": "Boualem Khoukhi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1006,
+        "utcDate": "2026-06-13T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 764,
+          "name": "Brazil",
+          "tla": "BRA"
+        },
+        "awayTeam": {
+          "id": 815,
+          "name": "Morocco",
+          "tla": "MAR"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 21,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Ismael Saibari"
+            },
+            "assist": {
+              "name": "Brahim Díaz"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 32,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Vinícius Júnior"
+            },
+            "assist": {
+              "name": "Bruno Guimarães"
+            },
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1007,
+        "utcDate": "2026-06-14T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 836,
+          "name": "Haiti",
+          "tla": "HAI"
+        },
+        "awayTeam": {
+          "id": 8873,
+          "name": "Scotland",
+          "tla": "SCO"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 62,
+            "team": {
+              "name": "Scotland"
+            },
+            "scorer": {
+              "name": "John McGinn"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1008,
+        "utcDate": "2026-06-14T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 779,
+          "name": "Australia",
+          "tla": "AUS"
+        },
+        "awayTeam": {
+          "id": 803,
+          "name": "Turkey",
+          "tla": "TUR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 41,
+            "team": {
+              "name": "Australia"
+            },
+            "scorer": {
+              "name": "Nestory Irankunda"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 72,
+            "team": {
+              "name": "Australia"
+            },
+            "scorer": {
+              "name": "Connor Metcalfe"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1009,
+        "utcDate": "2026-06-14T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 759,
+          "name": "Germany",
+          "tla": "GER"
+        },
+        "awayTeam": {
+          "id": 9460,
+          "name": "Curaçao",
+          "tla": "CUW"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 7,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 6,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Felix Nmecha"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 21,
+            "team": {
+              "name": "Curaçao"
+            },
+            "scorer": {
+              "name": "Livano Comenencia"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 28,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Kai Havertz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 34,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Jamal Musiala"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 41,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Kai Havertz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 56,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Nathaniel Brown"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 67,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Nico Schlotterbeck"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 82,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Florian Wirtz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1010,
+        "utcDate": "2026-06-14T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "awayTeam": {
+          "id": 766,
+          "name": "Japan",
+          "tla": "JPN"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 8,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Virgil van Dijk"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 34,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Keito Nakamura"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 52,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Crysencio Summerville"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 89,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Daichi Kamada"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1011,
+        "utcDate": "2026-06-14T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 1935,
+          "name": "Ivory Coast",
+          "tla": "CIV"
+        },
+        "awayTeam": {
+          "id": 791,
+          "name": "Ecuador",
+          "tla": "ECU"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 89,
+            "team": {
+              "name": "Ivory Coast"
+            },
+            "scorer": {
+              "name": "Franck Kessié"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1012,
+        "utcDate": "2026-06-15T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 792,
+          "name": "Sweden",
+          "tla": "SWE"
+        },
+        "awayTeam": {
+          "id": 802,
+          "name": "Tunisia",
+          "tla": "TUN"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 5,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 14,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Yasin Ayari"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 35,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Alexander Isak"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Viktor Gyökeres"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 61,
+            "team": {
+              "name": "Tunisia"
+            },
+            "scorer": {
+              "name": "E. Ashour"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 68,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Mattias Svanberg"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 84,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Yasin Ayari"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1013,
+        "utcDate": "2026-06-15T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 760,
+          "name": "Spain",
+          "tla": "ESP"
+        },
+        "awayTeam": {
+          "id": 1930,
+          "name": "Cape Verde Islands",
+          "tla": "CPV"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 0
+          }
+        }
+      },
+      {
+        "id": 1014,
+        "utcDate": "2026-06-15T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 805,
+          "name": "Belgium",
+          "tla": "BEL"
+        },
+        "awayTeam": {
+          "id": 825,
+          "name": "Egypt",
+          "tla": "EGY"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 32,
+            "team": {
+              "name": "Egypt"
+            },
+            "scorer": {
+              "name": "Emam Ashour"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 67,
+            "team": {
+              "name": "Egypt"
+            },
+            "scorer": {
+              "name": "Mohamed Hany"
+            },
+            "assist": null,
+            "type": "OWN_GOAL"
+          }
+        ]
+      },
+      {
+        "id": 1015,
+        "utcDate": "2026-06-15T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 801,
+          "name": "Saudi Arabia",
+          "tla": "KSA"
+        },
+        "awayTeam": {
+          "id": 758,
+          "name": "Uruguay",
+          "tla": "URU"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 44,
+            "team": {
+              "name": "Saudi Arabia"
+            },
+            "scorer": {
+              "name": "Abdulelah Al-Amri"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 80,
+            "team": {
+              "name": "Uruguay"
+            },
+            "scorer": {
+              "name": "Maximiliano Araújo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1016,
+        "utcDate": "2026-06-16T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 840,
+          "name": "Iran",
+          "tla": "IRN"
+        },
+        "awayTeam": {
+          "id": 783,
+          "name": "New Zealand",
+          "tla": "NZL"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 8,
+            "team": {
+              "name": "New Zealand"
+            },
+            "scorer": {
+              "name": "Elijah Just"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 38,
+            "team": {
+              "name": "Iran"
+            },
+            "scorer": {
+              "name": "Ramin Rezaeian"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 55,
+            "team": {
+              "name": "New Zealand"
+            },
+            "scorer": {
+              "name": "Elijah Just"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 79,
+            "team": {
+              "name": "Iran"
+            },
+            "scorer": {
+              "name": "Mohammad Mohebi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1017,
+        "utcDate": "2026-06-16T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 773,
+          "name": "France",
+          "tla": "FRA"
+        },
+        "awayTeam": {
+          "id": 804,
+          "name": "Senegal",
+          "tla": "SEN"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 17,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Kylian Mbappé"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 54,
+            "team": {
+              "name": "Senegal"
+            },
+            "scorer": {
+              "name": "Ibrahim Mbaye"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 62,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Kylian Mbappé"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Bradley Barcola"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1018,
+        "utcDate": "2026-06-16T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 8062,
+          "name": "Iraq",
+          "tla": "IRQ"
+        },
+        "awayTeam": {
+          "id": 8872,
+          "name": "Norway",
+          "tla": "NOR"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 4
+          }
+        },
+        "goals": [
+          {
+            "minute": 14,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Erling Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 28,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Leo Østigård"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 36,
+            "team": {
+              "name": "Iraq"
+            },
+            "scorer": {
+              "name": "Aymen Hussein"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 52,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Erling Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 71,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Marcus Holmgren Pedersen"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1019,
+        "utcDate": "2026-06-17T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 762,
+          "name": "Argentina",
+          "tla": "ARG"
+        },
+        "awayTeam": {
+          "id": 778,
+          "name": "Algeria",
+          "tla": "ALG"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 17,
+            "team": {
+              "name": "Argentina"
+            },
+            "scorer": {
+              "name": "Lionel Messi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 60,
+            "team": {
+              "name": "Argentina"
+            },
+            "scorer": {
+              "name": "Lionel Messi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 74,
+            "team": {
+              "name": "Argentina"
+            },
+            "scorer": {
+              "name": "Lionel Messi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1020,
+        "utcDate": "2026-06-17T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 816,
+          "name": "Austria",
+          "tla": "AUT"
+        },
+        "awayTeam": {
+          "id": 8049,
+          "name": "Jordan",
+          "tla": "JOR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 18,
+            "team": {
+              "name": "Austria"
+            },
+            "scorer": {
+              "name": "Romano Schmid"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 41,
+            "team": {
+              "name": "Jordan"
+            },
+            "scorer": {
+              "name": "Ali Olwan"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 62,
+            "team": {
+              "name": "Austria"
+            },
+            "scorer": {
+              "name": "Marko Arnautović"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 79,
+            "team": {
+              "name": "Austria"
+            },
+            "scorer": {
+              "name": "Marcel Sabitzer"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1021,
+        "utcDate": "2026-06-17T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 765,
+          "name": "Portugal",
+          "tla": "POR"
+        },
+        "awayTeam": {
+          "id": 1934,
+          "name": "Congo DR",
+          "tla": "COD"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 6,
+            "team": {
+              "name": "Portugal"
+            },
+            "scorer": {
+              "name": "João Neves"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 45,
+            "team": {
+              "name": "Congo DR"
+            },
+            "scorer": {
+              "name": "Yoane Wissa"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1022,
+        "utcDate": "2026-06-17T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 770,
+          "name": "England",
+          "tla": "ENG"
+        },
+        "awayTeam": {
+          "id": 799,
+          "name": "Croatia",
+          "tla": "CRO"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 4,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 12,
+            "team": {
+              "name": "England"
+            },
+            "scorer": {
+              "name": "Harry Kane"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          },
+          {
+            "minute": 36,
+            "team": {
+              "name": "Croatia"
+            },
+            "scorer": {
+              "name": "Martin Baturina"
+            },
+            "assist": {
+              "name": "Petar Sučić"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 42,
+            "team": {
+              "name": "England"
+            },
+            "scorer": {
+              "name": "Harry Kane"
+            },
+            "assist": {
+              "name": "Declan Rice"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 45,
+            "team": {
+              "name": "Croatia"
+            },
+            "scorer": {
+              "name": "Petar Musa"
+            },
+            "assist": {
+              "name": "Ivan Perišić"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 47,
+            "team": {
+              "name": "England"
+            },
+            "scorer": {
+              "name": "Jude Bellingham"
+            },
+            "assist": {
+              "name": "Elliot Anderson"
+            },
+            "type": "REGULAR"
+          },
+          {
+            "minute": 85,
+            "team": {
+              "name": "England"
+            },
+            "scorer": {
+              "name": "Marcus Rashford"
+            },
+            "assist": {
+              "name": "Bukayo Saka"
+            },
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1023,
+        "utcDate": "2026-06-17T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 763,
+          "name": "Ghana",
+          "tla": "GHA"
+        },
+        "awayTeam": {
+          "id": 1836,
+          "name": "Panama",
+          "tla": "PAN"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 90,
+            "team": {
+              "name": "Ghana"
+            },
+            "scorer": {
+              "name": "Caleb Yirenkyi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1024,
+        "utcDate": "2026-06-18T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 1,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 8070,
+          "name": "Uzbekistan",
+          "tla": "UZB"
+        },
+        "awayTeam": {
+          "id": 818,
+          "name": "Colombia",
+          "tla": "COL"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 3
+          }
+        },
+        "goals": [
+          {
+            "minute": 28,
+            "team": {
+              "name": "Colombia"
+            },
+            "scorer": {
+              "name": "Luis Díaz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "Uzbekistan"
+            },
+            "scorer": {
+              "name": "Abbosbek Fayzullaev"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 56,
+            "team": {
+              "name": "Colombia"
+            },
+            "scorer": {
+              "name": "Daniel Muñoz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 81,
+            "team": {
+              "name": "Colombia"
+            },
+            "scorer": {
+              "name": "Jaminton Campaz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1025,
+        "utcDate": "2026-06-18T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 798,
+          "name": "Czechia",
+          "tla": "CZE"
+        },
+        "awayTeam": {
+          "id": 774,
+          "name": "South Africa",
+          "tla": "RSA"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 26,
+            "team": {
+              "name": "Czechia"
+            },
+            "scorer": {
+              "name": "Michal Sadílek"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 61,
+            "team": {
+              "name": "South Africa"
+            },
+            "scorer": {
+              "name": "Teboho Mokoena"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          }
+        ]
+      },
+      {
+        "id": 1026,
+        "utcDate": "2026-06-18T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 788,
+          "name": "Switzerland",
+          "tla": "SUI"
+        },
+        "awayTeam": {
+          "id": 1060,
+          "name": "Bosnia-Herzegovina",
+          "tla": "BIH"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 4,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 74,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Johan Manzambi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 82,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Ruben Vargas"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 84,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Johan Manzambi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 86,
+            "team": {
+              "name": "Bosnia-Herzegovina"
+            },
+            "scorer": {
+              "name": "Ermin Mahmić"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 90,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Granit Xhaka"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          }
+        ]
+      },
+      {
+        "id": 1027,
+        "utcDate": "2026-06-18T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 828,
+          "name": "Canada",
+          "tla": "CAN"
+        },
+        "awayTeam": {
+          "id": 8030,
+          "name": "Qatar",
+          "tla": "QAT"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 6,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 15,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Jonathan David"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 32,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Cyle Larin"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Nathan Saliba"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 48,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Jonathan David"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 65,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Promise David"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Jonathan David"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          }
+        ]
+      },
+      {
+        "id": 1028,
+        "utcDate": "2026-06-19T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 769,
+          "name": "Mexico",
+          "tla": "MEX"
+        },
+        "awayTeam": {
+          "id": 772,
+          "name": "South Korea",
+          "tla": "KOR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 50,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Luis Romo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1029,
+        "utcDate": "2026-06-19T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 771,
+          "name": "United States",
+          "tla": "USA"
+        },
+        "awayTeam": {
+          "id": 779,
+          "name": "Australia",
+          "tla": "AUS"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 31,
+            "team": {
+              "name": "Australia"
+            },
+            "scorer": {
+              "name": "Cameron Burgess"
+            },
+            "assist": null,
+            "type": "OWN_GOAL"
+          },
+          {
+            "minute": 58,
+            "team": {
+              "name": "United States"
+            },
+            "scorer": {
+              "name": "Alex Freeman"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1030,
+        "utcDate": "2026-06-19T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 8873,
+          "name": "Scotland",
+          "tla": "SCO"
+        },
+        "awayTeam": {
+          "id": 815,
+          "name": "Morocco",
+          "tla": "MAR"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 24,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Ismael Saibari"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1031,
+        "utcDate": "2026-06-20T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 764,
+          "name": "Brazil",
+          "tla": "BRA"
+        },
+        "awayTeam": {
+          "id": 836,
+          "name": "Haiti",
+          "tla": "HAI"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 8,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Matheus Cunha"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 34,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Matheus Cunha"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 42,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Vinícius Júnior"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1032,
+        "utcDate": "2026-06-20T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 803,
+          "name": "Turkey",
+          "tla": "TUR"
+        },
+        "awayTeam": {
+          "id": 761,
+          "name": "Paraguay",
+          "tla": "PAR"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 2,
+            "team": {
+              "name": "Paraguay"
+            },
+            "scorer": {
+              "name": "Matías Galarza"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1033,
+        "utcDate": "2026-06-20T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "awayTeam": {
+          "id": 792,
+          "name": "Sweden",
+          "tla": "SWE"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 5,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 12,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Brian Brobbey"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 37,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Cody Gakpo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 52,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Brian Brobbey"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 65,
+            "team": {
+              "name": "Sweden"
+            },
+            "scorer": {
+              "name": "Anthony Elanga"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Cody Gakpo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 89,
+            "team": {
+              "name": "Netherlands"
+            },
+            "scorer": {
+              "name": "Crysencio Summerville"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1034,
+        "utcDate": "2026-06-20T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 759,
+          "name": "Germany",
+          "tla": "GER"
+        },
+        "awayTeam": {
+          "id": 1935,
+          "name": "Ivory Coast",
+          "tla": "CIV"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 61,
+            "team": {
+              "name": "Ivory Coast"
+            },
+            "scorer": {
+              "name": "Franck Kessié"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 74,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Deniz Undav"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 90,
+            "team": {
+              "name": "Germany"
+            },
+            "scorer": {
+              "name": "Deniz Undav"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1035,
+        "utcDate": "2026-06-21T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 791,
+          "name": "Ecuador",
+          "tla": "ECU"
+        },
+        "awayTeam": {
+          "id": 9460,
+          "name": "Curaçao",
+          "tla": "CUW"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 0
+          }
+        }
+      },
+      {
+        "id": 1036,
+        "utcDate": "2026-06-21T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 802,
+          "name": "Tunisia",
+          "tla": "TUN"
+        },
+        "awayTeam": {
+          "id": 766,
+          "name": "Japan",
+          "tla": "JPN"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 4
+          }
+        },
+        "goals": [
+          {
+            "minute": 18,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Ayase Ueda"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 42,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Daichi Kamada"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 67,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Junya Ito"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 84,
+            "team": {
+              "name": "Japan"
+            },
+            "scorer": {
+              "name": "Ayase Ueda"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1037,
+        "utcDate": "2026-06-21T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 760,
+          "name": "Spain",
+          "tla": "ESP"
+        },
+        "awayTeam": {
+          "id": 801,
+          "name": "Saudi Arabia",
+          "tla": "KSA"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 4,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 15,
+            "team": {
+              "name": "Spain"
+            },
+            "scorer": {
+              "name": "Mikel Oyarzabal"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 38,
+            "team": {
+              "name": "Spain"
+            },
+            "scorer": {
+              "name": "Mikel Oyarzabal"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 59,
+            "team": {
+              "name": "Spain"
+            },
+            "scorer": {
+              "name": "Lamine Yamal"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 76,
+            "team": {
+              "name": "Spain"
+            },
+            "scorer": {
+              "name": "Álvaro Morata"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1038,
+        "utcDate": "2026-06-21T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 805,
+          "name": "Belgium",
+          "tla": "BEL"
+        },
+        "awayTeam": {
+          "id": 840,
+          "name": "Iran",
+          "tla": "IRN"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 0
+          }
+        }
+      },
+      {
+        "id": 1039,
+        "utcDate": "2026-06-21T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 758,
+          "name": "Uruguay",
+          "tla": "URU"
+        },
+        "awayTeam": {
+          "id": 1930,
+          "name": "Cape Verde Islands",
+          "tla": "CPV"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 14,
+            "team": {
+              "name": "Cape Verde Islands"
+            },
+            "scorer": {
+              "name": "Kevin Pina"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 48,
+            "team": {
+              "name": "Uruguay"
+            },
+            "scorer": {
+              "name": "Maximiliano Araújo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 65,
+            "team": {
+              "name": "Cape Verde Islands"
+            },
+            "scorer": {
+              "name": "Hélio Varela"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 82,
+            "team": {
+              "name": "Uruguay"
+            },
+            "scorer": {
+              "name": "Agustín Canobbio"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1040,
+        "utcDate": "2026-06-22T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 783,
+          "name": "New Zealand",
+          "tla": "NZL"
+        },
+        "awayTeam": {
+          "id": 825,
+          "name": "Egypt",
+          "tla": "EGY"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 3
+          }
+        },
+        "goals": [
+          {
+            "minute": 22,
+            "team": {
+              "name": "New Zealand"
+            },
+            "scorer": {
+              "name": "Finn Surman"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 41,
+            "team": {
+              "name": "Egypt"
+            },
+            "scorer": {
+              "name": "Mostafa Ziko"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 59,
+            "team": {
+              "name": "Egypt"
+            },
+            "scorer": {
+              "name": "Mohamed Salah"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 85,
+            "team": {
+              "name": "Egypt"
+            },
+            "scorer": {
+              "name": "Trezeguet"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1041,
+        "utcDate": "2026-06-22T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 762,
+          "name": "Argentina",
+          "tla": "ARG"
+        },
+        "awayTeam": {
+          "id": 816,
+          "name": "Austria",
+          "tla": "AUT"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 36,
+            "team": {
+              "name": "Argentina"
+            },
+            "scorer": {
+              "name": "Lionel Messi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 68,
+            "team": {
+              "name": "Argentina"
+            },
+            "scorer": {
+              "name": "Lionel Messi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1042,
+        "utcDate": "2026-06-22T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 773,
+          "name": "France",
+          "tla": "FRA"
+        },
+        "awayTeam": {
+          "id": 8062,
+          "name": "Iraq",
+          "tla": "IRQ"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 22,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Ousmane Dembélé"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Kylian Mbappé"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 72,
+            "team": {
+              "name": "France"
+            },
+            "scorer": {
+              "name": "Kylian Mbappé"
+            },
+            "assist": null,
+            "type": "PENALTY"
+          }
+        ]
+      },
+      {
+        "id": 1043,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 8872,
+          "name": "Norway",
+          "tla": "NOR"
+        },
+        "awayTeam": {
+          "id": 804,
+          "name": "Senegal",
+          "tla": "SEN"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 6,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Erling Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 34,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Marcus Holmgren Pedersen"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 48,
+            "team": {
+              "name": "Senegal"
+            },
+            "scorer": {
+              "name": "Ismaïla Sarr"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 57,
+            "team": {
+              "name": "Norway"
+            },
+            "scorer": {
+              "name": "Erling Haaland"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 82,
+            "team": {
+              "name": "Senegal"
+            },
+            "scorer": {
+              "name": "Ismaïla Sarr"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1044,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 8049,
+          "name": "Jordan",
+          "tla": "JOR"
+        },
+        "awayTeam": {
+          "id": 778,
+          "name": "Algeria",
+          "tla": "ALG"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 44,
+            "team": {
+              "name": "Jordan"
+            },
+            "scorer": {
+              "name": "Nizar Al-Rashdan"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 63,
+            "team": {
+              "name": "Algeria"
+            },
+            "scorer": {
+              "name": "Nadir Benbouhali"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 86,
+            "team": {
+              "name": "Algeria"
+            },
+            "scorer": {
+              "name": "Amine Gouiri"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1045,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 765,
+          "name": "Portugal",
+          "tla": "POR"
+        },
+        "awayTeam": {
+          "id": 8070,
+          "name": "Uzbekistan",
+          "tla": "UZB"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 5,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 14,
+            "team": {
+              "name": "Portugal"
+            },
+            "scorer": {
+              "name": "Nuno Mendes"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 32,
+            "team": {
+              "name": "Portugal"
+            },
+            "scorer": {
+              "name": "Cristiano Ronaldo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "Uzbekistan"
+            },
+            "scorer": {
+              "name": "Abduvohid Nematov"
+            },
+            "assist": null,
+            "type": "OWN_GOAL"
+          },
+          {
+            "minute": 59,
+            "team": {
+              "name": "Portugal"
+            },
+            "scorer": {
+              "name": "Cristiano Ronaldo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "Portugal"
+            },
+            "scorer": {
+              "name": "Rafael Leão"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1046,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 770,
+          "name": "England",
+          "tla": "ENG"
+        },
+        "awayTeam": {
+          "id": 763,
+          "name": "Ghana",
+          "tla": "GHA"
+        },
+        "score": {
+          "winner": "DRAW",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 0
+          }
+        }
+      },
+      {
+        "id": 1047,
+        "utcDate": "2026-06-23T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 1836,
+          "name": "Panama",
+          "tla": "PAN"
+        },
+        "awayTeam": {
+          "id": 799,
+          "name": "Croatia",
+          "tla": "CRO"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 54,
+            "team": {
+              "name": "Croatia"
+            },
+            "scorer": {
+              "name": "Ante Budimir"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1048,
+        "utcDate": "2026-06-24T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 2,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 818,
+          "name": "Colombia",
+          "tla": "COL"
+        },
+        "awayTeam": {
+          "id": 1934,
+          "name": "Congo DR",
+          "tla": "COD"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 42,
+            "team": {
+              "name": "Colombia"
+            },
+            "scorer": {
+              "name": "Daniel Muñoz"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1049,
+        "utcDate": "2026-06-24T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 788,
+          "name": "Switzerland",
+          "tla": "SUI"
+        },
+        "awayTeam": {
+          "id": 828,
+          "name": "Canada",
+          "tla": "CAN"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 2,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 38,
+            "team": {
+              "name": "Canada"
+            },
+            "scorer": {
+              "name": "Promise David"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 54,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Johan Manzambi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 72,
+            "team": {
+              "name": "Switzerland"
+            },
+            "scorer": {
+              "name": "Ruben Vargas"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1050,
+        "utcDate": "2026-06-24T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_B",
+        "homeTeam": {
+          "id": 1060,
+          "name": "Bosnia-Herzegovina",
+          "tla": "BIH"
+        },
+        "awayTeam": {
+          "id": 8030,
+          "name": "Qatar",
+          "tla": "QAT"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 3,
+            "away": 1
+          }
+        },
+        "goals": [
+          {
+            "minute": 22,
+            "team": {
+              "name": "Bosnia-Herzegovina"
+            },
+            "scorer": {
+              "name": "Ermin Mahmić"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 51,
+            "team": {
+              "name": "Qatar"
+            },
+            "scorer": {
+              "name": "Hasan Al-Haydos"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 63,
+            "team": {
+              "name": "Bosnia-Herzegovina"
+            },
+            "scorer": {
+              "name": "Kerim Alajbegović"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 82,
+            "team": {
+              "name": "Bosnia-Herzegovina"
+            },
+            "scorer": {
+              "name": "Ermin Mahmić"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1051,
+        "utcDate": "2026-06-24T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 815,
+          "name": "Morocco",
+          "tla": "MAR"
+        },
+        "awayTeam": {
+          "id": 836,
+          "name": "Haiti",
+          "tla": "HAI"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 4,
+            "away": 2
+          }
+        },
+        "goals": [
+          {
+            "minute": 14,
+            "team": {
+              "name": "Haiti"
+            },
+            "scorer": {
+              "name": "Wilson Isidor"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 31,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Achraf Hakimi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 48,
+            "team": {
+              "name": "Haiti"
+            },
+            "scorer": {
+              "name": "Wilson Isidor"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 56,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Soufiane Rahimi"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 71,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Gessime Yassine"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 87,
+            "team": {
+              "name": "Morocco"
+            },
+            "scorer": {
+              "name": "Ismael Saibari"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1052,
+        "utcDate": "2026-06-24T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_C",
+        "homeTeam": {
+          "id": 8873,
+          "name": "Scotland",
+          "tla": "SCO"
+        },
+        "awayTeam": {
+          "id": 764,
+          "name": "Brazil",
+          "tla": "BRA"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        "goals": [
+          {
+            "minute": 23,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Matheus Cunha"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 55,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Vinícius Júnior"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 71,
+            "team": {
+              "name": "Brazil"
+            },
+            "scorer": {
+              "name": "Rodrygo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1053,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 798,
+          "name": "Czechia",
+          "tla": "CZE"
+        },
+        "awayTeam": {
+          "id": 769,
+          "name": "Mexico",
+          "tla": "MEX"
+        },
+        "score": {
+          "winner": "AWAY_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 0,
+            "away": 3
+          }
+        },
+        "goals": [
+          {
+            "minute": 12,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Mateo Chávez"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 44,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Álvaro Fidalgo"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          },
+          {
+            "minute": 78,
+            "team": {
+              "name": "Mexico"
+            },
+            "scorer": {
+              "name": "Julián Quiñones"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1054,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "FINISHED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_A",
+        "homeTeam": {
+          "id": 774,
+          "name": "South Africa",
+          "tla": "RSA"
+        },
+        "awayTeam": {
+          "id": 772,
+          "name": "South Korea",
+          "tla": "KOR"
+        },
+        "score": {
+          "winner": "HOME_TEAM",
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": 1,
+            "away": 0
+          }
+        },
+        "goals": [
+          {
+            "minute": 38,
+            "team": {
+              "name": "South Africa"
+            },
+            "scorer": {
+              "name": "Thapelo Maseko"
+            },
+            "assist": null,
+            "type": "REGULAR"
+          }
+        ]
+      },
+      {
+        "id": 1055,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 791,
+          "name": "Ecuador",
+          "tla": "ECU"
+        },
+        "awayTeam": {
+          "id": 759,
+          "name": "Germany",
+          "tla": "GER"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1056,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_E",
+        "homeTeam": {
+          "id": 9460,
+          "name": "Curaçao",
+          "tla": "CUW"
+        },
+        "awayTeam": {
+          "id": 1935,
+          "name": "Ivory Coast",
+          "tla": "CIV"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1057,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 802,
+          "name": "Tunisia",
+          "tla": "TUN"
+        },
+        "awayTeam": {
+          "id": 8601,
+          "name": "Netherlands",
+          "tla": "NED"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1058,
+        "utcDate": "2026-06-25T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_F",
+        "homeTeam": {
+          "id": 766,
+          "name": "Japan",
+          "tla": "JPN"
+        },
+        "awayTeam": {
+          "id": 792,
+          "name": "Sweden",
+          "tla": "SWE"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1059,
+        "utcDate": "2026-06-26T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 803,
+          "name": "Turkey",
+          "tla": "TUR"
+        },
+        "awayTeam": {
+          "id": 771,
+          "name": "United States",
+          "tla": "USA"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1060,
+        "utcDate": "2026-06-26T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_D",
+        "homeTeam": {
+          "id": 761,
+          "name": "Paraguay",
+          "tla": "PAR"
+        },
+        "awayTeam": {
+          "id": 779,
+          "name": "Australia",
+          "tla": "AUS"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1061,
+        "utcDate": "2026-06-26T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 8872,
+          "name": "Norway",
+          "tla": "NOR"
+        },
+        "awayTeam": {
+          "id": 773,
+          "name": "France",
+          "tla": "FRA"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1062,
+        "utcDate": "2026-06-26T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_I",
+        "homeTeam": {
+          "id": 804,
+          "name": "Senegal",
+          "tla": "SEN"
+        },
+        "awayTeam": {
+          "id": 8062,
+          "name": "Iraq",
+          "tla": "IRQ"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1063,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 758,
+          "name": "Uruguay",
+          "tla": "URU"
+        },
+        "awayTeam": {
+          "id": 760,
+          "name": "Spain",
+          "tla": "ESP"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1064,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_H",
+        "homeTeam": {
+          "id": 1930,
+          "name": "Cape Verde Islands",
+          "tla": "CPV"
+        },
+        "awayTeam": {
+          "id": 801,
+          "name": "Saudi Arabia",
+          "tla": "KSA"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1065,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 783,
+          "name": "New Zealand",
+          "tla": "NZL"
+        },
+        "awayTeam": {
+          "id": 805,
+          "name": "Belgium",
+          "tla": "BEL"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1066,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_G",
+        "homeTeam": {
+          "id": 825,
+          "name": "Egypt",
+          "tla": "EGY"
+        },
+        "awayTeam": {
+          "id": 840,
+          "name": "Iran",
+          "tla": "IRN"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1067,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 1836,
+          "name": "Panama",
+          "tla": "PAN"
+        },
+        "awayTeam": {
+          "id": 770,
+          "name": "England",
+          "tla": "ENG"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1068,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_L",
+        "homeTeam": {
+          "id": 799,
+          "name": "Croatia",
+          "tla": "CRO"
+        },
+        "awayTeam": {
+          "id": 763,
+          "name": "Ghana",
+          "tla": "GHA"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1069,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 818,
+          "name": "Colombia",
+          "tla": "COL"
+        },
+        "awayTeam": {
+          "id": 765,
+          "name": "Portugal",
+          "tla": "POR"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1070,
+        "utcDate": "2026-06-27T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_K",
+        "homeTeam": {
+          "id": 1934,
+          "name": "Congo DR",
+          "tla": "COD"
+        },
+        "awayTeam": {
+          "id": 8070,
+          "name": "Uzbekistan",
+          "tla": "UZB"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1071,
+        "utcDate": "2026-06-28T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 8049,
+          "name": "Jordan",
+          "tla": "JOR"
+        },
+        "awayTeam": {
+          "id": 762,
+          "name": "Argentina",
+          "tla": "ARG"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      },
+      {
+        "id": 1072,
+        "utcDate": "2026-06-28T12:00:00Z",
+        "status": "TIMED",
+        "matchday": 3,
+        "stage": "GROUP_STAGE",
+        "group": "GROUP_J",
+        "homeTeam": {
+          "id": 778,
+          "name": "Algeria",
+          "tla": "ALG"
+        },
+        "awayTeam": {
+          "id": 816,
+          "name": "Austria",
+          "tla": "AUT"
+        },
+        "score": {
+          "winner": null,
+          "duration": "REGULAR",
+          "fullTime": {
+            "home": null,
+            "away": null
+          }
+        }
+      }
+    ]
+  }
+}
