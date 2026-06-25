@@ -318,6 +318,73 @@ async function start() {
   });
   // ====== 照片点赞 API END ======
 
+  // ====== 冠军投票 API ======
+
+  app.get("/api/app/vote", async (_req, res) => {
+    const sb = getSb();
+    if (!sb) { res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0 }); return; }
+    try {
+      const { data } = await sb.from("gallery_likes").select("photo_key,likes");
+      const result = { champion: {} as Record<string, number>, runnerup: {} as Record<string, number>, thirdplace: {} as Record<string, number> };
+      for (const row of (data ?? [])) {
+        const parts = (row.photo_key as string).split("_");
+        if (parts.length < 3 || parts[0] !== "vote") continue;
+        const cat = parts[1] as "champion" | "runnerup" | "thirdplace";
+        const team = parts.slice(2).join("_");
+        if (cat in result) result[cat][team] = row.likes;
+      }
+      const total = Object.values(result).reduce((s, cat) => s + Object.values(cat).reduce((a, b) => a + b, 0), 0);
+      res.set("Cache-Control", "public, max-age=15");
+      res.json({ ...result, total });
+    } catch (e) {
+      console.error("[vote GET]", (e as Error).message);
+      res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0 });
+    }
+  });
+
+  app.post("/api/app/vote", async (req, res) => {
+    const sb = getSb();
+    if (!sb) { res.status(500).json({ error: "Supabase not configured" }); return; }
+    const { champion, runnerup, thirdplace } = req.body ?? {};
+    const picks = [
+      { cat: "champion", team: champion },
+      { cat: "runnerup", team: runnerup },
+      { cat: "thirdplace", team: thirdplace },
+    ].filter((p) => p.team?.trim());
+
+    if (picks.length === 0) { res.status(400).json({ error: "请至少选择一个名次" }); return; }
+
+    try {
+      for (const { cat, team } of picks) {
+        const key = `vote_${cat}_${team.trim()}`;
+        const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", key).maybeSingle();
+        const current = row?.likes ?? 0;
+        if (row) {
+          await sb.from("gallery_likes").update({ likes: current + 1 }).eq("photo_key", key);
+        } else {
+          await sb.from("gallery_likes").upsert({ photo_key: key, likes: 1 }, { onConflict: "photo_key", ignoreDuplicates: false });
+        }
+      }
+      // 返回最新数据
+      const { data } = await sb.from("gallery_likes").select("photo_key,likes");
+      const result = { champion: {} as Record<string, number>, runnerup: {} as Record<string, number>, thirdplace: {} as Record<string, number> };
+      for (const row of (data ?? [])) {
+        const parts = (row.photo_key as string).split("_");
+        if (parts.length < 3 || parts[0] !== "vote") continue;
+        const cat = parts[1] as "champion" | "runnerup" | "thirdplace";
+        const team = parts.slice(2).join("_");
+        if (cat in result) result[cat][team] = row.likes;
+      }
+      const total = Object.values(result).reduce((s, cat) => s + Object.values(cat).reduce((a, b) => a + b, 0), 0);
+      res.json({ ok: true, ...result, total });
+    } catch (e) {
+      console.error("[vote POST]", (e as Error).message);
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  // ====== 冠军投票 API END ======
+
   if (!isProd) {
     const { createServer } = await import("vite");
     const vite = await createServer({ server: { middlewareMode: true }, appType: "spa" });

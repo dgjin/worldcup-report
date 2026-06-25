@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Crown, Info, Trophy, ChevronDown, HeartPulse, Swords, TrendingUp } from "lucide-react";
+import { Crown, Info, Trophy, ChevronDown, HeartPulse, Swords, TrendingUp, Vote, Medal, Check } from "lucide-react";
 import type { GroupTable, MatchRaw } from "../types/worldcup";
 import { predictChampions, type ChampionPick } from "../lib/prediction";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
 import { SQUAD_VALUE, FIFA_RANK } from "../lib/prediction-data";
+import { teamZh } from "../lib/teams";
+import { useChampionVote, type VoteData, type UserVote } from "../api/vote";
 
 // 9 维配置
 const DIMS: {
@@ -193,6 +195,7 @@ export default function ChampionPrediction({ groups, matches }: { groups: GroupT
   );
   const [showMethod, setShowMethod] = useState(false);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+  const vote = useChampionVote();
 
   if (picks.length === 0) {
     return (
@@ -271,6 +274,192 @@ export default function ChampionPrediction({ groups, matches }: { groups: GroupT
           ))}
         </Card>
       </div>
+
+      {/* 用户投票 */}
+      <VoteSection groups={groups} vote={vote} />
     </div>
+  );
+}
+
+// ============================================================
+// 投票组件
+// ============================================================
+
+const MEDALS = [
+  { key: "champion" as const, label: "冠军", icon: Crown, tone: "text-gold", bar: "bg-gold" },
+  { key: "runnerup" as const, label: "亚军", icon: Medal, tone: "text-slate-300", bar: "bg-slate-400" },
+  { key: "thirdplace" as const, label: "季军", icon: Medal, tone: "text-amber-600", bar: "bg-amber-600" },
+];
+
+/** 投票结果条 */
+function VoteBar({ team, count, max, tone, isMine }: { team: string; count: number; max: number; tone: string; isMine?: boolean }) {
+  const pct = max > 0 ? (count / max) * 100 : 0;
+  return (
+    <div className="flex items-center gap-1.5 py-0.5">
+      <span className="w-16 shrink-0 truncate text-[10px]" style={{ fontWeight: isMine ? 700 : 400 }}>{team}</span>
+      {isMine && <Check className="h-2.5 w-2.5 shrink-0 text-emerald-400" />}
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-2">
+        <div className={cn("h-full rounded-full", tone)} style={{ width: `${pct}%` }} />
+      </div>
+      <span className="w-8 shrink-0 text-right text-[10px] tabular-nums text-muted">{count}</span>
+    </div>
+  );
+}
+
+/** 投票表单 */
+function VoteForm({ teams, onSubmit, submitting }: { teams: { zh: string; name: string }[]; onSubmit: (v: UserVote) => void; submitting: boolean }) {
+  const [champion, setChampion] = useState("");
+  const [runnerup, setRunnerup] = useState("");
+  const [thirdplace, setThirdplace] = useState("");
+
+  const canSubmit = champion && runnerup && thirdplace &&
+    champion !== runnerup && champion !== thirdplace && runnerup !== thirdplace;
+
+  const selectClass = "w-full rounded-lg border border-line/60 bg-surface px-2 py-1.5 text-xs text-ink focus:border-primary focus:outline-none";
+
+  return (
+    <div className="space-y-2">
+      {MEDALS.map((m) => {
+        const val = m.key === "champion" ? champion : m.key === "runnerup" ? runnerup : thirdplace;
+        const setVal = m.key === "champion" ? setChampion : m.key === "runnerup" ? setRunnerup : setThirdplace;
+        return (
+          <div key={m.key} className="flex items-center gap-2">
+            <m.icon className={cn("h-4 w-4 shrink-0", m.tone)} />
+            <span className="w-8 shrink-0 text-[11px] font-medium text-muted">{m.label}</span>
+            <select
+              className={selectClass}
+              value={val}
+              onChange={(e) => setVal(e.target.value)}
+            >
+              <option value="">选择{m.label}...</option>
+              {teams.map((t) => (
+                <option key={t.zh} value={t.zh} disabled={
+                  (m.key !== "champion" && t.zh === champion) ||
+                  (m.key !== "runnerup" && t.zh === runnerup) ||
+                  (m.key !== "thirdplace" && t.zh === thirdplace)
+                }>
+                  {t.zh}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
+      })}
+      <button
+        onClick={() => canSubmit && onSubmit({ champion, runnerup, thirdplace })}
+        disabled={!canSubmit || submitting}
+        className={cn(
+          "flex w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors",
+          canSubmit && !submitting
+            ? "bg-primary text-white hover:bg-primary-bright"
+            : "cursor-not-allowed bg-surface-2 text-muted",
+        )}
+      >
+        <Vote className="h-3.5 w-3.5" />
+        {submitting ? "提交中..." : "提交投票"}
+      </button>
+      {!canSubmit && (champion || runnerup || thirdplace) && (
+        <p className="text-center text-[10px] text-amber-400">请为三个名次选择不同的球队</p>
+      )}
+    </div>
+  );
+}
+
+/** 投票结果展示 */
+function VoteResults({ data, myVote }: { data: VoteData; myVote: UserVote | null }) {
+  return (
+    <div className="space-y-3">
+      {MEDALS.map((m) => {
+        const catData = data[m.key] ?? {};
+        const sorted = Object.entries(catData).sort(([, a], [, b]) => b - a).slice(0, 5);
+        const max = sorted[0]?.[1] ?? 0;
+        const myPick = myVote?.[m.key];
+        return (
+          <div key={m.key}>
+            <div className="mb-1 flex items-center gap-1">
+              <m.icon className={cn("h-3 w-3", m.tone)} />
+              <span className="text-[10px] font-semibold text-muted">{m.label}投票</span>
+              <span className="ml-auto text-[9px] text-muted/60">{Object.keys(catData).length} 队</span>
+            </div>
+            {sorted.length === 0 ? (
+              <p className="py-1 text-[10px] text-muted/50">暂无投票</p>
+            ) : (
+              <div className="space-y-0.5">
+                {sorted.map(([team, count]) => (
+                  <VoteBar key={team} team={team} count={count} max={max} tone={m.bar} isMine={team === myPick} />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/** 投票区块 */
+function VoteSection({ groups, vote }: { groups: GroupTable[]; vote: ReturnType<typeof useChampionVote> }) {
+  const teams = useMemo(() => {
+    return groups
+      .flatMap((g) => g.table)
+      .map((r) => {
+        const zh = r.team.name; // 使用英文名，投票时转中文
+        // 获取中文名
+        return zh;
+      })
+      .filter(Boolean);
+  }, [groups]);
+
+  // 转为中文球队名列表
+  const teamOptions = useMemo(() => {
+    return groups
+      .flatMap((g) => g.table)
+      .map((r) => ({ zh: teamZh(r.team.name), name: r.team.name }))
+      .filter((t) => t.zh && t.zh !== "待定")
+      .sort((a, b) => a.zh.localeCompare(b.zh, "zh"));
+  }, [groups]);
+
+  if (teams.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2, duration: 0.4 }}
+      className="mt-4"
+    >
+      <SectionHeading
+        kicker="球迷心声"
+        title="冠军投票"
+        right={
+          vote.data && vote.data.total > 0 ? (
+            <span className="flex items-center gap-1 text-[10px] text-muted">
+              <Vote className="h-3 w-3" />
+              {vote.data.total} 票
+            </span>
+          ) : undefined
+        }
+      />
+      <Card className="p-4">
+        {vote.voted && vote.myVote ? (
+          // 已投票：显示结果
+          <div className="space-y-3">
+            <div className="flex items-center gap-1.5 rounded-lg bg-emerald-400/10 px-2.5 py-1.5 text-[11px] text-emerald-300">
+              <Check className="h-3.5 w-3.5" />
+              已投票：{vote.myVote.champion}夺冠 / {vote.myVote.runnerup}亚军 / {vote.myVote.thirdplace}季军
+            </div>
+            {vote.data && <VoteResults data={vote.data} myVote={vote.myVote} />}
+          </div>
+        ) : (
+          // 未投票：显示投票表单
+          <VoteForm teams={teamOptions} onSubmit={vote.submit} submitting={vote.submitting} />
+        )}
+        {vote.data && vote.data.total > 0 && !vote.voted && (
+          <div className="mt-3 border-t border-line/40 pt-2">
+            <VoteResults data={vote.data} myVote={null} />
+          </div>
+        )}
+      </Card>
+    </motion.div>
   );
 }
