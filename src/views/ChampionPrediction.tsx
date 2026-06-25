@@ -4,11 +4,11 @@ import { Crown, Info, Trophy, ChevronDown, HeartPulse, Swords, TrendingUp } from
 import type { GroupTable, MatchRaw } from "../types/worldcup";
 import { predictChampions, type ChampionPick } from "../lib/prediction";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
-import { SQUAD_VALUE, FIFA_RANKING } from "../lib/prediction-data";
+import { SQUAD_VALUE, FIFA_RANK } from "../lib/prediction-data";
 
 // 9 维配置
 const DIMS: {
-  key: keyof Pick<ChampionPick, "fifa" | "squadValue" | "form" | "pedigree" | "attack" | "defense" | "injury" | "h2h" | "momentum">;
+  key: keyof Pick<ChampionPick, "fifa" | "squadValue" | "form" | "pedigree" | "attack" | "defense" | "injury" | "bigMatch" | "momentum">;
   label: string;
   tone: string;
   icon?: typeof Crown;
@@ -20,7 +20,7 @@ const DIMS: {
   { key: "attack", label: "攻击", tone: "bg-primary" },
   { key: "defense", label: "防守", tone: "bg-sky-400" },
   { key: "injury", label: "健康", tone: "bg-emerald-400" },
-  { key: "h2h", label: "交锋", tone: "bg-rose-400" },
+  { key: "bigMatch", label: "大赛", tone: "bg-rose-400" },
   { key: "momentum", label: "势头", tone: "bg-orange-400" },
 ];
 
@@ -63,7 +63,7 @@ function InjuryAlert({ injuries }: { injuries: ChampionPick["injuries"] }) {
 /** 知识库信息：身价 + FIFA 排名 */
 function KnowledgeTag({ zh }: { zh: string }) {
   const value = SQUAD_VALUE[zh];
-  const rank = FIFA_RANKING[zh];
+  const rank = FIFA_RANK[zh];
   return (
     <div className="flex flex-wrap gap-1">
       {value && (
@@ -73,7 +73,7 @@ function KnowledgeTag({ zh }: { zh: string }) {
       )}
       {rank && (
         <span className="rounded bg-violet-400/10 px-1.5 py-0.5 text-[9px] font-medium text-violet-300">
-          FIFA {rank}
+          FIFA #{rank}
         </span>
       )}
     </div>
@@ -238,12 +238,13 @@ export default function ChampionPrediction({ groups, matches }: { groups: GroupT
           <span className="text-gold">阵容身价</span>(16%)、
           <span className="text-amber-500">世界杯底蕴</span>(10%)、
           <span className="text-emerald-400">伤病跟踪</span>(10%)、
-          <span className="text-rose-400">历史交锋</span>(8%)
+          <span className="text-rose-400">大赛经验</span>(8%)
           <div className="mt-2 flex items-center gap-1.5">
             <HeartPulse className="h-3 w-3" /> 东道主加分 +4
           </div>
           <div className="mt-2 text-[10px] text-muted/70">
-            数据来源：football-data.org 实时 API · Transfermarkt 身价 · FIFA 排名 · 历史交锋库 · 伤病跟踪库
+            数据来源：football-data.org 实时 API · Transfermarkt 身价（2026.06）· FIFA 排名（2026.06）·
+            世界杯历史（FIFA 官方）· 伤病跟踪（ESPN/BBC/Sky Sports）
             <br />
             模型随赛况实时更新，<span className="text-ink">仅供参考娱乐</span>。
           </div>

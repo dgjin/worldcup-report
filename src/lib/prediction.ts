@@ -5,7 +5,7 @@ import {
   pedigreeScore,
   injuryScore,
   fifaRankScore,
-  computeH2HScore,
+  bigMatchScore,
   INJURIES,
   type InjuryRecord,
 } from "./prediction-data";
@@ -15,21 +15,20 @@ import {
  *
  * 因子权重：
  *   FIFA排名 18%  |  阵容身价 16%  |  实时状态 14%  |  历史底蕴 10%
- *   攻击力  8%   |  防守力  8%   |  伤病影响 10%  |  历史交锋 8%
+ *   攻击力  8%   |  防守力  8%   |  伤病影响 10%  |  大赛经验 8%
  *   赛事势头 8%  +  东道主加分
  *
- * 数据来源：
- *   · 实时（API）：小组赛积分/进球/失球/近 3 场势头
- *   · 知识库：FIFA排名、Transfermarkt身价、世界杯历史、伤病跟踪、H2H 交锋库
+ * 数据来源（均为公开可验证）：
+ *   · 实时（football-data.org API）：小组赛积分/进球/失球/近 3 场势头
+ *   · 知识库（prediction-data.ts）：
+ *     - FIFA 排名（FIFA.com, 2026年6月）
+ *     - Transfermarkt 阵容身价（transfermarkt.com, 2026年6月）
+ *     - 世界杯历史战绩（FIFA 官方档案）
+ *     - 伤病跟踪（ESPN/BBC/Sky Sports, 2026年6月）
+ *     - 大赛经验（基于世界杯淘汰赛历史，替代原 H2H 因子）
  */
 
 const HOST = new Set(["美国", "加拿大", "墨西哥"]);
-
-// 争冠级别球队列表（用于 H2H 计算）
-const TOP_TEAMS = [
-  "阿根廷", "巴西", "法国", "英格兰", "西班牙", "葡萄牙",
-  "荷兰", "德国", "比利时", "克罗地亚", "乌拉圭", "摩洛哥",
-];
 
 export interface ChampionPick {
   name: string;
@@ -43,7 +42,7 @@ export interface ChampionPick {
   attack: number;     // 攻击力
   defense: number;    // 防守力
   injury: number;     // 伤病影响
-  h2h: number;        // 历史交锋
+  bigMatch: number;   // 大赛经验
   momentum: number;   // 赛事势头
   host: boolean;
   injuries: InjuryRecord[];
@@ -77,14 +76,12 @@ function computeMomentum(zh: string, matches: MatchRaw[]): number {
     else if (gd === 0) pts += 1.5;
     else pts += Math.max(0, 1 + gd * 0.3);
   }
-  // 满分约 13.5（3 场全胜且每场净胜 3+）
   return clamp(Math.round((pts / 13.5) * 100));
 }
 
-/** 计算赛程难度（对手平均 FIFA 分） */
 function reasonsFor(c: {
   fifa: number; squadValue: number; form: number; pedigree: number;
-  attack: number; defense: number; injury: number; h2h: number;
+  attack: number; defense: number; injury: number; bigMatch: number;
   momentum: number; host: boolean; zh: string;
 }): string[] {
   const out: string[] = [];
@@ -96,7 +93,7 @@ function reasonsFor(c: {
   if (c.momentum >= 75) out.push("近期势头强劲");
   if (c.attack >= 80) out.push("锋线火力凶猛");
   if (c.defense >= 82) out.push("防线固若金汤");
-  if (c.h2h >= 60) out.push("交锋心理优势");
+  if (c.bigMatch >= 70) out.push("大赛经验丰富");
   if (c.injury <= 70) out.push("伤病隐患");
   if (c.injury >= 95) out.push("全员健康");
   return out.slice(0, 4);
@@ -118,18 +115,18 @@ export function predictChampions(
     const gfpg = played ? r.goalsFor / played : 0;
     const gapg = played ? r.goalsAgainst / played : 1.2;
 
-    // 实时维度
+    // 实时维度（football-data.org API）
     const form = played ? clamp(50 + (ppg - 1) * 22 + r.goalDifference * 4) : 50;
     const attack = played ? clamp(35 + gfpg * 26) : 50;
     const defense = played ? clamp(92 - gapg * 30) : 60;
     const momentum = computeMomentum(zh, matches);
 
-    // 知识库维度
+    // 知识库维度（prediction-data.ts，均有来源）
     const fifa = fifaRankScore(zh);
     const squadValue = squadValueScore(zh);
     const pedigree = pedigreeScore(zh);
     const injury = injuryScore(zh);
-    const h2h = computeH2HScore(zh, TOP_TEAMS);
+    const bigMatch = bigMatchScore(zh);
     const host = HOST.has(zh);
 
     // 加权综合分
@@ -141,11 +138,11 @@ export function predictChampions(
       attack * 0.08 +
       defense * 0.08 +
       injury * 0.10 +
-      h2h * 0.08 +
+      bigMatch * 0.08 +
       momentum * 0.08 +
       (host ? 4 : 0);
 
-    return { name: r.team.name, zh, raw, fifa, squadValue, form, pedigree, attack, defense, injury, h2h, momentum, host };
+    return { name: r.team.name, zh, raw, fifa, squadValue, form, pedigree, attack, defense, injury, bigMatch, momentum, host };
   });
 
   // softmax 归一为概率
@@ -168,13 +165,13 @@ export function predictChampions(
       attack: c.attack,
       defense: c.defense,
       injury: c.injury,
-      h2h: c.h2h,
+      bigMatch: c.bigMatch,
       momentum: c.momentum,
       host: c.host,
       injuries: INJURIES[c.zh] ?? [],
       reasons: reasonsFor({
         fifa: c.fifa, squadValue: c.squadValue, form: c.form, pedigree: c.pedigree,
-        attack: c.attack, defense: c.defense, injury: c.injury, h2h: c.h2h,
+        attack: c.attack, defense: c.defense, injury: c.injury, bigMatch: c.bigMatch,
         momentum: c.momentum, host: c.host, zh: c.zh,
       }),
     }));
