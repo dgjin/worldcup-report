@@ -5,7 +5,6 @@ import {
   readWcMatches,
   writeWcData,
   writeWcMatches,
-  injectSupabaseGoals,
   type WcDataType,
 } from "./supabase.js";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -52,15 +51,6 @@ export async function getWcData(
       });
       if (res.ok) {
         const data = (await res.json()) as Record<string, unknown>;
-        // 对 matches 端点用 Supabase goals 数据富化
-        if (type === "matches" && data.matches && sbConfig) {
-          try {
-            const sb = createClient(sbConfig.url, sbConfig.key);
-            await injectSupabaseGoals(sb, data.matches as MatchRaw[]);
-          } catch {
-            // goals 注入失败不影响响应
-          }
-        }
         // fire-and-forget 写入 Supabase
         if (sbConfig) {
           try {
