@@ -377,6 +377,22 @@ async function start() {
           }
         } catch { /* ignore */ }
       }
+      // 投票详情（需密码）：?detail=密码
+      const detail = req.query.detail as string | undefined;
+      if (detail != null) {
+        const pw = process.env.VOTE_DETAIL_PASSWORD || "978615";
+        if (detail !== pw) { res.status(403).json({ error: "密码错误" }); return; }
+        try {
+          const { data: recs } = await sb.from("wc_data").select("data").like("type", "vote_record_%");
+          response.records = (recs ?? [])
+            .map((r: { data?: { ts?: string } }) => r.data)
+            .filter((d): d is { ts?: string } => Boolean(d))
+            .sort((a, b) => String(b.ts ?? "").localeCompare(String(a.ts ?? "")));
+        } catch { response.records = []; }
+        res.set("Cache-Control", "no-store");
+        res.json(response);
+        return;
+      }
       res.set("Cache-Control", "public, max-age=15");
       res.json(response);
     } catch (e) {

@@ -14,6 +14,8 @@
 interface Env {
   SUPABASE_URL?: string;
   SUPABASE_SERVICE_ROLE_KEY?: string;
+  /** 查看投票详情的密码，默认 978615 */
+  VOTE_DETAIL_PASSWORD?: string;
 }
 
 type VoteCategory = "champion" | "runnerup" | "thirdplace";
@@ -74,6 +76,19 @@ async function countVoteRecords(env: Env): Promise<number> {
   }
 }
 
+/** 读取全部个人投票记录（投票详情，需密码） */
+async function readAllRecords(env: Env): Promise<any[]> {
+  try {
+    const rows = await sbFetch(env, `wc_data?select=data&type=like.vote_record_*`);
+    return (rows ?? [])
+      .map((r: any) => r.data)
+      .filter(Boolean)
+      .sort((a: any, b: any) => String(b?.ts ?? "").localeCompare(String(a?.ts ?? "")));
+  } catch {
+    return [];
+  }
+}
+
 /** 按邮箱查找个人投票记录 */
 async function findVoteByEmail(env: Env, email: string): Promise<any | null> {
   try {
@@ -119,6 +134,18 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       // 如果提供了 email，查找该用户的投票记录
       if (email) {
         result.myRecord = await findVoteByEmail(sb, email);
+      }
+
+      // 投票详情（需密码）：?detail=密码
+      const detail = url.searchParams.get("detail");
+      if (detail != null) {
+        const pw = ctx.env.VOTE_DETAIL_PASSWORD || "978615";
+        if (detail !== pw) {
+          return new Response(JSON.stringify({ error: "密码错误" }), { status: 403, headers });
+        }
+        result.records = await readAllRecords(sb);
+        headers["Cache-Control"] = "no-store";
+        return new Response(JSON.stringify(result), { headers });
       }
 
       headers["Cache-Control"] = "public, max-age=15";

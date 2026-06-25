@@ -50,6 +50,29 @@ async function postVote(vote: UserVote): Promise<VoteData & { record?: unknown }
   return (await res.json()) as VoteData & { record?: unknown };
 }
 
+/** 单条投票记录（投票详情） */
+export interface VoteRecord {
+  email?: string;
+  name?: string;
+  champion?: string;
+  runnerup?: string;
+  thirdplace?: string;
+  ts?: string;
+}
+
+/** 凭密码拉取投票详情（全部个人记录） */
+export async function fetchVoteDetail(password: string): Promise<{ records?: VoteRecord[]; error?: string }> {
+  try {
+    const res = await fetch(`/api/app/vote?detail=${encodeURIComponent(password)}&_t=${Date.now()}`, { cache: "no-store" });
+    if (res.status === 403) return { error: "密码错误" };
+    if (!res.ok) return { error: "加载失败，请重试" };
+    const j = (await res.json()) as { records?: VoteRecord[] };
+    return { records: j.records ?? [] };
+  } catch {
+    return { error: "网络错误" };
+  }
+}
+
 export function useChampionVote(): VoteState {
   const [data, setData] = useState<VoteData | null>(null);
   const [loading, setLoading] = useState(true);

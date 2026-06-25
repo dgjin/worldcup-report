@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Crown, Info, Trophy, ChevronDown, HeartPulse, Swords, TrendingUp, Vote, Medal, Check } from "lucide-react";
+import { Crown, Info, Trophy, ChevronDown, HeartPulse, Swords, TrendingUp, Vote, Medal, Check, Lock } from "lucide-react";
 import type { GroupTable, MatchRaw } from "../types/worldcup";
 import { predictChampions, type ChampionPick } from "../lib/prediction";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
 import { SQUAD_VALUE, FIFA_RANK } from "../lib/prediction-data";
 import { teamZh } from "../lib/teams";
-import { useChampionVote, type VoteData, type UserVote } from "../api/vote";
+import { useChampionVote, fetchVoteDetail, type VoteData, type UserVote, type VoteRecord } from "../api/vote";
 
 // 9 维配置
 const DIMS: {
@@ -426,6 +426,131 @@ function VoteResults({ data, myVote }: { data: VoteData; myVote: UserVote | null
   );
 }
 
+function fmtTs(ts?: string): string {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return "—";
+  return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+/** 投票详情表（密码解锁后） */
+function VoteRecordsView({ records, onClose }: { records: VoteRecord[]; onClose: () => void }) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold text-muted">
+        <Lock className="h-3 w-3 text-emerald-400" />
+        投票详情 · 共 {records.length} 条
+        <button onClick={onClose} className="ml-auto text-[10px] font-normal text-muted/60 hover:text-muted">收起</button>
+      </div>
+      {records.length === 0 ? (
+        <p className="py-2 text-center text-[10px] text-muted/50">暂无投票记录</p>
+      ) : (
+        <div className="max-h-72 overflow-auto rounded-lg border border-line/50">
+          <table className="w-full min-w-[480px] text-left text-[10px]">
+            <thead className="sticky top-0 bg-surface-2/90 backdrop-blur">
+              <tr className="text-muted">
+                <th className="px-2 py-1.5 font-medium">#</th>
+                <th className="px-2 py-1.5 font-medium">姓名</th>
+                <th className="px-2 py-1.5 font-medium">邮箱</th>
+                <th className="px-2 py-1.5 font-medium">冠军</th>
+                <th className="px-2 py-1.5 font-medium">亚军</th>
+                <th className="px-2 py-1.5 font-medium">季军</th>
+                <th className="px-2 py-1.5 font-medium">时间</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line/30">
+              {records.map((r, i) => (
+                <tr key={i} className="text-ink/80">
+                  <td className="px-2 py-1.5 tabular-nums text-muted">{i + 1}</td>
+                  <td className="px-2 py-1.5">{r.name || <span className="text-muted/40">匿名</span>}</td>
+                  <td className="px-2 py-1.5 text-muted">{r.email || "—"}</td>
+                  <td className="px-2 py-1.5 text-gold">{r.champion || "—"}</td>
+                  <td className="px-2 py-1.5 text-slate-300">{r.runnerup || "—"}</td>
+                  <td className="px-2 py-1.5 text-amber-600">{r.thirdplace || "—"}</td>
+                  <td className="whitespace-nowrap px-2 py-1.5 tabular-nums text-muted/70">{fmtTs(r.ts)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** 密码查看投票详情 */
+function VoteDetail() {
+  const [open, setOpen] = useState(false);
+  const [pw, setPw] = useState("");
+  const [records, setRecords] = useState<VoteRecord[] | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const unlock = async () => {
+    if (!pw || loading) return;
+    setLoading(true);
+    setError("");
+    const r = await fetchVoteDetail(pw);
+    setLoading(false);
+    if (r.error) {
+      setError(r.error);
+      return;
+    }
+    setRecords(r.records ?? []);
+  };
+
+  const reset = () => {
+    setOpen(false);
+    setRecords(null);
+    setPw("");
+    setError("");
+  };
+
+  return (
+    <div className="mt-3 border-t border-line/40 pt-3">
+      {!open ? (
+        <button onClick={() => setOpen(true)} className="flex items-center gap-1 text-[10px] text-muted/60 transition-colors hover:text-muted">
+          <Lock className="h-3 w-3" /> 投票详情（需密码）
+        </button>
+      ) : records ? (
+        <VoteRecordsView records={records} onClose={reset} />
+      ) : (
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-1.5 text-[11px] text-muted">
+            <Lock className="h-3 w-3" /> 输入密码查看投票详情
+          </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="password"
+              value={pw}
+              autoFocus
+              onChange={(e) => {
+                setPw(e.target.value);
+                setError("");
+              }}
+              onKeyDown={(e) => e.key === "Enter" && unlock()}
+              placeholder="密码"
+              className="flex-1 rounded-lg border border-line/60 bg-surface px-2 py-1.5 text-xs text-ink placeholder:text-muted/40 focus:border-primary focus:outline-none"
+            />
+            <button
+              onClick={unlock}
+              disabled={!pw || loading}
+              className={cn(
+                "rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
+                pw && !loading ? "bg-primary text-white hover:bg-primary-bright" : "cursor-not-allowed bg-surface-2 text-muted",
+              )}
+            >
+              {loading ? "…" : "查看"}
+            </button>
+            <button onClick={reset} className="shrink-0 text-[11px] text-muted/60 hover:text-muted">取消</button>
+          </div>
+          {error && <p className="text-[10px] text-red-400">{error}</p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** 投票区块 */
 function VoteSection({ groups, vote }: { groups: GroupTable[]; vote: ReturnType<typeof useChampionVote> }) {
   const teams = useMemo(() => {
@@ -491,6 +616,8 @@ function VoteSection({ groups, vote }: { groups: GroupTable[]; vote: ReturnType<
             <VoteResults data={vote.data} myVote={null} />
           </div>
         )}
+        {/* 密码查看投票详情 */}
+        <VoteDetail />
       </Card>
     </motion.div>
   );
