@@ -169,7 +169,7 @@ export default function App() {
           {tab === "standings" && <GroupStandings groups={groups} matches={matches} />}
           {tab === "scorers" && <Scorers scorers={scorers} />}
           {tab === "knockout" && <KnockoutBracket groups={groups} matches={matches} />}
-          {tab === "prediction" && <ChampionPrediction groups={groups} />}
+          {tab === "prediction" && <ChampionPrediction groups={groups} matches={matches.all} />}
           {tab === "teams" && <TeamCards groups={groups} matches={matches} scorers={scorers} />}
           {tab === "charts" && <Charts groups={groups} matches={matches} scorers={scorers} />}
           {tab === "report" && <MatchReport matches={matches} />}
