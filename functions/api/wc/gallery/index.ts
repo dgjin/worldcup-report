@@ -2,11 +2,13 @@
  * Gallery API endpoint — 2026 美加墨世界杯精彩瞬间。
  *
  * 数据获取策略：
- *   1. KV 缓存     — Worker 每日 8:00 自动收集（最快，无外部请求）
- *   2. NewsAPI     — 真实新闻比赛照片（需 NEWSAPI_KEY，100 次/天）
- *   3. ABC News    — 最佳比赛图集（无需 Key，来自 Reuters/Getty/AP）
+ *   1. KV 缓存（合并所有来源） — Worker 每日 8:00 自动收集
+ *   2. NewsAPI        — 真实新闻比赛照片
+ *   3. ABC News       — 最佳比赛图集（Reuters/Getty/AP）
+ *   4. USA Today      — 每日比赛图集（50+ 张，Getty/USA Today Staff）
+ *   5. AP News        — 每日精选图集（AP Photo 专业摄影师）
  *
- * 缓存策略：KV 缓存 24h / NewsAPI 30min / ABC News 1h
+ * 缓存策略：KV 24h / NewsAPI 30min / ABC News 1h / USA Today 1h / AP News 1h
  */
 interface GalleryPhoto {
   id: number;
@@ -24,6 +26,14 @@ interface Env {
 }
 
 const ABC_GALLERY_URL = "https://abcnews.go.com/Sports/photos/best-photos-fifa-world-cup-2026-133075564";
+const USATODAY_GALLERY_URL = "https://www.usatoday.com/picture-gallery/sports/soccer/worldcup/2026/06/13/world-cup-2026-best-photos/90528304007/";
+const APNEWS_GALLERY_URLS = [
+  "https://apnews.com/photo-gallery/photos-soccer-world-cup-shakira-opening-ceremony-608e920d1bf477e7aa544fd2b139331e",
+  "https://apnews.com/photo-gallery/photos-brazil-morocco-haiti-metlife-qatar-world-cup-ba66730f4a4b4e341942397a6d512c8c",
+  "https://apnews.com/photo-gallery/world-cup-photos-soccer-5dee70b837032094e659a0f0a13a8dfe",
+  "https://apnews.com/photo-gallery/world-cup-photos-soccer-usmnt-australia-brazil-haiti-4eb587ca785841b2a1328d8b894faf88",
+  "https://apnews.com/photo-gallery/photos-cohosts-us-canada-opener-bosnia-wcup-edc7934c9330443e0f624dbb0b039d7e",
+];
 const PER_PAGE = 24;
 
 const NEWS_QUERIES = [
@@ -51,10 +61,29 @@ async function fetchFromKV(kv: KVNamespace): Promise<{ photos: GalleryPhoto[]; c
 /** 后台异步刷新 KV（不阻塞响应） */
 async function bgRefreshKV(kv: KVNamespace): Promise<void> {
   try {
-    const photos = await fetchAbcNews();
-    if (photos && photos.length > 0) {
-      await kv.put("latest", JSON.stringify({ photos, collectedAt: new Date().toISOString() }));
-      console.log(`[gallery] KV 后台刷新成功，${photos.length} 张照片`);
+    const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
+      fetchAbcNews().catch(() => null),
+      fetchUsaToday().catch(() => null),
+      fetchApNews().catch(() => null),
+    ]);
+
+    const allPhotos: GalleryPhoto[] = [];
+    if (abcPhotos) allPhotos.push(...abcPhotos);
+    if (usaPhotos) allPhotos.push(...usaPhotos);
+    if (apPhotos) allPhotos.push(...apPhotos);
+
+    if (allPhotos.length > 0) {
+      // 去重
+      const seen = new Set<string>();
+      const unique = allPhotos.filter(p => {
+        const key = p.src.medium;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      await kv.put("latest", JSON.stringify({ photos: unique, collectedAt: new Date().toISOString() }));
+      console.log(`[gallery] KV 后台刷新成功，${unique.length} 张照片（ABC+USA+AP）`);
     }
   } catch (e) {
     console.error("[gallery] KV 后台刷新失败:", (e as Error).message);
@@ -139,7 +168,107 @@ async function fetchAbcNews(): Promise<GalleryPhoto[] | null> {
   }
 }
 
-// ============ 主入口 ============
+// ============ 策略 3: USA Today 图集 ============
+async function fetchUsaToday(): Promise<GalleryPhoto[] | null> {
+  try {
+    const r = await fetch(USATODAY_GALLERY_URL, {
+      headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },
+    });
+    if (!r.ok) return null;
+    const html = await r.text();
+
+    const imgRE = /https?:\/\/www\.usatoday\.com\/gcdn\/authoring\/authoring-images\/\d{4}\/\d{2}\/\d{2}\/[A-Z]+\/([^"'\s]+\.jpg)/gi;
+    const seen = new Set<string>();
+    const urls: string[] = [];
+
+    for (const m of html.matchAll(imgRE)) {
+      const base = m[0].split("?")[0];
+      if (!seen.has(base)) { seen.add(base); urls.push(base); }
+    }
+
+    if (urls.length === 0) return null;
+
+    return urls.map((url, i) => {
+      const fname = url.split("/").pop()?.replace(/\.jpg$/i, "") ?? "";
+      let photographer = "USA Today Sports";
+      if (fname.includes("getty-images") || fname.includes("gty-")) photographer = "Getty Images";
+      else if (fname.includes("afp-")) photographer = "AFP via Getty Images";
+      else if (fname.includes("usatsi-")) photographer = "USA Today Sports";
+      else if (fname.includes("usp-soccer")) photographer = "USA Today Sports";
+
+      const dateMatch = url.match(/authoring-images\/(\d{4})\/(\d{2})\/(\d{2})\//);
+      const dateStr = dateMatch ? `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : "";
+
+      return {
+        id: 300000 + i,
+        src: {
+          large: `${url}?width=1600&height=900&format=pjpg&auto=webp`,
+          medium: `${url}?width=800&height=450&format=pjpg&auto=webp`,
+          small: `${url}?width=400&height=225&format=pjpg&auto=webp`,
+        },
+        photographer,
+        alt: `2026 世界杯精彩瞬间${dateStr ? ` - ${dateStr}` : ""} (${photographer})`,
+        width: 1600, height: 900,
+        url: USATODAY_GALLERY_URL,
+      };
+    });
+  } catch {
+    return null;
+  }
+}
+
+// ============ 策略 4: AP News 每日图集 ============
+async function fetchApNews(): Promise<GalleryPhoto[] | null> {
+  const allPhotos: GalleryPhoto[] = [];
+
+  for (const galleryUrl of APNEWS_GALLERY_URLS) {
+    try {
+      const r = await fetch(galleryUrl, {
+        headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },
+      });
+      if (!r.ok) continue;
+      const html = await r.text();
+
+      const dimsRE = /https?:\/\/dims\.apnews\.com\/[^"'\s]*url=https?%3A%2F%2Fassets\.apnews\.com%2F([a-f0-9]+)%2F([a-f0-9]+)%2F([a-f0-9]+)%2F([a-f0-9]+)/gi;
+      const seen = new Set<string>();
+      const assetsUrls: string[] = [];
+
+      for (const m of html.matchAll(dimsRE)) {
+        const hash = `${m[1]}/${m[2]}/${m[3]}/${m[4]}`;
+        if (!seen.has(hash)) { seen.add(hash); assetsUrls.push(`https://assets.apnews.com/${hash}`); }
+      }
+
+      if (assetsUrls.length === 0) continue;
+
+      const altMatch = html.match(/og:image:alt"[^>]*content="([^"]+)"/);
+      const photographerMatch = altMatch?.[1]?.match(/\(([^)]+)\)$/);
+      const photographer = photographerMatch?.[1] ?? "AP Photo";
+
+      for (const au of assetsUrls) {
+        allPhotos.push({
+          id: 400000 + allPhotos.length,
+          src: {
+            large: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/1600x1067!/quality/90/?url=${encodeURIComponent(au)}`,
+            medium: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/800x533!/quality/90/?url=${encodeURIComponent(au)}`,
+            small: `https://dims.apnews.com/dims4/default/7811647/2147483647/strip/true/crop/4744x3161+0+0/resize/400x267!/quality/90/?url=${encodeURIComponent(au)}`,
+          },
+          photographer,
+          alt: `2026 世界杯精彩瞬间 (${photographer})`,
+          width: 1600, height: 1067,
+          url: galleryUrl,
+        });
+      }
+    } catch { /* 继续下一个 */ }
+  }
+
+  if (allPhotos.length === 0) return null;
+
+  // 去重
+  const seen = new Set<string>();
+  const unique = allPhotos.filter(p => { const k = p.src.medium; if (seen.has(k)) return false; seen.add(k); return true; });
+
+  return unique;
+}
 export const onRequest: PagesFunction<Env> = async (ctx) => {
   const url = new URL(ctx.request.url);
   const page = parseInt(url.searchParams.get("page") ?? "1", 10);
@@ -203,6 +332,40 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       photos: slice,
       next_page: start + PER_PAGE < abcPhotos.length ? String(page + 1) : undefined,
       source: "abcnews",
+    }), {
+      headers: {
+        ...headers,
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      },
+    });
+  }
+
+  // 策略 3: USA Today 每日比赛图集（无需 Key，Getty/USA Today Staff 供图）
+  const usaPhotos = await fetchUsaToday();
+  if (usaPhotos) {
+    const start = (page - 1) * PER_PAGE;
+    const slice = usaPhotos.slice(start, start + PER_PAGE);
+    return new Response(JSON.stringify({
+      photos: slice,
+      next_page: start + PER_PAGE < usaPhotos.length ? String(page + 1) : undefined,
+      source: "usatoday",
+    }), {
+      headers: {
+        ...headers,
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      },
+    });
+  }
+
+  // 策略 4: AP News 每日精选图集（无需 Key，AP Photo 专业摄影师）
+  const apPhotos = await fetchApNews();
+  if (apPhotos) {
+    const start = (page - 1) * PER_PAGE;
+    const slice = apPhotos.slice(start, start + PER_PAGE);
+    return new Response(JSON.stringify({
+      photos: slice,
+      next_page: start + PER_PAGE < apPhotos.length ? String(page + 1) : undefined,
+      source: "apnews",
     }), {
       headers: {
         ...headers,
