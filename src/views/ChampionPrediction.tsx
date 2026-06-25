@@ -311,11 +311,14 @@ function VoteForm({ teams, onSubmit, submitting }: { teams: { zh: string; name: 
   const [champion, setChampion] = useState("");
   const [runnerup, setRunnerup] = useState("");
   const [thirdplace, setThirdplace] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   const canSubmit = champion && runnerup && thirdplace &&
     champion !== runnerup && champion !== thirdplace && runnerup !== thirdplace;
 
   const selectClass = "w-full rounded-lg border border-line/60 bg-surface px-2 py-1.5 text-xs text-ink focus:border-primary focus:outline-none";
+  const inputClass = "w-full rounded-lg border border-line/60 bg-surface px-2 py-1.5 text-xs text-ink placeholder:text-muted/40 focus:border-primary focus:outline-none";
 
   return (
     <div className="space-y-2">
@@ -345,8 +348,34 @@ function VoteForm({ teams, onSubmit, submitting }: { teams: { zh: string; name: 
           </div>
         );
       })}
+      {/* 可选：邮箱 + 姓名 */}
+      <div className="flex items-center gap-2 pt-1">
+        <div className="flex items-center gap-2">
+          <span className="w-8 shrink-0 text-[11px] font-medium text-muted">姓名</span>
+          <input
+            className={inputClass}
+            type="text"
+            placeholder="选填"
+            value={name}
+            maxLength={20}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-8 shrink-0 text-[11px] font-medium text-muted">邮箱</span>
+          <input
+            className={inputClass}
+            type="email"
+            placeholder="选填"
+            value={email}
+            maxLength={60}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+      </div>
+      <p className="text-[10px] text-muted/50">姓名和邮箱为选填项，填写后可在后端记录中区分您的投票</p>
       <button
-        onClick={() => canSubmit && onSubmit({ champion, runnerup, thirdplace })}
+        onClick={() => canSubmit && onSubmit({ champion, runnerup, thirdplace, email: email.trim() || undefined, name: name.trim() || undefined })}
         disabled={!canSubmit || submitting}
         className={cn(
           "flex w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors",
@@ -435,7 +464,7 @@ function VoteSection({ groups, vote }: { groups: GroupTable[]; vote: ReturnType<
           vote.data && vote.data.total > 0 ? (
             <span className="flex items-center gap-1 text-[10px] text-muted">
               <Vote className="h-3 w-3" />
-              {vote.data.total} 票
+              {vote.data.voters ?? vote.data.total} 人投票 · {vote.data.total} 票
             </span>
           ) : undefined
         }
@@ -446,7 +475,10 @@ function VoteSection({ groups, vote }: { groups: GroupTable[]; vote: ReturnType<
           <div className="space-y-3">
             <div className="flex items-center gap-1.5 rounded-lg bg-emerald-400/10 px-2.5 py-1.5 text-[11px] text-emerald-300">
               <Check className="h-3.5 w-3.5" />
-              已投票：{vote.myVote.champion}夺冠 / {vote.myVote.runnerup}亚军 / {vote.myVote.thirdplace}季军
+              <span>
+                已投票：{vote.myVote.champion}夺冠 / {vote.myVote.runnerup}亚军 / {vote.myVote.thirdplace}季军
+                {vote.myVote.name && <span className="ml-1 text-emerald-300/70">（{vote.myVote.name}）</span>}
+              </span>
             </div>
             {vote.data && <VoteResults data={vote.data} myVote={vote.myVote} />}
           </div>

@@ -7,12 +7,15 @@ export interface VoteData {
   runnerup: Record<string, number>;
   thirdplace: Record<string, number>;
   total: number;
+  voters?: number;
 }
 
 export interface UserVote {
   champion: string;
   runnerup: string;
   thirdplace: string;
+  email?: string;
+  name?: string;
 }
 
 export interface VoteState {
@@ -33,18 +36,18 @@ async function fetchVotes(): Promise<VoteData> {
     if (!res.ok) throw new Error("fetch failed");
     return (await res.json()) as VoteData;
   } catch {
-    return { champion: {}, runnerup: {}, thirdplace: {}, total: 0 };
+    return { champion: {}, runnerup: {}, thirdplace: {}, total: 0, voters: 0 };
   }
 }
 
-async function postVote(vote: UserVote): Promise<VoteData> {
+async function postVote(vote: UserVote): Promise<VoteData & { record?: unknown }> {
   const res = await fetch("/api/app/vote", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(vote),
   });
   if (!res.ok) throw new Error("投票失败");
-  return (await res.json()) as VoteData;
+  return (await res.json()) as VoteData & { record?: unknown };
 }
 
 export function useChampionVote(): VoteState {
@@ -84,6 +87,7 @@ export function useChampionVote(): VoteState {
       if (vote.runnerup) next.runnerup[vote.runnerup] = (next.runnerup[vote.runnerup] ?? 0) + 1;
       if (vote.thirdplace) next.thirdplace[vote.thirdplace] = (next.thirdplace[vote.thirdplace] ?? 0) + 1;
       next.total = prev.total + [vote.champion, vote.runnerup, vote.thirdplace].filter(Boolean).length;
+      next.voters = (prev.voters ?? 0) + 1;
       return next;
     });
 
@@ -101,6 +105,7 @@ export function useChampionVote(): VoteState {
         if (vote.runnerup) next.runnerup[vote.runnerup] = Math.max(0, (next.runnerup[vote.runnerup] ?? 0) - 1);
         if (vote.thirdplace) next.thirdplace[vote.thirdplace] = Math.max(0, (next.thirdplace[vote.thirdplace] ?? 0) - 1);
         next.total = Math.max(0, prev.total - [vote.champion, vote.runnerup, vote.thirdplace].filter(Boolean).length);
+        next.voters = Math.max(0, (prev.voters ?? 0) - 1);
         return next;
       });
     } finally {

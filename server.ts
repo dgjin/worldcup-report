@@ -320,9 +320,9 @@ async function start() {
 
   // ====== 冠军投票 API ======
 
-  app.get("/api/app/vote", async (_req, res) => {
+  app.get("/api/app/vote", async (req, res) => {
     const sb = getSb();
-    if (!sb) { res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0 }); return; }
+    if (!sb) { res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0, voters: 0 }); return; }
     try {
       const { data } = await sb.from("gallery_likes").select("photo_key,likes");
       const result = { champion: {} as Record<string, number>, runnerup: {} as Record<string, number>, thirdplace: {} as Record<string, number> };
@@ -334,18 +334,38 @@ async function start() {
         if (cat in result) result[cat][team] = row.likes;
       }
       const total = Object.values(result).reduce((s, cat) => s + Object.values(cat).reduce((a, b) => a + b, 0), 0);
+      // 读取个人投票记录数
+      let voters = 0;
+      try {
+        const { count } = await sb.from("wc_data").select("id", { count: "exact", head: true }).like("type", "vote_record_%");
+        voters = count ?? 0;
+      } catch { /* ignore */ }
+      const response: Record<string, unknown> = { ...result, total, voters };
+      // 如果提供了 email，查找该用户的投票记录
+      const email = (req.query.email as string)?.trim();
+      if (email) {
+        try {
+          const { data: records } = await sb.from("wc_data").select("data").like("type", "vote_record_%");
+          for (const row of (records ?? [])) {
+            if (row.data?.email?.toLowerCase() === email.toLowerCase()) {
+              response.myRecord = row.data;
+              break;
+            }
+          }
+        } catch { /* ignore */ }
+      }
       res.set("Cache-Control", "public, max-age=15");
-      res.json({ ...result, total });
+      res.json(response);
     } catch (e) {
       console.error("[vote GET]", (e as Error).message);
-      res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0 });
+      res.json({ champion: {}, runnerup: {}, thirdplace: {}, total: 0, voters: 0 });
     }
   });
 
   app.post("/api/app/vote", async (req, res) => {
     const sb = getSb();
     if (!sb) { res.status(500).json({ error: "Supabase not configured" }); return; }
-    const { champion, runnerup, thirdplace } = req.body ?? {};
+    const { champion, runnerup, thirdplace, email, name } = req.body ?? {};
     const picks = [
       { cat: "champion", team: champion },
       { cat: "runnerup", team: runnerup },
@@ -355,6 +375,23 @@ async function start() {
     if (picks.length === 0) { res.status(400).json({ error: "请至少选择一个名次" }); return; }
 
     try {
+      // 1. 存入个人投票记录到 wc_data
+      const recordId = `vote_record_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const recordData = {
+        email: email?.trim() || "",
+        name: name?.trim() || "",
+        champion: champion?.trim() || "",
+        runnerup: runnerup?.trim() || "",
+        thirdplace: thirdplace?.trim() || "",
+        ts: new Date().toISOString(),
+      };
+      try {
+        await sb.from("wc_data").insert({ type: recordId, data: recordData, source: "user", updated_at: new Date().toISOString() });
+      } catch (e) {
+        console.error("[vote] record save failed:", (e as Error).message);
+      }
+
+      // 2. 更新聚合计数到 gallery_likes
       for (const { cat, team } of picks) {
         const key = `vote_${cat}_${team.trim()}`;
         const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", key).maybeSingle();
@@ -376,7 +413,12 @@ async function start() {
         if (cat in result) result[cat][team] = row.likes;
       }
       const total = Object.values(result).reduce((s, cat) => s + Object.values(cat).reduce((a, b) => a + b, 0), 0);
-      res.json({ ok: true, ...result, total });
+      let voters = 0;
+      try {
+        const { count } = await sb.from("wc_data").select("id", { count: "exact", head: true }).like("type", "vote_record_%");
+        voters = count ?? 0;
+      } catch { /* ignore */ }
+      res.json({ ok: true, ...result, total, voters, record: recordData });
     } catch (e) {
       console.error("[vote POST]", (e as Error).message);
       res.status(500).json({ error: (e as Error).message });

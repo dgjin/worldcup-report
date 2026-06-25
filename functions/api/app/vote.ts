@@ -1,10 +1,13 @@
 /**
  * Champion Vote API — 用户投票冠军/亚军/季军
  *
- * GET  /api/app/vote  → { champion: {team: count}, runnerup: {...}, thirdplace: {...}, total: number }
- * POST /api/app/vote  → 提交投票 { champion, runnerup, thirdplace } → { ok: true, total: number }
+ * GET  /api/app/vote            → 聚合投票结果 { champion, runnerup, thirdplace, total, voters }
+ * GET  /api/app/vote?email=xxx  → 额外返回该邮箱的投票记录 { ...aggregate, myRecord }
+ * POST /api/app/vote            → 提交投票 { champion, runnerup, thirdplace, email?, name? }
  *
- * 数据存储: Supabase gallery_likes 表（复用），键格式: vote_{category}_{teamZh}
+ * 数据存储:
+ *   - 聚合计数: gallery_likes 表，键格式 vote_{category}_{teamZh}
+ *   - 个人记录: wc_data 表，type=vote_record_{id}，data=JSONB{email,name,champion,runnerup,thirdplace,ts}
  * 防重复投票: 前端 localStorage 记录
  */
 
@@ -39,19 +42,17 @@ async function sbFetch(env: Env, path: string, options: RequestInit = {}): Promi
   return ct.includes("json") ? res.json() : null;
 }
 
-/** 从 gallery_likes 读取所有投票数据 */
-async function readVotes(env: Env): Promise<Record<VoteCategory, Record<string, number>>> {
+/** 从 gallery_likes 读取聚合计数 */
+async function readAggregate(env: Env): Promise<Record<VoteCategory, Record<string, number>>> {
   const result: Record<VoteCategory, Record<string, number>> = {
     champion: {},
     runnerup: {},
     thirdplace: {},
   };
-
   try {
-    // 读取所有 vote_ 前缀的行
     const rows = await sbFetch(env, `gallery_likes?select=photo_key,likes&photo_key=like.vote_*`);
     for (const row of rows ?? []) {
-      const parts = row.photo_key.split("_"); // vote_champion_阿根廷 → ["vote", "champion", "阿根廷"]
+      const parts = row.photo_key.split("_");
       if (parts.length < 3) continue;
       const cat = parts[1] as VoteCategory;
       const team = parts.slice(2).join("_");
@@ -59,11 +60,37 @@ async function readVotes(env: Env): Promise<Record<VoteCategory, Record<string, 
         result[cat][team] = row.likes;
       }
     }
-  } catch {
-    // Supabase 未配置或出错，返回空
-  }
-
+  } catch { /* empty */ }
   return result;
+}
+
+/** 读取个人投票记录数 */
+async function countVoteRecords(env: Env): Promise<number> {
+  try {
+    const rows = await sbFetch(env, `wc_data?select=type&type=like.vote_record_*`);
+    return rows?.length ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+/** 按邮箱查找个人投票记录 */
+async function findVoteByEmail(env: Env, email: string): Promise<any | null> {
+  try {
+    // PostgREST 不支持 JSONB 直接查询，先取所有记录再过滤
+    const rows = await sbFetch(env, `wc_data?select=data&type=like.vote_record_*`);
+    for (const row of rows ?? []) {
+      if (row.data?.email?.toLowerCase() === email.toLowerCase()) {
+        return row.data;
+      }
+    }
+  } catch { /* empty */ }
+  return null;
+}
+
+/** 生成唯一 ID */
+function genId(): string {
+  return `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
 export const onRequest: PagesFunction<Env> = async (ctx) => {
@@ -77,13 +104,25 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 
   try {
     if (ctx.request.method === "GET") {
-      const votes = await readVotes(sb);
-      const total = Object.values(votes).reduce(
+      const url = new URL(ctx.request.url);
+      const email = url.searchParams.get("email")?.trim();
+
+      const aggregate = await readAggregate(sb);
+      const total = Object.values(aggregate).reduce(
         (sum, cat) => sum + Object.values(cat).reduce((s, v) => s + v, 0),
         0,
       );
+      const voters = await countVoteRecords(sb);
+
+      const result: Record<string, unknown> = { ...aggregate, total, voters };
+
+      // 如果提供了 email，查找该用户的投票记录
+      if (email) {
+        result.myRecord = await findVoteByEmail(sb, email);
+      }
+
       headers["Cache-Control"] = "public, max-age=15";
-      return new Response(JSON.stringify({ ...votes, total }), { headers });
+      return new Response(JSON.stringify(result), { headers });
     }
 
     if (ctx.request.method === "POST") {
@@ -91,6 +130,8 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
         champion?: string;
         runnerup?: string;
         thirdplace?: string;
+        email?: string;
+        name?: string;
       };
 
       const picks: { cat: VoteCategory; team: string }[] = [];
@@ -103,7 +144,35 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
         return new Response(JSON.stringify({ error: "请至少选择一个名次" }), { status: 400, headers });
       }
 
-      // 为每个选择 +1 票
+      const email = body.email?.trim() || "";
+      const name = body.name?.trim() || "";
+
+      // 1. 存入个人投票记录到 wc_data
+      const recordId = `vote_record_${genId()}`;
+      const recordData = {
+        email,
+        name,
+        champion: body.champion?.trim() || "",
+        runnerup: body.runnerup?.trim() || "",
+        thirdplace: body.thirdplace?.trim() || "",
+        ts: new Date().toISOString(),
+      };
+      try {
+        await sbFetch(sb, "wc_data", {
+          method: "POST",
+          body: JSON.stringify({
+            type: recordId,
+            data: recordData,
+            source: "user",
+            updated_at: new Date().toISOString(),
+          }),
+        });
+      } catch (e) {
+        console.error("[vote] record save failed:", (e as Error).message);
+        // 记录保存失败不影响聚合计数
+      }
+
+      // 2. 更新聚合计数到 gallery_likes
       for (const { cat, team } of picks) {
         const key = `vote_${cat}_${team}`;
         try {
@@ -122,26 +191,26 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
               body: JSON.stringify({ photo_key: key, likes: 1, updated_at: new Date().toISOString() }),
             });
           }
-        } catch {
-          // 单条失败不影响其他
-        }
+        } catch { /* 单条失败不影响其他 */ }
       }
 
-      // 返回最新投票数据
-      const votes = await readVotes(sb);
-      const total = Object.values(votes).reduce(
+      // 3. 返回最新聚合数据
+      const aggregate = await readAggregate(sb);
+      const total = Object.values(aggregate).reduce(
         (sum, cat) => sum + Object.values(cat).reduce((s, v) => s + v, 0),
         0,
       );
+      const voters = await countVoteRecords(sb);
+
       headers["Cache-Control"] = "no-store";
-      return new Response(JSON.stringify({ ok: true, ...votes, total }), { headers });
+      return new Response(JSON.stringify({ ok: true, ...aggregate, total, voters, record: recordData }), { headers });
     }
 
     return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers });
   } catch (e) {
     console.error("[vote]", (e as Error).message);
     if (ctx.request.method === "GET") {
-      return new Response(JSON.stringify({ champion: {}, runnerup: {}, thirdplace: {}, total: 0 }), { headers });
+      return new Response(JSON.stringify({ champion: {}, runnerup: {}, thirdplace: {}, total: 0, voters: 0 }), { headers });
     }
     return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500, headers });
   }
