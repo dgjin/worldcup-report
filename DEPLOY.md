@@ -25,7 +25,7 @@ git push origin main
    - **Output directory**: `dist/client`
    - **Build output root**: `/`（留空）
 5. 展开 **Environment Variables**，添加：
-   - `FOOTBALL_DATA_TOKEN` = `e265de53ca25435286f91d39c3ac11c1`
+   - `FOOTBALL_DATA_TOKEN` = ``
 6. 点击 **Save and Deploy**
 
 后续每次 `git push` 会自动触发部署。
