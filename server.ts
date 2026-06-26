@@ -458,17 +458,20 @@ async function start() {
         return;
       }
 
-      // 相比「上次」（本地 JSON 缓存）计算新增张数
+      // 相比「上次」（本地 JSON 缓存）识别新增，并把新增排在最前面
       const prev = loadLocalCache();
       const prevKeys = new Set((prev?.photos ?? []).map(p => p.src.medium));
-      const added = prev ? current.filter(p => !prevKeys.has(p.src.medium)).length : total;
+      const newOnes = current.filter(p => !prevKeys.has(p.src.medium));
+      const existing = current.filter(p => prevKeys.has(p.src.medium));
+      const ordered = [...newOnes, ...existing];
+      const added = prev ? newOnes.length : total;
 
       res.json({
         ok: true,
         message: added > 0 ? `新增 ${added} 张照片` : "图片已是最新",
         collectedAt: new Date().toISOString(),
         results: { abcnews: abcCount, usatoday: usaCount, apnews: apCount },
-        photos: current,
+        photos: ordered,
         source: "merged",
         total,
         added,

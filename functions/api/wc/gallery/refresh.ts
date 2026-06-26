@@ -191,22 +191,32 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       return new Response(JSON.stringify({ ok: false, error: "未能从任何来源获取到图片" }), { status: 502, headers });
     }
 
-    // 3. 读取上次缓存，计算相比上次的「新增」张数
+    // 3. 读取上次缓存的图片 key，用于识别「新增」照片
     const collectedAt = new Date().toISOString();
     const kv = ctx.env.GALLERY_CACHE;
-    let added = total; // 默认（首次或无缓存）全部算新增
+    let prevKeys = new Set<string>();
 
     if (kv) {
       try {
         const prevRaw = await kv.get("latest");
         if (prevRaw) {
           const prev = JSON.parse(prevRaw) as { photos?: GalleryPhoto[] };
-          const prevKeys = new Set((prev.photos ?? []).map(p => p.src.medium));
-          added = current.filter(p => !prevKeys.has(p.src.medium)).length;
+          prevKeys = new Set((prev.photos ?? []).map(p => p.src.medium));
         }
-        // 4. 写入新缓存（覆盖 latest）
-        await kv.put("latest", JSON.stringify({ photos: current, collectedAt }));
-      } catch (e) { console.error("[refresh:kv]", (e as Error).message); }
+      } catch (e) { console.error("[refresh:kv:read]", (e as Error).message); }
+    }
+
+    // 把「新增」（不在上次缓存里的）排在最前面，其余保持原序
+    const newOnes = current.filter(p => !prevKeys.has(p.src.medium));
+    const existing = current.filter(p => prevKeys.has(p.src.medium));
+    const ordered = [...newOnes, ...existing];
+    const added = prevKeys.size === 0 ? total : newOnes.length;
+
+    // 4. 写入新缓存（覆盖 latest），持久化「新增置顶」的顺序
+    if (kv) {
+      try {
+        await kv.put("latest", JSON.stringify({ photos: ordered, collectedAt }));
+      } catch (e) { console.error("[refresh:kv:write]", (e as Error).message); }
     }
 
     return new Response(JSON.stringify({
@@ -216,7 +226,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       results,
       total,
       added,
-      photos: current,
+      photos: ordered,
     }), { headers });
   } catch (e) {
     console.error("[gallery-refresh]", (e as Error).message);
