@@ -57,10 +57,10 @@ export default function App() {
             <Trophy className="h-6 w-6 text-white" />
           </div>
           <div className="min-w-0">
-            <h1 className="font-display text-xl font-bold leading-none text-ink sm:text-3xl">
+            <h1 className="whitespace-nowrap font-display text-xl font-bold leading-none text-ink sm:text-3xl">
               2026 世界杯战报
             </h1>
-            <p className="mt-1 text-[11px] tracking-wide text-muted">FIFA WORLD CUP 2026 · 美加墨 · 48 队</p>
+            <p className="mt-1 hidden text-[11px] tracking-wide text-muted sm:block">FIFA WORLD CUP 2026 · 美加墨 · 48 队</p>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function App() {
             onClick={appLikes.likeApp}
             disabled={appLikes.liking}
             className={cn(
-              "flex flex-col items-center gap-0.5 rounded-xl border px-2.5 py-1.5 transition-all active:scale-90",
+              "hidden flex-col items-center gap-0.5 rounded-xl border px-2.5 py-1.5 transition-all active:scale-90 sm:flex",
               appLikes.liked
                 ? "border-red-500/30 bg-red-500/10 text-red-400"
                 : "border-line/60 bg-surface/60 text-muted hover:border-red-400/40 hover:text-red-400",
@@ -85,28 +85,27 @@ export default function App() {
             <span className="text-[11px] font-semibold tabular-nums">{appLikes.likes}</span>
           </button>
 
-          <div className="text-right">
-            <div className="flex items-center justify-end gap-1.5">
-              {source === "live" ? (
-                <>
-                  <span className="live-dot h-2 w-2 rounded-full bg-pitch" />
-                  <span className="text-xs font-semibold text-pitch">实时数据</span>
-                </>
-              ) : source === "supabase" ? (
-                <>
-                  <span className="live-dot h-2 w-2 rounded-full bg-emerald-500" />
-                  <span className="text-xs font-semibold text-emerald-600">数据库</span>
-                </>
-              ) : (
-                <>
-                  <span className="h-2 w-2 rounded-full bg-gold" />
-                  <span className="text-xs font-semibold text-gold">快照数据</span>
-                </>
+          {/* 数据状态：移动端只显示圆点，桌面端显示文字+更新时间 */}
+          <div className="flex items-center gap-1.5">
+            <span
+              className={cn(
+                "h-2 w-2 shrink-0 rounded-full",
+                source === "live" ? "live-dot bg-pitch" : source === "supabase" ? "live-dot bg-emerald-500" : "bg-gold",
+              )}
+            />
+            <div className="hidden text-right sm:block">
+              <span
+                className={cn(
+                  "text-xs font-semibold",
+                  source === "live" ? "text-pitch" : source === "supabase" ? "text-emerald-600" : "text-gold",
+                )}
+              >
+                {source === "live" ? "实时数据" : source === "supabase" ? "数据库" : "快照数据"}
+              </span>
+              {updatedAt && (
+                <div className="text-[10px] text-muted">更新于 {updatedAt.toLocaleTimeString("zh-CN")}</div>
               )}
             </div>
-            {updatedAt && (
-              <div className="text-[10px] text-muted">更新于 {updatedAt.toLocaleTimeString("zh-CN")}</div>
-            )}
           </div>
           <button
             onClick={reload}

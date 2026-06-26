@@ -14,7 +14,7 @@
 interface Env {
   SUPABASE_URL?: string;
   SUPABASE_SERVICE_ROLE_KEY?: string;
-  /** 查看投票详情的密码，默认 978615 */
+  /** 查看投票详情的密码（未配置则关闭详情查看入口） */
   VOTE_DETAIL_PASSWORD?: string;
 }
 
@@ -139,8 +139,8 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       // 投票详情（需密码）：?detail=密码
       const detail = url.searchParams.get("detail");
       if (detail != null) {
-        const pw = ctx.env.VOTE_DETAIL_PASSWORD || "978615";
-        if (detail !== pw) {
+        const pw = ctx.env.VOTE_DETAIL_PASSWORD;
+        if (!pw || detail !== pw) {
           return new Response(JSON.stringify({ error: "密码错误" }), { status: 403, headers });
         }
         result.records = await readAllRecords(sb);
