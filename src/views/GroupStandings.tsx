@@ -4,6 +4,7 @@ import { bestThirdIds, qualifyState, todayMatches, type QualifyState } from "../
 import { playerZh, teamZh } from "../lib/teams";
 import { timeLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
+import FanTalk from "./FanTalk";
 
 const ROW_TONE: Record<QualifyState, string> = {
   direct: "border-l-pitch bg-pitch/[0.06]",
@@ -240,6 +241,7 @@ export default function GroupStandings({ groups, matches }: { groups: GroupTable
   return (
     <section>
       <TodayBriefing split={matches} />
+      <FanTalk />
       <SectionHeading
         kicker="小组赛"
         title="小组赛积分榜"

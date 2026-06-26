@@ -95,3 +95,20 @@ body::before {
 .live-dot {
   animation: pulse-dot 1.4s ease-in-out infinite;
 }
+
+/* 球迷交流区：留言竖向无缝循环滚动（内容复制两份 → 滚动一半即无缝接上） */
+@keyframes fan-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+.fan-track {
+  animation: fan-scroll linear infinite;
+  will-change: transform;
+}
+.fan-marquee:hover .fan-track {
+  animation-play-state: paused;
+}

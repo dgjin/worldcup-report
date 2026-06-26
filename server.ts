@@ -63,6 +63,7 @@ function authSync(req: express.Request, res: express.Response): boolean {
 
 async function start() {
   const app = express();
+  app.use(express.json()); // 解析 JSON 请求体（投票/点赞/留言等 POST 路由依赖）
 
   for (const key of Object.keys(ENDPOINTS) as WcDataType[]) {
     app.get(`/api/wc/${key}`, async (_req, res) => {
@@ -642,6 +643,50 @@ async function start() {
   });
 
   // ====== 冠军投票 API END ======
+
+  // ====== 球迷交流区 API ======
+  app.get("/api/app/messages", async (req, res) => {
+    const sb = getSb();
+    if (!sb) { res.json({ messages: [] }); return; }
+    const limit = Math.min(Math.max(parseInt(String(req.query.limit ?? ""), 10) || 60, 1), 100);
+    try {
+      const { data } = await sb
+        .from("wc_data")
+        .select("type,data")
+        .like("type", "msg_%")
+        .order("type", { ascending: false })
+        .limit(limit);
+      const messages = (data ?? []).map((r: any) => ({
+        id: r.type,
+        nickname: (r.data?.nickname ?? "").trim(),
+        content: r.data?.content ?? "",
+        ts: r.data?.ts ?? "",
+      }));
+      res.json({ messages });
+    } catch (e) {
+      console.error("[messages GET]", (e as Error).message);
+      res.json({ messages: [] });
+    }
+  });
+
+  app.post("/api/app/messages", async (req, res) => {
+    const sb = getSb();
+    if (!sb) { res.status(500).json({ error: "Supabase not configured" }); return; }
+    const { content, nickname, anonymous } = req.body ?? {};
+    const text = String(content ?? "").trim().slice(0, 140);
+    if (!text) { res.status(400).json({ error: "留言内容不能为空" }); return; }
+    const nick = anonymous ? "" : String(nickname ?? "").trim().slice(0, 24);
+    const ts = new Date().toISOString();
+    const type = `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    try {
+      await sb.from("wc_data").insert({ type, data: { nickname: nick, content: text, ts }, source: "user", updated_at: ts });
+      res.json({ ok: true, message: { id: type, nickname: nick, content: text, ts } });
+    } catch (e) {
+      console.error("[messages POST]", (e as Error).message);
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+  // ====== 球迷交流区 API END ======
 
   if (!isProd) {
     const { createServer } = await import("vite");
