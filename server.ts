@@ -443,25 +443,35 @@ async function start() {
       const abcCount = abcPhotos?.length ?? 0;
       const usaCount = usaPhotos?.length ?? 0;
       const apCount = apPhotos?.length ?? 0;
-      const total = abcCount + usaCount + apCount;
 
-      // 合并返回
+      // 合并去重，得到本次完整图集（以 src.medium 为唯一 key）
       const all: GalleryPhoto[] = [];
       if (abcPhotos) all.push(...abcPhotos);
       if (usaPhotos) all.push(...usaPhotos);
       if (apPhotos) all.push(...apPhotos);
+      const seen = new Set<string>();
+      const current = all.filter(p => { const k = p.src.medium; if (seen.has(k)) return false; seen.add(k); return true; });
+      const total = current.length;
 
-      const collectedAt = new Date().toISOString();
-      const PER_PAGE = 24;
+      if (total === 0) {
+        res.status(502).json({ ok: false, error: "未能从任何来源获取到图片" });
+        return;
+      }
+
+      // 相比「上次」（本地 JSON 缓存）计算新增张数
+      const prev = loadLocalCache();
+      const prevKeys = new Set((prev?.photos ?? []).map(p => p.src.medium));
+      const added = prev ? current.filter(p => !prevKeys.has(p.src.medium)).length : total;
+
       res.json({
         ok: true,
-        message: `成功收集 ${total} 张照片（ABC:${abcCount} USA:${usaCount} AP:${apCount}）`,
-        collectedAt,
+        message: added > 0 ? `新增 ${added} 张照片` : "图片已是最新",
+        collectedAt: new Date().toISOString(),
         results: { abcnews: abcCount, usatoday: usaCount, apnews: apCount },
-        photos: all.slice(0, PER_PAGE),
-        next_page: all.length > PER_PAGE ? "2" : undefined,
+        photos: current,
         source: "merged",
         total,
+        added,
       });
     } catch (e) {
       res.status(500).json({ ok: false, error: (e as Error).message });

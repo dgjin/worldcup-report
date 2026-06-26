@@ -1,8 +1,20 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Camera, ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Heart, RefreshCw, AlertCircle } from "lucide-react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { Camera, ChevronLeft, ChevronRight, ExternalLink, Heart, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
+
+/** 检测是否为移动端/小屏（用于加载更小图片） */
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 640);
+  useEffect(() => {
+    const onResize = () => setMobile(window.innerWidth < 640);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return mobile;
+}
 
 /** 灯箱 —— 全屏查看照片，支持左右滑动浏览 */
 function Lightbox({
@@ -145,11 +157,12 @@ function Lightbox({
   );
 }
 
-/** 照片卡片 —— 带悬停效果、摄影师信息和点赞按钮 */
-function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
+/** 照片卡片 —— 响应式图片 + 悬停效果 + 摄影师信息 + 点赞 */
+function PhotoCard({ photo, onClick, priority, isMobile, likes, onLike, liking }: {
   photo: GalleryPhoto;
   onClick: () => void;
   priority?: boolean;
+  isMobile: boolean;
   likes: Record<string, number>;
   onLike: (p: GalleryPhoto) => void;
   liking: Record<string, boolean>;
@@ -159,6 +172,12 @@ function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
   const pk = getPhotoKey(photo);
   const count = likes[pk] ?? 0;
   const isLiking = liking[pk] ?? false;
+
+  // 响应式图片：移动端用 small（400px），桌面端用 medium（800px）
+  const largeSrc = photo.src.large;
+  const mediumSrc = photo.src.medium;
+  const smallSrc = photo.src.small;
+  const defaultSrc = isMobile ? smallSrc : mediumSrc;
 
   return (
     <div
@@ -173,16 +192,27 @@ function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
         <span className="sr-only">查看大图</span>
       </button>
 
-      {/* 加载占位 */}
+      {/* 加载占位 - 低质量背景色块 */}
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-surface">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
         </div>
       )}
+
+      {/* 响应式图片：srcSet + sizes 让浏览器自动选择合适尺寸 */}
       <img
-        src={photo.src.medium}
+        src={defaultSrc}
+        srcSet={`${smallSrc} 400w, ${mediumSrc} 800w, ${largeSrc} 1600w`}
+        sizes={isMobile
+          ? "100vw"
+          : "(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        }
         alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
         loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
         onLoad={() => setLoaded(true)}
         className={cn(
           "h-full w-full object-cover transition-all duration-500",
@@ -220,31 +250,66 @@ function PhotoCard({ photo, onClick, priority, likes, onLike, liking }: {
   );
 }
 
-/** 滚动加载触发器 */
-function InfiniteScrollTrigger({ onInView, loading }: { onInView: () => void; loading: boolean }) {
+/** 滚动自动加载触发器 —— IntersectionObserver 监听底部哨兵元素 */
+function InfiniteScrollTrigger({ onInView, loading, hasMore }: { onInView: () => void; loading: boolean; hasMore: boolean }) {
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore || loading) return;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) onInView();
+      },
+      { rootMargin: "300px" }, // 提前 300px 触发，减少等待感
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [onInView, hasMore, loading]);
+
+  if (!hasMore) return null;
+
   return (
-    <div className="flex justify-center py-8">
-      {loading ? (
+    <div ref={sentinelRef} className="flex justify-center py-8">
+      {loading && (
         <div className="flex items-center gap-2 text-sm text-muted">
           <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary/30 border-t-primary" />
           加载中…
         </div>
-      ) : (
-        <button
-          onClick={onInView}
-          className="inline-flex items-center gap-1.5 rounded-xl border border-line/60 bg-surface/60 px-5 py-2.5 text-sm text-muted transition-colors hover:border-primary/50 hover:text-ink"
-        >
-          <ChevronDown className="h-4 w-4" />
-          加载更多
-        </button>
       )}
     </div>
   );
 }
 
 export default function Gallery() {
-  const { photos, loading, error, loadMore, hasMore, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking } = useGallery();
+  const { photos, loading, error, loadMore, hasMore, moreLoading, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking } = useGallery();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [toast, setToast] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+  const isMobile = useIsMobile();
+
+  // 点击「更新图片」：刷新完成后用 toast 提示相比上次新增了多少张
+  const handleRefresh = useCallback(async () => {
+    try {
+      const r = await refresh();
+      if (!r) return; // 正在刷新中，忽略重复点击
+      setToast({
+        kind: "success",
+        text: r.added > 0 ? `已更新，新增 ${r.added} 张照片` : "图片已是最新，暂无新增",
+      });
+    } catch (e) {
+      setToast({ kind: "error", text: `更新失败：${(e as Error).message}` });
+    }
+  }, [refresh]);
+
+  // toast 2.5 秒后自动消失
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   // 格式化更新时间
   const updatedAt = collectedAt
@@ -269,6 +334,30 @@ export default function Gallery() {
 
   return (
     <section className="space-y-6">
+      {/* 顶部浮层 Toast —— 刷新结果提示 */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.2 }}
+            role="status"
+            className={cn(
+              "fixed left-1/2 top-4 z-[60] flex -translate-x-1/2 items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-medium shadow-lg backdrop-blur",
+              toast.kind === "success"
+                ? "border-pitch/40 bg-surface-2/95 text-pitch"
+                : "border-primary-bright/40 bg-surface-2/95 text-primary-bright",
+            )}
+          >
+            {toast.kind === "success"
+              ? <CheckCircle2 className="h-4 w-4 shrink-0" />
+              : <AlertCircle className="h-4 w-4 shrink-0" />}
+            {toast.text}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <SectionHeading
         kicker="GALLERY"
         title="精彩瞬间"
@@ -280,7 +369,7 @@ export default function Gallery() {
               </span>
             )}
             <button
-              onClick={refresh}
+              onClick={handleRefresh}
               disabled={refreshing}
               className={cn(
                 "flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium transition-colors",
@@ -319,6 +408,7 @@ export default function Gallery() {
                 key={photo.id}
                 photo={photo}
                 priority={i < 6}
+                isMobile={isMobile}
                 onClick={() => setSelectedIdx(i)}
                 likes={likes}
                 onLike={likePhoto}
@@ -327,10 +417,12 @@ export default function Gallery() {
             ))}
           </div>
 
-          {/* 加载更多按钮 */}
-          {hasMore && (
-            <InfiniteScrollTrigger onInView={loadMore} loading={loading} />
-          )}
+          {/* 滚动自动加载（桌面+移动端统一触发） */}
+          <InfiniteScrollTrigger
+            onInView={loadMore}
+            loading={moreLoading}
+            hasMore={hasMore}
+          />
 
           {/* 底部署名 */}
           <p className="text-center text-[10px] text-muted">

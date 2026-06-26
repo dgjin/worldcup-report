@@ -169,55 +169,54 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   };
 
   try {
+    // 1. 并行抓取三个来源（只抓一次，各源失败互不影响）
     const results: Record<string, number> = {};
+    const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
+      collectAbcNews().catch((e) => { console.error("[refresh:abc]", (e as Error).message); results.abcnews = -1; return [] as GalleryPhoto[]; }),
+      collectUsaToday().catch((e) => { console.error("[refresh:usa]", (e as Error).message); results.usatoday = -1; return [] as GalleryPhoto[]; }),
+      collectApNews().catch((e) => { console.error("[refresh:ap]", (e as Error).message); results.apnews = -1; return [] as GalleryPhoto[]; }),
+    ]);
+    if (results.abcnews !== -1) results.abcnews = abcPhotos.length;
+    if (results.usatoday !== -1) results.usatoday = usaPhotos.length;
+    if (results.apnews !== -1) results.apnews = apPhotos.length;
 
-    // 1. ABC News
-    try {
-      results.abcnews = (await collectAbcNews()).length;
-    } catch (e) { results.abcnews = -1; console.error("[refresh:abc]", (e as Error).message); }
+    // 2. 合并去重，得到本次完整图集（以 src.medium 为唯一 key）
+    const all = [...abcPhotos, ...usaPhotos, ...apPhotos];
+    const seen = new Set<string>();
+    const current = all.filter(p => { const k = p.src.medium; if (seen.has(k)) return false; seen.add(k); return true; });
+    const total = current.length;
 
-    // 2. USA Today
-    try {
-      results.usatoday = (await collectUsaToday()).length;
-    } catch (e) { results.usatoday = -1; console.error("[refresh:usa]", (e as Error).message); }
+    // 三个来源全部失败 → 返回错误，前端据此提示「更新失败」
+    if (total === 0) {
+      return new Response(JSON.stringify({ ok: false, error: "未能从任何来源获取到图片" }), { status: 502, headers });
+    }
 
-    // 3. AP News
-    try {
-      results.apnews = (await collectApNews()).length;
-    } catch (e) { results.apnews = -1; console.error("[refresh:ap]", (e as Error).message); }
-
-    const total = Object.values(results).reduce((a, b) => a + Math.max(0, b), 0);
-
-    // 写入 KV 缓存
+    // 3. 读取上次缓存，计算相比上次的「新增」张数
+    const collectedAt = new Date().toISOString();
     const kv = ctx.env.GALLERY_CACHE;
+    let added = total; // 默认（首次或无缓存）全部算新增
+
     if (kv) {
-      // 将所有来源的照片合并写入 KV
       try {
-        const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
-          collectAbcNews().catch(() => [] as GalleryPhoto[]),
-          collectUsaToday().catch(() => [] as GalleryPhoto[]),
-          collectApNews().catch(() => [] as GalleryPhoto[]),
-        ]);
-
-        const all = [...abcPhotos, ...usaPhotos, ...apPhotos];
-        const seen = new Set<string>();
-        const unique = all.filter(p => { const k = p.src.medium; if (seen.has(k)) return false; seen.add(k); return true; });
-
-        if (unique.length > 0) {
-          await kv.put("latest", JSON.stringify({
-            photos: unique,
-            collectedAt: new Date().toISOString(),
-          }));
+        const prevRaw = await kv.get("latest");
+        if (prevRaw) {
+          const prev = JSON.parse(prevRaw) as { photos?: GalleryPhoto[] };
+          const prevKeys = new Set((prev.photos ?? []).map(p => p.src.medium));
+          added = current.filter(p => !prevKeys.has(p.src.medium)).length;
         }
+        // 4. 写入新缓存（覆盖 latest）
+        await kv.put("latest", JSON.stringify({ photos: current, collectedAt }));
       } catch (e) { console.error("[refresh:kv]", (e as Error).message); }
     }
 
     return new Response(JSON.stringify({
       ok: true,
-      message: `收集完成 ${total} 张照片`,
-      collectedAt: new Date().toISOString(),
+      message: added > 0 ? `新增 ${added} 张照片` : "图片已是最新",
+      collectedAt,
       results,
       total,
+      added,
+      photos: current,
     }), { headers });
   } catch (e) {
     console.error("[gallery-refresh]", (e as Error).message);

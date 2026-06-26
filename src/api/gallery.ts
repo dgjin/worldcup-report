@@ -21,6 +21,7 @@ export interface GalleryData {
 export interface GalleryState {
   photos: GalleryPhoto[];
   loading: boolean;
+  moreLoading: boolean;
   error: string | null;
   loadMore: () => void;
   hasMore: boolean;
@@ -29,7 +30,8 @@ export interface GalleryState {
   collectedAt: string | null;
   stale: boolean;
   refreshing: boolean;
-  refresh: () => void;
+  /** 手动刷新；成功时返回相比上次的新增张数与总张数，正在刷新中则返回 null，失败抛出异常 */
+  refresh: () => Promise<{ added: number; total: number } | null>;
   /** 点赞数映射 { photoKey → likes } */
   likes: Record<string, number>;
   /** 点赞照片 */
@@ -44,13 +46,13 @@ async function fetchGallery(page: number, signal?: AbortSignal): Promise<Gallery
   return (await res.json()) as GalleryData;
 }
 
-async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number }> {
+async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number; added?: number }> {
   const res = await fetch("/api/wc/gallery/refresh", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
   if (!res.ok) throw new Error(`刷新失败: HTTP ${res.status}`);
-  return (await res.json()) as GalleryData & { ok?: boolean; message?: string; total?: number };
+  return (await res.json()) as GalleryData & { ok?: boolean; message?: string; total?: number; added?: number };
 }
 
 async function fetchLikes(): Promise<Record<string, number>> {
@@ -82,6 +84,7 @@ export function getPhotoKey(photo: GalleryPhoto): string {
 export function useGallery(): GalleryState {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [moreLoading, setMoreLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [source, setSource] = useState<"newsapi" | "abcnews" | null>(null);
@@ -97,6 +100,7 @@ export function useGallery(): GalleryState {
   const load = useCallback(async (page: number, append = false) => {
     if (inFlight.current) return;
     inFlight.current = true;
+    if (append) setMoreLoading(true);
     abortRef.current?.abort();
     const ac = new AbortController();
     abortRef.current = ac;
@@ -123,6 +127,7 @@ export function useGallery(): GalleryState {
       inFlight.current = false;
       if (abortRef.current === ac) abortRef.current = null;
       setLoading(false);
+      setMoreLoading(false);
     }
   }, []);
 
@@ -145,23 +150,24 @@ export function useGallery(): GalleryState {
     load(1);
   }, [load]);
 
-  const refresh = useCallback(async () => {
-    if (refreshing) return;
+  const refresh = useCallback(async (): Promise<{ added: number; total: number } | null> => {
+    if (refreshing) return null;
     setRefreshing(true);
     try {
       const data = await refreshGallery();
-      if (data.photos) {
+      // 刷新接口返回去重后的完整图集 → 整体替换并重置分页
+      if (data.photos && data.photos.length > 0) {
         setPhotos(data.photos);
-        setHasMore(Boolean(data.next_page));
+        setHasMore(false);
         setSource("abcnews");
         setCollectedAt(data.collectedAt ?? new Date().toISOString());
         setStale(false);
         setError(null);
         pageRef.current = 1;
       }
-    } catch (e) {
-      setError((e as Error).message);
+      return { added: data.added ?? 0, total: data.total ?? data.photos?.length ?? 0 };
     } finally {
+      // 刷新失败不写 setError（否则整页会切到错误态），异常向上冒泡交由调用方用 toast 提示
       setRefreshing(false);
     }
   }, [refreshing]);
@@ -184,5 +190,5 @@ export function useGallery(): GalleryState {
     }
   }, [liking]);
 
-  return { photos, loading, error, loadMore, hasMore, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking };
+  return { photos, loading, moreLoading, error, loadMore, hasMore, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking };
 }
