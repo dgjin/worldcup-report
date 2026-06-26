@@ -2,6 +2,8 @@ import { useMemo, useRef, useState } from "react";
 import { BarChart3, Camera, Crown, Heart, RefreshCw, ScrollText, Shield, Target, Trophy, Users } from "lucide-react";
 import { useWorldCup } from "./api/client";
 import { useAppLikes } from "./api/app";
+import { useTheme } from "./lib/theme";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { splitMatches, toGroupTables, toScorers } from "./lib/transform";
 import { cn } from "./components/ui";
 import { Loader } from "./components/ui";
@@ -30,6 +32,7 @@ const TABS: { key: TabKey; label: string; icon: typeof Trophy }[] = [
 export default function App() {
   const { data, loading, error, source, updatedAt, reload } = useWorldCup();
   const appLikes = useAppLikes();
+  const { pref, setPref } = useTheme();
   const [tab, setTab] = useState<TabKey>("standings");
 
   const groups = useMemo(() => toGroupTables(data?.standings), [data]);
@@ -62,6 +65,7 @@ export default function App() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
+          <ThemeToggle pref={pref} onChange={setPref} />
           {/* 点赞按钮 */}
           <button
             onClick={appLikes.likeApp}

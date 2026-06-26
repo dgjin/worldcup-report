@@ -21,6 +21,21 @@
   color-scheme: dark;
 }
 
+/* 浅色主题：覆盖深色变量（语义色在白底上特意加深以保证对比度） */
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f6f8fc;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef2f8;
+  --color-line: #dce3ee;
+  --color-primary: #d92d3a;
+  --color-primary-bright: #e11d48;
+  --color-gold: #c2840a;
+  --color-pitch: #15a34a;
+  --color-ink: #18223a;
+  --color-muted: #5d6b85;
+}
+
 html {
   /* 不用 height:100%（在 iOS 上会按"大视口"解析，留下工具栏高度的可滚动空白） */
   overscroll-behavior-y: none;
@@ -45,6 +60,14 @@ body::before {
   background:
     radial-gradient(1100px 520px at 50% -8%, #182549 0%, rgba(10, 14, 26, 0) 60%),
     radial-gradient(900px 600px at 100% 0%, rgba(230, 57, 70, 0.12) 0%, rgba(10, 14, 26, 0) 55%),
+    var(--color-bg);
+}
+
+/* 浅色主题背景：极淡的红/蓝光晕呼应美加墨三国，克制不刺眼 */
+html[data-theme="light"] body::before {
+  background:
+    radial-gradient(1100px 520px at 50% -8%, #ffe6e9 0%, rgba(246, 248, 252, 0) 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(56, 122, 221, 0.08) 0%, rgba(246, 248, 252, 0) 55%),
     var(--color-bg);
 }
 

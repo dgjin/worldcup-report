@@ -4,6 +4,7 @@ import { teamZh, flagUrl } from "../lib/teams";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
 import { timeLabel } from "../lib/format";
 import { ChevronDown } from "lucide-react";
+import { useThemeColors } from "../lib/theme";
 
 const STAGE_ORDER = ["LAST_32", "LAST_16", "QUARTER_FINALS", "SEMI_FINALS", "FINAL"] as const;
 type KnockoutStage = (typeof STAGE_ORDER)[number];
@@ -26,21 +27,11 @@ const STAGE_COUNT: Record<KnockoutStage, number> = {
 
 /* ===================== 桌面端：SVG 中心收敛对阵图 ===================== */
 
-const C = {
-  box: "#121a2e",
-  line: "#243154",
-  live: "#e63946",
-  label: "#ff3b5c",
-  ink: "#eaf0ff",
-  muted: "#8a97b8",
-  win: "#2dd36f",
-  gold: "#ffd60a",
-};
-
 const ROUND_STAGES: KnockoutStage[] = ["LAST_32", "LAST_16", "QUARTER_FINALS", "SEMI_FINALS"];
 const PER_SIDE = [8, 4, 2, 1]; // R32 / R16 / QF / SF 每侧数量
 
 function SvgBracket({ byStage }: { byStage: Map<KnockoutStage, MatchRaw[]> }) {
+  const C = useThemeColors();
   const BW = 142;
   const BH = 46;
   const COLGAP = 30;
@@ -70,11 +61,11 @@ function SvgBracket({ byStage }: { byStage: Map<KnockoutStage, MatchRaw[]> }) {
     return (
       <>
         {url && <image href={url} x={9} y={yOff + (BH / 2 - 12) / 2} width={18} height={12} preserveAspectRatio="xMidYMid slice" />}
-        <text x={tx} y={yOff + BH / 4 + 4} fontSize={11.5} fill={win ? C.ink : name ? C.muted : "#5b678a"} fontWeight={win ? 700 : 500} fontStyle={name ? "normal" : "italic"}>
+        <text x={tx} y={yOff + BH / 4 + 4} fontSize={11.5} fill={win ? C.ink : C.muted} fontWeight={win ? 700 : 500} fontStyle={name ? "normal" : "italic"}>
           {name ? teamZh(name) : "待定"}
         </text>
         {score != null && (
-          <text x={BW - 9} y={yOff + BH / 4 + 4} fontSize={12} textAnchor="end" fill={win ? C.win : C.muted} fontWeight={700} fontFamily="Oswald, sans-serif">
+          <text x={BW - 9} y={yOff + BH / 4 + 4} fontSize={12} textAnchor="end" fill={win ? C.pitch : C.muted} fontWeight={700} fontFamily="Oswald, sans-serif">
             {score}
           </text>
         )}
@@ -89,7 +80,7 @@ function SvgBracket({ byStage }: { byStage: Map<KnockoutStage, MatchRaw[]> }) {
     const awayWin = !!finished && m?.score.winner === "AWAY_TEAM";
     return (
       <g key={key} transform={`translate(${x},${y})`}>
-        <rect width={BW} height={BH} rx={7} fill={C.box} fillOpacity={0.9} stroke={live ? C.live : gold ? C.gold : C.line} strokeWidth={live || gold ? 1.6 : 1} />
+        <rect width={BW} height={BH} rx={7} fill={C.surface} fillOpacity={0.9} stroke={live ? C.primary : gold ? C.gold : C.line} strokeWidth={live || gold ? 1.6 : 1} />
         <line x1={0} y1={BH / 2} x2={BW} y2={BH / 2} stroke={C.line} strokeOpacity={0.6} />
         {row(m?.homeTeam.name ?? null, 0, homeWin, finished ? m!.score.fullTime.home : null)}
         {row(m?.awayTeam.name ?? null, BH / 2, awayWin, finished ? m!.score.fullTime.away : null)}
@@ -109,8 +100,8 @@ function SvgBracket({ byStage }: { byStage: Map<KnockoutStage, MatchRaw[]> }) {
       boxes.push(box(`R${round}-${idx}`, rightX(round), cy(round, idx) - BH / 2, right[idx] ?? null));
     }
     labels.push(
-      <text key={`ll${round}`} x={leftX(round) + BW / 2} y={TOP - 16} textAnchor="middle" fontSize={11} fontWeight={700} fill={C.label}>{STAGE_ZH[ROUND_STAGES[round]]}</text>,
-      <text key={`lr${round}`} x={rightX(round) + BW / 2} y={TOP - 16} textAnchor="middle" fontSize={11} fontWeight={700} fill={C.label}>{STAGE_ZH[ROUND_STAGES[round]]}</text>,
+      <text key={`ll${round}`} x={leftX(round) + BW / 2} y={TOP - 16} textAnchor="middle" fontSize={11} fontWeight={700} fill={C["primary-bright"]}>{STAGE_ZH[ROUND_STAGES[round]]}</text>,
+      <text key={`lr${round}`} x={rightX(round) + BW / 2} y={TOP - 16} textAnchor="middle" fontSize={11} fontWeight={700} fill={C["primary-bright"]}>{STAGE_ZH[ROUND_STAGES[round]]}</text>,
     );
   }
 

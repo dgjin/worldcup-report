@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2026 世界杯战报 · 实时</title>
     <meta name="description" content="2026 世界杯实时战报：小组赛积分榜、射手榜、淘汰赛对阵、球队资料与数据图表" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme") || "auto";
+          var dark = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
