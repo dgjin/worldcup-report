@@ -32,7 +32,7 @@ ok("12 个小组", groups.length === 12, `实际 ${groups.length}`);
 ok("A..L 有序", groups.map((g) => g.letter).join("") === "ABCDEFGHIJKL");
 
 const groupA = groups.find((g) => g.letter === "A")!;
-ok("A 组头名是墨西哥 6 分", teamZh(groupA.table[0].team.name) === "墨西哥" && groupA.table[0].points === 6);
+ok("A 组头名是墨西哥 9 分", teamZh(groupA.table[0].team.name) === "墨西哥" && groupA.table[0].points === 9);
 ok("每组 4 队", groups.every((g) => g.table.length === 4));
 
 // I 组同分靠净胜球：法国(+5) 力压挪威(+4)
@@ -48,7 +48,7 @@ ok("最佳第三名 8 席", thirds.size === 8, `实际 ${thirds.size}`);
 
 // 射手榜
 const scorers = toScorers(snap.scorers);
-ok("射手榜按进球降序", scorers[0].goals >= scorers[1].goals && scorers[0].goals === 4);
+ok("射手榜按进球降序", scorers[0].goals >= scorers[1].goals && scorers[0].goals === 5);
 
 // 比赛拆分
 const sm = splitMatches(snap.matches);
