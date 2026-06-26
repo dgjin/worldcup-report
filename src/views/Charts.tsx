@@ -22,13 +22,15 @@ const C = {
   surface: "#121a2e",
 };
 
-const tooltipStyle = {
+const tooltipBase = {
   background: C.surface,
   border: `1px solid ${C.line}`,
   borderRadius: 12,
-  color: "#eaf0ff",
   fontSize: 12,
 };
+
+const tooltipLabelStyle = { color: "#eaf0ff", fontWeight: 500 as const };
+const tooltipItemStyle = { color: "#eaf0ff" };
 
 function StatTile({ label, value, unit, tone }: { label: string; value: string | number; unit?: string; tone: string }) {
   return (
@@ -100,7 +102,7 @@ export default function Charts({
               <CartesianGrid strokeDasharray="3 3" stroke={C.line} vertical={false} />
               <XAxis dataKey="group" stroke={C.muted} fontSize={12} tickLine={false} />
               <YAxis stroke={C.muted} fontSize={12} tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+              <Tooltip contentStyle={tooltipBase} labelStyle={tooltipLabelStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
               <Bar dataKey="goals" name="进球" radius={[4, 4, 0, 0]}>
                 {byGroup.map((d) => (
                   <Cell key={d.group} fill={d.goals >= 12 ? C.gold : C.primary} />
@@ -117,7 +119,7 @@ export default function Charts({
               <CartesianGrid strokeDasharray="3 3" stroke={C.line} vertical={false} />
               <XAxis dataKey="matchday" stroke={C.muted} fontSize={12} tickLine={false} />
               <YAxis stroke={C.muted} fontSize={12} tickLine={false} axisLine={false} />
-              <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+              <Tooltip contentStyle={tooltipBase} labelStyle={tooltipLabelStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
               <Bar dataKey="goals" name="进球" fill={C.pitch} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -133,7 +135,9 @@ export default function Charts({
             <XAxis type="number" stroke={C.muted} fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
             <YAxis type="category" dataKey="name" stroke={C.muted} fontSize={11} width={80} tickLine={false} axisLine={false} />
             <Tooltip
-              contentStyle={tooltipStyle}
+              contentStyle={tooltipBase}
+              labelStyle={tooltipLabelStyle}
+              itemStyle={tooltipItemStyle}
               cursor={{ fill: "rgba(255,255,255,0.04)" }}
               formatter={(value, _name, entry) => {
                 const p = (entry as { payload: (typeof topScorers)[0] }).payload;
