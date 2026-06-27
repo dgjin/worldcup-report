@@ -519,6 +519,43 @@ async function start() {
   });
   // ====== 照片点赞 API END ======
 
+  // ====== 访问计数 API ======
+
+  const VISITS_KEY = "__visits__";
+
+  app.get("/api/app/visits", async (_req, res) => {
+    const sb = getSb();
+    if (!sb) { res.json({ visits: 0 }); return; }
+    try {
+      const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", VISITS_KEY).maybeSingle();
+      res.set("Cache-Control", "public, max-age=15");
+      res.json({ visits: row?.likes ?? 0 });
+    } catch (e) {
+      console.error("[visits GET]", (e as Error).message);
+      res.json({ visits: 0 });
+    }
+  });
+
+  app.post("/api/app/visits", async (_req, res) => {
+    const sb = getSb();
+    if (!sb) { res.status(500).json({ error: "Supabase not configured" }); return; }
+    try {
+      const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", VISITS_KEY).maybeSingle();
+      const current = row?.likes ?? 0;
+      if (row) {
+        await sb.from("gallery_likes").update({ likes: current + 1 }).eq("photo_key", VISITS_KEY);
+      } else {
+        await sb.from("gallery_likes").upsert({ photo_key: VISITS_KEY, likes: 1 }, { onConflict: "photo_key", ignoreDuplicates: false });
+      }
+      res.json({ visits: current + 1 });
+    } catch (e) {
+      console.error("[visits POST]", (e as Error).message);
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  // ====== 访问计数 API END ======
+
   // ====== 冠军投票 API ======
 
   app.get("/api/app/vote", async (req, res) => {
