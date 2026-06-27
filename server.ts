@@ -522,17 +522,23 @@ async function start() {
   // ====== 访问计数 API ======
 
   const VISITS_KEY = "__visits__";
+  const VISITS_SEED = 326;
 
   app.get("/api/app/visits", async (_req, res) => {
     const sb = getSb();
-    if (!sb) { res.json({ visits: 0 }); return; }
+    if (!sb) { res.json({ visits: VISITS_SEED }); return; }
     try {
       const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", VISITS_KEY).maybeSingle();
+      if (!row) {
+        await sb.from("gallery_likes").upsert({ photo_key: VISITS_KEY, likes: VISITS_SEED }, { onConflict: "photo_key", ignoreDuplicates: false });
+        res.json({ visits: VISITS_SEED });
+        return;
+      }
       res.set("Cache-Control", "public, max-age=15");
-      res.json({ visits: row?.likes ?? 0 });
+      res.json({ visits: row.likes });
     } catch (e) {
       console.error("[visits GET]", (e as Error).message);
-      res.json({ visits: 0 });
+      res.json({ visits: VISITS_SEED });
     }
   });
 
@@ -541,11 +547,11 @@ async function start() {
     if (!sb) { res.status(500).json({ error: "Supabase not configured" }); return; }
     try {
       const { data: row } = await sb.from("gallery_likes").select("likes").eq("photo_key", VISITS_KEY).maybeSingle();
-      const current = row?.likes ?? 0;
+      const current = row?.likes ?? VISITS_SEED;
       if (row) {
         await sb.from("gallery_likes").update({ likes: current + 1 }).eq("photo_key", VISITS_KEY);
       } else {
-        await sb.from("gallery_likes").upsert({ photo_key: VISITS_KEY, likes: 1 }, { onConflict: "photo_key", ignoreDuplicates: false });
+        await sb.from("gallery_likes").upsert({ photo_key: VISITS_KEY, likes: VISITS_SEED + 1 }, { onConflict: "photo_key", ignoreDuplicates: false });
       }
       res.json({ visits: current + 1 });
     } catch (e) {
