@@ -5,6 +5,7 @@ import { playerZh, teamZh } from "../lib/teams";
 import { timeLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
 import FanTalk from "./FanTalk";
+import { useVisits } from "../api/app";
 
 const ROW_TONE: Record<QualifyState, string> = {
   direct: "border-l-pitch bg-pitch/[0.06]",
@@ -236,6 +237,19 @@ function TodayBriefing({ split }: { split: SplitMatches }) {
   );
 }
 
+function VisitCounter() {
+  const { visits, loading } = useVisits();
+  return (
+    <div className="mt-8 flex items-center justify-center gap-2 py-4 text-xs text-muted/60">
+      <span className="inline-block h-px w-8 bg-line/40" />
+      <span>
+        {loading ? "…" : `已被访问 ${visits.toLocaleString()} 次`}
+      </span>
+      <span className="inline-block h-px w-8 bg-line/40" />
+    </div>
+  );
+}
+
 export default function GroupStandings({ groups, matches }: { groups: GroupTable[]; matches: SplitMatches }) {
   const bestThirds = bestThirdIds(groups);
   return (
@@ -261,6 +275,7 @@ export default function GroupStandings({ groups, matches }: { groups: GroupTable
           <GroupCard key={g.letter} group={g} bestThirds={bestThirds} index={i} />
         ))}
       </div>
+      <VisitCounter />
     </section>
   );
 }
