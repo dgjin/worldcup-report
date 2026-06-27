@@ -534,6 +534,11 @@ async function start() {
         res.json({ visits: VISITS_SEED });
         return;
       }
+      if (row.likes < VISITS_SEED) {
+        await sb.from("gallery_likes").update({ likes: VISITS_SEED }).eq("photo_key", VISITS_KEY);
+        res.json({ visits: VISITS_SEED });
+        return;
+      }
       res.set("Cache-Control", "public, max-age=15");
       res.json({ visits: row.likes });
     } catch (e) {
