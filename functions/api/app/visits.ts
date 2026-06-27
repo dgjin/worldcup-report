@@ -59,6 +59,13 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
         });
         return new Response(JSON.stringify({ visits: SEED }), { headers });
       }
+      if (rows[0].likes < SEED) {
+        await sbFetch(sb, `gallery_likes?photo_key=eq.${KEY}`, {
+          method: "PATCH",
+          body: JSON.stringify({ likes: SEED, updated_at: new Date().toISOString() }),
+        });
+        return new Response(JSON.stringify({ visits: SEED }), { headers });
+      }
       return new Response(JSON.stringify({ visits: rows[0].likes }), { headers });
     }
 
