@@ -35,9 +35,9 @@ export default function App() {
   const { pref, setPref } = useTheme();
   const [tab, setTab] = useState<TabKey>("standings");
 
-  const groups = useMemo(() => toGroupTables(data?.standings), [data]);
-  const scorers = useMemo(() => toScorers(data?.scorers), [data]);
-  const matches = useMemo(() => splitMatches(data?.matches), [data]);
+  const groups = useMemo(() => toGroupTables(data?.standings), [data?.standings]);
+  const scorers = useMemo(() => toScorers(data?.scorers), [data?.scorers]);
+  const matches = useMemo(() => splitMatches(data?.matches), [data?.matches]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const selectTab = (k: TabKey) => {
@@ -71,7 +71,8 @@ export default function App() {
             onClick={appLikes.likeApp}
             disabled={appLikes.liking}
             className={cn(
-              "hidden flex-col items-center gap-0.5 rounded-xl border px-2.5 py-1.5 transition-all active:scale-90 sm:flex",
+              "flex items-center gap-1 rounded-full border px-2.5 transition-all active:scale-90",
+              "h-9 sm:h-7", // 移动端匹配单按钮主题切换(h-9)，桌面端匹配三态按钮(h-7)
               appLikes.liked
                 ? "border-red-500/30 bg-red-500/10 text-red-400"
                 : "border-line/60 bg-surface/60 text-muted hover:border-red-400/40 hover:text-red-400",
@@ -79,10 +80,10 @@ export default function App() {
             title={appLikes.liked ? "已点赞" : "点赞应用"}
           >
             <Heart
-              className={cn("h-4 w-4 transition-transform", appLikes.liking && "animate-ping")}
+              className={cn("shrink-0 transition-transform", "h-4 w-4 sm:h-3.5 sm:w-3.5", appLikes.liking && "animate-ping")}
               fill={appLikes.liked ? "currentColor" : "none"}
             />
-            <span className="text-[11px] font-semibold tabular-nums">{appLikes.likes}</span>
+            <span className="text-[11px] font-semibold tabular-nums leading-none">{appLikes.likes}</span>
           </button>
 
           {/* 数据状态：移动端只显示圆点，桌面端显示文字+更新时间 */}

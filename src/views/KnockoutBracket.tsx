@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { ChevronRight, Trophy } from "lucide-react";
 import type { GroupTable, MatchRaw, SplitMatches } from "../types/worldcup";
 import { bestThirdIds } from "../lib/transform";
@@ -15,6 +16,8 @@ const ROUNDS = [
 ];
 
 function FixtureRow({ m }: { m: MatchRaw }) {
+  const homeName = m.homeTeam?.name ?? null;
+  const awayName = m.awayTeam?.name ?? null;
   return (
     <div className="flex items-center gap-2 px-3 py-2 text-sm">
       <span className="w-12 shrink-0 text-xs text-muted tabular-nums">{timeLabel(m.utcDate)}</span>
@@ -22,27 +25,30 @@ function FixtureRow({ m }: { m: MatchRaw }) {
         {m.group?.replace(/GROUP_/i, "") ?? "—"}
       </span>
       <span className="flex flex-1 items-center justify-end gap-2 truncate">
-        <span className="truncate text-right">{teamZh(m.homeTeam.name)}</span>
-        <Flag name={m.homeTeam.name} />
+        <span className="truncate text-right">{homeName ? teamZh(homeName) : "待定"}</span>
+        <Flag name={homeName ?? ""} />
       </span>
       <span className="shrink-0 text-xs font-bold text-muted">VS</span>
       <span className="flex flex-1 items-center gap-2 truncate">
-        <Flag name={m.awayTeam.name} />
-        <span className="truncate">{teamZh(m.awayTeam.name)}</span>
+        <Flag name={awayName ?? ""} />
+        <span className="truncate">{awayName ? teamZh(awayName) : "待定"}</span>
       </span>
     </div>
   );
 }
 
 function Fixtures({ upcoming }: { upcoming: MatchRaw[] }) {
-  const byDay = new Map<string, MatchRaw[]>();
-  for (const m of upcoming) {
-    const k = dayKey(m.utcDate);
-    const arr = byDay.get(k);
-    if (arr) arr.push(m);
-    else byDay.set(k, [m]);
-  }
-  const days = [...byDay.entries()].slice(0, 6);
+  const byDay = useMemo(() => {
+    const map = new Map<string, MatchRaw[]>();
+    for (const m of upcoming) {
+      const k = dayKey(m.utcDate);
+      const arr = map.get(k);
+      if (arr) arr.push(m);
+      else map.set(k, [m]);
+    }
+    return map;
+  }, [upcoming]);
+  const days = useMemo(() => [...byDay.entries()].slice(0, 6), [byDay]);
 
   if (days.length === 0) return <Card className="p-6 text-center text-sm text-muted">暂无后续赛程</Card>;
 
@@ -128,7 +134,10 @@ function ChampionPath() {
 
 export default function KnockoutBracket({ groups, matches }: { groups: GroupTable[]; matches: SplitMatches }) {
   // 淘汰赛比赛
-  const knockoutMatches = matches.all.filter((m) => m.stage !== "GROUP_STAGE");
+  const knockoutMatches = useMemo(
+    () => matches.all.filter((m) => m.stage !== "GROUP_STAGE"),
+    [matches.all],
+  );
 
   return (
     <section className="space-y-8">
