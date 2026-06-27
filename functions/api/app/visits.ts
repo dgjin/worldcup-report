@@ -46,17 +46,25 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   };
 
   const KEY = "__visits__";
+  const SEED = 326;
 
   try {
     if (ctx.request.method === "GET") {
       const rows = await sbFetch(sb, `gallery_likes?select=likes&photo_key=eq.${KEY}`);
-      const visits = rows?.[0]?.likes ?? 0;
-      return new Response(JSON.stringify({ visits }), { headers });
+      if (!rows?.length) {
+        await sbFetch(sb, "gallery_likes", {
+          method: "POST",
+          headers: { Prefer: "resolution=ignore-duplicates" },
+          body: JSON.stringify({ photo_key: KEY, likes: SEED, updated_at: new Date().toISOString() }),
+        });
+        return new Response(JSON.stringify({ visits: SEED }), { headers });
+      }
+      return new Response(JSON.stringify({ visits: rows[0].likes }), { headers });
     }
 
     if (ctx.request.method === "POST") {
       const existing = await sbFetch(sb, `gallery_likes?select=likes&photo_key=eq.${KEY}`);
-      const current = existing?.[0]?.likes ?? 0;
+      const current = existing?.[0]?.likes ?? SEED;
 
       if (existing?.length) {
         await sbFetch(sb, `gallery_likes?photo_key=eq.${KEY}`, {
@@ -67,7 +75,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
         await sbFetch(sb, "gallery_likes", {
           method: "POST",
           headers: { Prefer: "resolution=ignore-duplicates" },
-          body: JSON.stringify({ photo_key: KEY, likes: 1, updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ photo_key: KEY, likes: SEED + 1, updated_at: new Date().toISOString() }),
         });
       }
 
@@ -79,7 +87,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   } catch (e) {
     console.error("[app-visits]", (e as Error).message);
     if (ctx.request.method === "GET") {
-      return new Response(JSON.stringify({ visits: 0 }), { headers });
+      return new Response(JSON.stringify({ visits: SEED }), { headers });
     }
     return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500, headers });
   }
