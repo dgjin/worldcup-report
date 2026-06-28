@@ -4,6 +4,7 @@ import { useWorldCup } from "./api/client";
 import { useAppLikes } from "./api/app";
 import { useTheme } from "./lib/theme";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { HelpButton } from "./components/HelpDialog";
 import { splitMatches, toGroupTables, toScorers } from "./lib/transform";
 import { cn } from "./components/ui";
 import { Loader } from "./components/ui";
@@ -113,9 +114,11 @@ export default function App() {
             disabled={loading}
             className="grid h-9 w-9 place-items-center rounded-xl border border-line bg-surface/60 text-muted transition-colors hover:border-primary/50 hover:text-ink disabled:opacity-50"
             title="刷新"
+            aria-label="刷新"
           >
             <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
           </button>
+          <HelpButton />
         </div>
       </header>
 
@@ -182,7 +185,7 @@ export default function App() {
       )}
 
           <footer className="mt-6 md:mt-12 border-t border-line/50 pt-5 text-center text-[11px] text-muted">
-            数据源 football-data.org（竞赛 WC）· 自动每 60 秒刷新 · 仅供学习演示
+            数据源 football-data.org（竞赛 WC）· 自动轮询刷新 · 仅供学习演示
           </footer>
         </div>
       </div>
