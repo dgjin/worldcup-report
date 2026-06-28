@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { Camera, ChevronLeft, ChevronRight, ExternalLink, Heart, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Camera, ChevronLeft, ChevronRight, ExternalLink, Heart, Pause, Play, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
@@ -43,20 +43,50 @@ function Lightbox({
   const count = likes[pk] ?? 0;
   const isLiking = liking[pk] ?? false;
 
+  // 自动播放
+  const [isPlaying, setIsPlaying] = useState(false);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const indexRef = useRef(index);
+  indexRef.current = index;
+  const AUTO_PLAY_MS = 4000; // 4 秒切换一张
+
   const goPrev = useCallback(() => {
     onNavigate(index > 0 ? index - 1 : photos.length - 1);
+    setIsPlaying(false);
   }, [index, photos.length, onNavigate]);
 
   const goNext = useCallback(() => {
     onNavigate(index < photos.length - 1 ? index + 1 : 0);
+    setIsPlaying(false);
   }, [index, photos.length, onNavigate]);
 
-  // 键盘导航
+  const togglePlay = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPlaying(prev => !prev);
+  }, []);
+
+  // 自动播放定时器
+  useEffect(() => {
+    if (!isPlaying || photos.length <= 1) {
+      if (autoPlayRef.current) { clearInterval(autoPlayRef.current); autoPlayRef.current = null; }
+      return;
+    }
+    autoPlayRef.current = setInterval(() => {
+      const next = indexRef.current < photos.length - 1 ? indexRef.current + 1 : 0;
+      onNavigate(next);
+    }, AUTO_PLAY_MS);
+    return () => {
+      if (autoPlayRef.current) { clearInterval(autoPlayRef.current); autoPlayRef.current = null; }
+    };
+  }, [isPlaying, photos.length, onNavigate]);
+
+  // 键盘导航 + 空格键播放/暂停
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") { onClose(); setIsPlaying(false); }
       else if (e.key === "ArrowLeft") goPrev();
       else if (e.key === "ArrowRight") goNext();
+      else if (e.key === " ") { e.preventDefault(); setIsPlaying(prev => !prev); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -119,6 +149,19 @@ function Lightbox({
 
       {/* 底部信息栏 */}
       <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full bg-black/70 px-4 py-2 text-sm text-white/80 backdrop-blur" onClick={(e) => e.stopPropagation()}>
+        {/* 自动播放按钮 */}
+        {photos.length > 1 && (
+          <>
+            <button
+              onClick={togglePlay}
+              className="inline-flex items-center gap-1 transition-colors hover:text-white"
+              title={isPlaying ? "暂停自动播放" : "自动播放"}
+            >
+              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            </button>
+            <span className="text-white/20">|</span>
+          </>
+        )}
         {/* 点赞按钮 */}
         <button
           onClick={() => onLike(photo)}
