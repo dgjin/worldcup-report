@@ -177,6 +177,28 @@ export function cleanSheetLeaders(finished: MatchRaw[], topN = 5): CleanSheetRow
     .slice(0, topN);
 }
 
+/** 最快进球 */
+export interface FastestGoal { minute: number; scorer: string; team: string; against: string }
+export function fastestGoal(finished: MatchRaw[]): FastestGoal | null {
+  let best: FastestGoal | null = null;
+  for (const m of finished) {
+    const goals = m.goals;
+    if (!goals || goals.length === 0) continue;
+    for (const g of goals) {
+      if (g.type === "OWN_GOAL") continue; // 排除乌龙球
+      if (!best || g.minute < best.minute) {
+        best = {
+          minute: g.minute,
+          scorer: g.scorer.name,
+          team: g.team.name,
+          against: g.team.id === m.homeTeam.id ? m.awayTeam.name : m.homeTeam.name,
+        };
+      }
+    }
+  }
+  return best;
+}
+
 /** 各位置进球分布（前锋/中场/后卫） */
 export interface PositionBreakdown { section: string; goals: number; players: number }
 

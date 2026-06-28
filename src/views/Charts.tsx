@@ -14,6 +14,7 @@ import {
   allTeamStats,
   cleanSheetLeaders,
   comebackCount,
+  fastestGoal,
   goalsByGroup,
   goalsByMatchday,
   halfTimeGoals,
@@ -78,6 +79,7 @@ export default function Charts({ groups, matches, scorers }: { groups: GroupTabl
   const ht = useMemo(() => halfTimeGoals(matches.finished), [matches.finished]);
   const comebacks = useMemo(() => comebackCount(matches.finished), [matches.finished]);
   const cleanSheets = useMemo(() => cleanSheetLeaders(matches.finished, 5), [matches.finished]);
+  const fastGoal = useMemo(() => fastestGoal(matches.finished), [matches.finished]);
 
   const totalGoals = matches.finished.reduce((sum, m) => sum + (m.score.fullTime.home ?? 0) + (m.score.fullTime.away ?? 0), 0);
   const played = matches.finished.length;
@@ -116,11 +118,16 @@ export default function Charts({ groups, matches, scorers }: { groups: GroupTabl
         <StatTile label="最大分差" value={biggest.text} unit={biggest.who} tone={C.primary} />
       </div>
 
-      {/* 2. 半场分析 */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {/* 2. 半场分析 + 最快进球 */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <MiniStat label="上半场进球" value={ht.firstHalf} unit={`${Math.round((ht.firstHalf / Math.max(ht.total, 1)) * 100)}%`} />
         <MiniStat label="下半场进球" value={ht.secondHalf} unit={`${Math.round((ht.secondHalf / Math.max(ht.total, 1)) * 100)}%`} />
         <MiniStat label="逆转场次" value={comebacks} unit="场" />
+        {fastGoal ? (
+          <StatTile label="最快进球" value={`${fastGoal.minute}'`} unit={`${fastGoal.scorer}（${teamZh(fastGoal.team)}）`} tone={C.gold} />
+        ) : (
+          <MiniStat label="最快进球" value="—" />
+        )}
       </div>
 
       {/* 3. 球队之最 */}
