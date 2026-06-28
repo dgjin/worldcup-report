@@ -62,6 +62,138 @@ export function toScorers(res?: ScorersResponse | null): ScorerRaw[] {
   );
 }
 
+/** 助攻王：助攻→进球→出场少者优先 */
+export function toAssisters(res?: ScorersResponse | null): ScorerRaw[] {
+  return [...(res?.scorers ?? [])]
+    .filter((s) => (s.assists ?? 0) > 0)
+    .sort(
+      (a, b) =>
+        (b.assists ?? 0) - (a.assists ?? 0) ||
+        b.goals - a.goals ||
+        (a.playedMatches ?? 0) - (b.playedMatches ?? 0),
+    );
+}
+
+/** 球队统计摘要 */
+export interface TeamStat {
+  letter: string;
+  name: string;
+  goalsFor: number;
+  goalsAgainst: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  points: number;
+}
+
+/** 从积分榜提取所有球队的主要统计数据 */
+export function allTeamStats(groups: GroupTable[]): TeamStat[] {
+  const stats: TeamStat[] = [];
+  for (const g of groups) {
+    for (const row of g.table) {
+      stats.push({
+        letter: g.letter,
+        name: row.team.name,
+        goalsFor: row.goalsFor,
+        goalsAgainst: row.goalsAgainst,
+        wins: row.won,
+        draws: row.draw,
+        losses: row.lost,
+        points: row.points,
+      });
+    }
+  }
+  return stats;
+}
+
+/** 半/全场进球统计 */
+export interface HalfTimeStats { firstHalf: number; secondHalf: number; total: number }
+
+export function halfTimeGoals(finished: MatchRaw[]): HalfTimeStats {
+  let firstHalf = 0, secondHalf = 0;
+  for (const m of finished) {
+    const ht = m.score.halfTime;
+    const ft = m.score.fullTime;
+    if (ht) {
+      firstHalf += (ht.home ?? 0) + (ht.away ?? 0);
+      // 下半场 = 全场 - 上半场
+      const ftGoals = (ft.home ?? 0) + (ft.away ?? 0);
+      secondHalf += ftGoals - ((ht.home ?? 0) + (ht.away ?? 0));
+    } else {
+      // 无半场数据则全部计入下半场
+      secondHalf += (ft.home ?? 0) + (ft.away ?? 0);
+    }
+  }
+  return { firstHalf, secondHalf, total: firstHalf + secondHalf };
+}
+
+/** 逆转统计：半场落后但最终赢球 */
+export function comebackCount(finished: MatchRaw[]): number {
+  return finished.filter((m) => {
+    const ht = m.score.halfTime;
+    if (!ht || m.score.winner === "DRAW" || !m.score.winner) return false;
+    const htHome = ht.home ?? 0;
+    const htAway = ht.away ?? 0;
+    if (htHome === htAway) return false;
+    const homeBehind = htHome < htAway && m.score.winner === "HOME_TEAM";
+    const awayBehind = htAway < htHome && m.score.winner === "AWAY_TEAM";
+    return homeBehind || awayBehind;
+  }).length;
+}
+
+/** 主客胜率 */
+export interface HomeAwayStats { homeWins: number; awayWins: number; draws: number }
+
+export function homeAwayStats(finished: MatchRaw[]): HomeAwayStats {
+  let homeWins = 0, awayWins = 0, draws = 0;
+  for (const m of finished) {
+    if (m.score.winner === "HOME_TEAM") homeWins++;
+    else if (m.score.winner === "AWAY_TEAM") awayWins++;
+    else draws++;
+  }
+  return { homeWins, awayWins, draws };
+}
+
+/** 球队零封统计（finishe 比赛中 goalsAgainst=0），返回按零封数降序 */
+export interface CleanSheetRow { name: string; cleanSheets: number; played: number }
+
+export function cleanSheetLeaders(finished: MatchRaw[], topN = 5): CleanSheetRow[] {
+  const map = new Map<string, { clean: number; played: number }>();
+  for (const m of finished) {
+    const home = m.homeTeam.name;
+    const away = m.awayTeam.name;
+    const hGa = m.score.fullTime.away ?? 0;
+    const aGa = m.score.fullTime.home ?? 0;
+    for (const [name, ga] of [[home, hGa], [away, aGa]] as const) {
+      const cur = map.get(name) ?? { clean: 0, played: 0 };
+      cur.played++;
+      if (ga === 0) cur.clean++;
+      map.set(name, cur);
+    }
+  }
+  return [...map.entries()]
+    .map(([name, v]) => ({ name, cleanSheets: v.clean, played: v.played }))
+    .sort((a, b) => b.cleanSheets - a.cleanSheets)
+    .slice(0, topN);
+}
+
+/** 各位置进球分布（前锋/中场/后卫） */
+export interface PositionBreakdown { section: string; goals: number; players: number }
+
+export function goalsByPosition(scorers: ScorerRaw[]): PositionBreakdown[] {
+  const map = new Map<string, { goals: number; players: number }>();
+  for (const s of scorers) {
+    const section = s.player.section || s.player.position || "Unknown";
+    const cur = map.get(section) ?? { goals: 0, players: 0 };
+    cur.goals += s.goals;
+    cur.players++;
+    map.set(section, cur);
+  }
+  return [...map.entries()]
+    .map(([section, v]) => ({ section: section === "Offence" ? "前锋" : section === "Midfield" ? "中场" : section === "Defence" ? "后卫" : section, goals: v.goals, players: v.players }))
+    .sort((a, b) => b.goals - a.goals);
+}
+
 /** 把比赛按状态拆分：已赛（倒序）/ 待赛（正序）/ 进行中 */
 export function splitMatches(res?: MatchesResponse | null): SplitMatches {
   const all = res?.matches ?? [];
