@@ -79,3 +79,64 @@ export function useAppLikes(): AppLikesState {
 
   return { likes, liked, liking, likeApp };
 }
+
+/* ——— 访问计数 ——— */
+
+const VISIT_KEY = "wc2026_visited";
+
+async function fetchVisits(): Promise<number> {
+  try {
+    const res = await fetch("/api/app/visits");
+    if (!res.ok) return 0;
+    const data = (await res.json()) as { visits: number };
+    return data.visits ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+async function postVisit(): Promise<number> {
+  const res = await fetch("/api/app/visits", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("记录访问失败");
+  const data = (await res.json()) as { visits: number };
+  return data.visits ?? 0;
+}
+
+export interface VisitsState {
+  visits: number;
+  loading: boolean;
+}
+
+/** 访问计数 Hook：每次会话记录一次 */
+export function useVisits(): VisitsState {
+  const [visits, setVisits] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      const count = await fetchVisits();
+      if (!cancelled) setVisits(count);
+
+      try {
+        if (sessionStorage.getItem(VISIT_KEY) !== "1") {
+          sessionStorage.setItem(VISIT_KEY, "1");
+          const newCount = await postVisit();
+          if (!cancelled) setVisits(newCount);
+        }
+      } catch {
+        /* 静默失败，不影响页面展示 */
+      }
+
+      if (!cancelled) setLoading(false);
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  return { visits, loading };
+}

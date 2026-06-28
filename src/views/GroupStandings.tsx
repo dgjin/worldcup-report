@@ -5,6 +5,7 @@ import { playerZh, teamZh } from "../lib/teams";
 import { timeLabel } from "../lib/format";
 import { Card, Flag, SectionHeading, Tag, cn } from "../components/ui";
 import FanTalk from "./FanTalk";
+import { useVisits } from "../api/app";
 
 const ROW_TONE: Record<QualifyState, string> = {
   direct: "border-l-pitch bg-pitch/[0.06]",
@@ -236,6 +237,11 @@ function TodayBriefing({ split }: { split: SplitMatches }) {
   );
 }
 
+function VisitCounter() {
+  useVisits();
+  return null;
+}
+
 export default function GroupStandings({ groups, matches }: { groups: GroupTable[]; matches: SplitMatches }) {
   const bestThirds = bestThirdIds(groups);
   return (
@@ -261,6 +267,7 @@ export default function GroupStandings({ groups, matches }: { groups: GroupTable
           <GroupCard key={g.letter} group={g} bestThirds={bestThirds} index={i} />
         ))}
       </div>
+      <VisitCounter />
     </section>
   );
 }
