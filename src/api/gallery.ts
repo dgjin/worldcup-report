@@ -30,8 +30,8 @@ export interface GalleryState {
   collectedAt: string | null;
   stale: boolean;
   refreshing: boolean;
-  /** 手动刷新；成功时返回相比上次的新增张数与总张数，正在刷新中则返回 null，失败抛出异常 */
-  refresh: () => Promise<{ added: number; total: number } | null>;
+  /** 手动刷新；成功时返回新增张数 / 总张数 / 是否首次加载，正在刷新中则返回 null，失败抛出异常 */
+  refresh: () => Promise<{ added: number; total: number; isFirstLoad: boolean } | null>;
   /** 点赞数映射 { photoKey → likes } */
   likes: Record<string, number>;
   /** 点赞照片 */
@@ -96,6 +96,7 @@ export function useGallery(): GalleryState {
   const pageRef = useRef(1);
   const inFlight = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
+  const prevKeysRef = useRef<Set<string>>(new Set());
 
   const load = useCallback(async (page: number, append = false) => {
     if (inFlight.current) return;
@@ -150,7 +151,7 @@ export function useGallery(): GalleryState {
     load(1);
   }, [load]);
 
-  const refresh = useCallback(async (): Promise<{ added: number; total: number } | null> => {
+  const refresh = useCallback(async (): Promise<{ added: number; total: number; isFirstLoad: boolean } | null> => {
     if (refreshing) return null;
     setRefreshing(true);
     try {
@@ -159,13 +160,22 @@ export function useGallery(): GalleryState {
       if (data.photos && data.photos.length > 0) {
         setPhotos(data.photos);
         setHasMore(false);
-        setSource("abcnews");
+        // 根据 results 字段动态判断数据来源（组合源优先显示主来源）
+        const results = data.results as Record<string, number> | undefined;
+        const dynamicSource = results
+          ? (results.abcnews > 0 && results.usatoday > 0 ? "combined" as const
+            : results.abcnews > 0 ? "abcnews" as const
+            : results.usatoday > 0 ? "usatoday" as const
+            : results.apnews > 0 ? "apnews" as const
+            : "abcnews" as const)
+          : "abcnews" as const;
+        setSource(dynamicSource);
         setCollectedAt(data.collectedAt ?? new Date().toISOString());
         setStale(false);
         setError(null);
         pageRef.current = 1;
       }
-      return { added: data.added ?? 0, total: data.total ?? data.photos?.length ?? 0 };
+      return { added: data.added ?? 0, total: data.total ?? data.photos?.length ?? 0, isFirstLoad: !prevKeysRef.current };
     } finally {
       // 刷新失败不写 setError（否则整页会切到错误态），异常向上冒泡交由调用方用 toast 提示
       setRefreshing(false);

@@ -37,7 +37,8 @@ function Lightbox({
   liking: Record<string, boolean>;
 }) {
   const photo = photos[index];
-  const isAbcNews = source === "abcnews";
+  const isPhotoGallery = source === "abcnews" || source === "usatoday" || source === "apnews" || source === "combined";
+  const isAbcNews = source === "abcnews" || source === "combined";
   const pk = getPhotoKey(photo);
   const count = likes[pk] ?? 0;
   const isLiking = liking[pk] ?? false;
@@ -141,7 +142,7 @@ function Lightbox({
           </>
         )}
         <span>
-          {isAbcNews ? `🏟️ ${photo.photographer}` : `📰 ${photo.photographer}`}
+          {isPhotoGallery ? `🏟️ ${photo.photographer}` : `📰 ${photo.photographer}`}
         </span>
         <a
           href={photo.url}
@@ -150,7 +151,15 @@ function Lightbox({
           className="inline-flex items-center gap-1 text-primary-bright hover:underline"
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
         >
-          {isAbcNews ? "ABC News 图集" : "阅读原文"} <ExternalLink className="h-3 w-3" />
+          {source === "abcnews"
+            ? "ABC News 图集"
+            : source === "usatoday"
+              ? "USA Today 图集"
+              : source === "apnews"
+                ? "AP News 图集"
+                : source === "combined"
+                  ? "赛事图集"
+                  : "阅读原文"} <ExternalLink className="h-3 w-3" />
         </a>
       </div>
     </motion.div>
@@ -297,7 +306,11 @@ export default function Gallery() {
       if (!r) return; // 正在刷新中，忽略重复点击
       setToast({
         kind: "success",
-        text: r.added > 0 ? `已更新，新增 ${r.added} 张照片` : "图片已是最新，暂无新增",
+        text: r.isFirstLoad
+          ? `已加载 ${r.total} 张精彩照片`
+          : r.added > 0
+            ? `已更新，新增 ${r.added} 张照片（共 ${r.total} 张）`
+            : `图片已是最新（共 ${r.total} 张），暂无新增`,
       });
     } catch (e) {
       setToast({ kind: "error", text: `更新失败：${(e as Error).message}` });
@@ -428,7 +441,13 @@ export default function Gallery() {
           <p className="text-center text-[10px] text-muted">
             {source === "abcnews"
               ? "照片来源于 ABC News 最佳比赛图集（Reuters / Getty Images / AP），版权归原作者所有"
-              : "照片来源于 NewsAPI 新闻媒体，版权归原作者所有"}
+              : source === "usatoday"
+                ? "照片来源于 USA Today 每日比赛图集（Getty Images / USA Today Staff），版权归原作者所有"
+                : source === "apnews"
+                  ? "照片来源于 AP News 每日精选图集（AP Photo），版权归原作者所有"
+                  : source === "combined"
+                    ? "照片综合来源于 ABC News / USA Today / AP News 比赛图集，版权归原作者所有"
+                    : "照片来源于 NewsAPI 新闻媒体，版权归原作者所有"}
           </p>
         </>
       )}
