@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { MatchRaw } from "../types/worldcup";
 import { teamZh, flagUrl } from "../lib/teams";
+import { applyKnockoutProgression } from "../lib/knockout";
 import { Card, Flag, SectionHeading, cn } from "../components/ui";
 import { timeLabel } from "../lib/format";
 import { ChevronDown } from "lucide-react";
@@ -236,7 +237,7 @@ function CollapsibleRound({ stage, list, defaultOpen }: { stage: KnockoutStage; 
 }
 
 export default function KnockoutDraw({ matches }: { matches: MatchRaw[] }) {
-  const displayMatches = matches;
+  const displayMatches = useMemo(() => applyKnockoutProgression(matches), [matches]);
   const byStage = useMemo(() => {
     const map = new Map<KnockoutStage, MatchRaw[]>();
     for (const s of STAGE_ORDER) map.set(s, []);
