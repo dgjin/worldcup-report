@@ -238,8 +238,14 @@ function TodayBriefing({ split }: { split: SplitMatches }) {
 }
 
 function VisitCounter() {
-  useVisits();
-  return null;
+  const { visits, loading } = useVisits();
+  return (
+    <div className="mt-8 flex justify-center">
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-line/60 bg-surface/70 px-3 py-1.5 text-xs text-muted shadow-sm backdrop-blur-sm">
+        {loading ? "…" : `已被访问 ${visits.toLocaleString()} 次`}
+      </span>
+    </div>
+  );
 }
 
 export default function GroupStandings({ groups, matches }: { groups: GroupTable[]; matches: SplitMatches }) {
