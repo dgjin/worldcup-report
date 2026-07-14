@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { GroupTable, ScorerRaw, SplitMatches } from "../types/worldcup";
+import type { DataSource, GroupTable, ScorerRaw, SplitMatches } from "../types/worldcup";
 import {
   allTeamStats,
   cleanSheetLeaders,
@@ -69,7 +69,7 @@ function TeamSuperlative({ label, icon, teamName, value, unit, tone }: { label: 
 
 /* ───── 主组件 ───── */
 
-export default function Charts({ groups, matches, scorers }: { groups: GroupTable[]; matches: SplitMatches; scorers: ScorerRaw[] }) {
+export default function Charts({ groups, matches, scorers, updatedAt, source, loading }: { groups: GroupTable[]; matches: SplitMatches; scorers: ScorerRaw[]; updatedAt: Date | null; source: DataSource | null; loading: boolean }) {
   const C = useThemeColors();
   const tt = { background: C.surface, border: `1px solid ${C.line}`, borderRadius: 12, fontSize: 12 };
 
@@ -108,7 +108,30 @@ export default function Charts({ groups, matches, scorers }: { groups: GroupTabl
 
   return (
     <section className="space-y-6">
-      <SectionHeading kicker="数据统计" title="数据总览" />
+      <div className="flex items-center justify-between">
+        <SectionHeading kicker="数据统计" title="数据总览" />
+        <div className="flex items-center gap-2 shrink-0">
+          <span className={cn(
+            "flex items-center gap-1.5 text-[11px]",
+            source === "live" ? "text-pitch" : source === "supabase" ? "text-emerald-500" : "text-gold"
+          )}>
+            <span className={cn(
+              "relative flex h-2 w-2",
+              loading && "animate-pulse"
+            )}>
+              <span className={cn(
+                "absolute inline-flex h-full w-full rounded-full opacity-75",
+                source === "live" ? "bg-pitch animate-ping" : source === "supabase" ? "bg-emerald-500" : "bg-gold"
+              )} />
+              <span className={cn(
+                "relative inline-flex h-2 w-2 rounded-full",
+                source === "live" ? "bg-pitch" : source === "supabase" ? "bg-emerald-500" : "bg-gold"
+              )} />
+            </span>
+            {updatedAt ? updatedAt.toLocaleTimeString("zh-CN") : "—"}
+          </span>
+        </div>
+      </div>
 
       {/* 1. 核心概览 */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -204,7 +227,7 @@ export default function Charts({ groups, matches, scorers }: { groups: GroupTabl
 
       {/* 数据说明 */}
       <div className="text-[11px] text-muted text-center">
-        数据来源：football-data.org API · 射手榜覆盖 Top 30 球员 · 助攻/位置/点球因数据不完整未展示
+        数据来源：football-data.org API · 自动轮询刷新（{source === "live" ? "实时" : source === "supabase" ? "数据库" : "快照"}模式）· 射手榜覆盖 Top 30 球员
       </div>
     </section>
   );

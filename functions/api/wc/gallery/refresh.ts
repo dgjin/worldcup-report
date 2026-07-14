@@ -4,7 +4,7 @@
  * POST /api/wc/gallery/refresh
  *   → 从多个来源抓取最新图集，写入 KV 缓存，返回新数据
  *
- * 数据源: ABC News + USA Today + AP News
+ * 数据源: ABC News + USA Today + AP News + Reuters (Firecrawl)
  */
 
 interface GalleryPhoto {
@@ -19,6 +19,7 @@ interface GalleryPhoto {
 
 interface Env {
   GALLERY_CACHE?: KVNamespace;
+  FIRECRAWL_API_KEY?: string;
 }
 
 const ABC_GALLERY_URL = "https://abcnews.go.com/Sports/photos/best-photos-fifa-world-cup-2026-133075564";
@@ -162,6 +163,71 @@ async function collectApNews(): Promise<GalleryPhoto[]> {
   return unique;
 }
 
+/** 从 Reuters 通过 Firecrawl 抓取图片 */
+const REUTERS_WC_URL = "https://www.reuters.com/sports/world-cup/";
+const FIRECRAWL_API = "https://api.firecrawl.dev/v1/scrape";
+
+async function collectReuters(env: Env): Promise<GalleryPhoto[]> {
+  if (!env.FIRECRAWL_API_KEY) throw new Error("未配置 FIRECRAWL_API_KEY");
+
+  const resp = await fetch(FIRECRAWL_API, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${env.FIRECRAWL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      url: REUTERS_WC_URL,
+      formats: ["html"],
+      waitFor: 5000,
+      actions: [
+        { type: "scroll", direction: "down", amount: 2000 },
+        { type: "wait", milliseconds: 2000 },
+        { type: "scroll", direction: "down", amount: 2000 },
+      ],
+    }),
+  });
+  if (!resp.ok) throw new Error(`Firecrawl HTTP ${resp.status}`);
+
+  const data = (await resp.json()) as { success: boolean; data?: { html?: string } };
+  if (!data.success || !data.data?.html) throw new Error("Firecrawl 未返回 HTML");
+
+  const html = data.data.html;
+  const imgRE = /https?:\/\/www\.reuters\.com\/resizer\/v2\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+  const seen = new Set<string>();
+  const urls: string[] = [];
+  for (const m of html.matchAll(imgRE)) {
+    const clean = m[0].split("?")[0].split("#")[0];
+    if (!seen.has(clean)) { seen.add(clean); urls.push(m[0]); }
+  }
+
+  if (urls.length === 0) {
+    const arcRE = /https?:\/\/cloudfront[^"'\s<>]*\.images\.arcpublishing\.com\/reuters\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+    for (const m of html.matchAll(arcRE)) {
+      const clean = m[0].split("?")[0];
+      if (!seen.has(clean)) { seen.add(clean); urls.push(m[0]); }
+    }
+  }
+
+  if (urls.length === 0) throw new Error("未从 Reuters 提取到图片");
+
+  return urls.map((url, i) => {
+    const base = url.split("?")[0];
+    return {
+      id: 500000 + i,
+      src: {
+        large: `${base}?width=1600&quality=80`,
+        medium: `${base}?width=800&quality=80`,
+        small: `${base}?width=400&quality=80`,
+      },
+      photographer: "Reuters",
+      alt: `2026 世界杯精彩瞬间 (Reuters)`,
+      width: 1600, height: 1067,
+      url: REUTERS_WC_URL,
+    };
+  });
+}
+
 export const onRequest: PagesFunction<Env> = async (ctx) => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -171,17 +237,19 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   try {
     // 1. 并行抓取三个来源（只抓一次，各源失败互不影响）
     const results: Record<string, number> = {};
-    const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
+    const [abcPhotos, usaPhotos, apPhotos, reutersPhotos] = await Promise.all([
       collectAbcNews().catch((e) => { console.error("[refresh:abc]", (e as Error).message); results.abcnews = -1; return [] as GalleryPhoto[]; }),
       collectUsaToday().catch((e) => { console.error("[refresh:usa]", (e as Error).message); results.usatoday = -1; return [] as GalleryPhoto[]; }),
       collectApNews().catch((e) => { console.error("[refresh:ap]", (e as Error).message); results.apnews = -1; return [] as GalleryPhoto[]; }),
+      collectReuters(ctx.env).catch((e) => { console.error("[refresh:reuters]", (e as Error).message); results.reuters = -1; return [] as GalleryPhoto[]; }),
     ]);
     if (results.abcnews !== -1) results.abcnews = abcPhotos.length;
     if (results.usatoday !== -1) results.usatoday = usaPhotos.length;
     if (results.apnews !== -1) results.apnews = apPhotos.length;
+    if (results.reuters !== -1) results.reuters = reutersPhotos.length;
 
     // 2. 合并去重，得到本次完整图集（以 src.medium 为唯一 key）
-    const all = [...abcPhotos, ...usaPhotos, ...apPhotos];
+    const all = [...abcPhotos, ...usaPhotos, ...apPhotos, ...reutersPhotos];
     const seen = new Set<string>();
     const current = all.filter(p => { const k = p.src.medium; if (seen.has(k)) return false; seen.add(k); return true; });
     const total = current.length;

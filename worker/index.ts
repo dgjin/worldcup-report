@@ -18,6 +18,9 @@ const APNEWS_GALLERY_URLS = [
   "https://apnews.com/photo-gallery/photos-cohosts-us-canada-opener-bosnia-wcup-edc7934c9330443e0f624dbb0b039d7e",
 ];
 
+const REUTERS_WC_URL = "https://www.reuters.com/sports/world-cup/";
+const FIRECRAWL_API = "https://api.firecrawl.dev/v1/scrape";
+
 const SOURCE_MAP: Record<string, string> = {
   gty: "Getty Images",
   rt: "Reuters",
@@ -115,7 +118,18 @@ async function collectAllGalleries(env: Env): Promise<{ ok: boolean; counts: Rec
     hasError = true;
   }
 
-  console.log(`[gallery] 汇总: ABC=${results.abcnews} USA=${results.usatoday} AP=${results.apnews}`);
+  // 4. Reuters (Firecrawl)
+  try {
+    const reutersResult = await collectReuters(env);
+    results.reuters = reutersResult.count;
+    if (!reutersResult.ok) hasError = true;
+  } catch (e) {
+    console.error("[gallery] Reuters 收集异常:", (e as Error).message);
+    results.reuters = -1;
+    hasError = true;
+  }
+
+  console.log(`[gallery] 汇总: ABC=${results.abcnews} USA=${results.usatoday} AP=${results.apnews} Reuters=${results.reuters}`);
   return { ok: !hasError, counts: results };
 }
 
@@ -355,6 +369,105 @@ async function collectApNews(env: Env): Promise<{ ok: boolean; count: number; er
   return { ok: true, count: unique.length };
 }
 
+// ========== Reuters (Firecrawl) 收集 ==========
+async function collectReuters(env: Env): Promise<{ ok: boolean; count: number; error?: string }> {
+  if (!env.FIRECRAWL_API_KEY) {
+    console.log("[gallery:reuters] 未配置 FIRECRAWL_API_KEY，跳过");
+    return { ok: false, count: 0, error: "no api key" };
+  }
+
+  console.log("[gallery:reuters] 开始通过 Firecrawl 收集 Reuters 照片...");
+
+  try {
+    const resp = await fetch(FIRECRAWL_API, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${env.FIRECRAWL_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: REUTERS_WC_URL,
+        formats: ["html"],
+        waitFor: 5000,
+        actions: [
+          { type: "scroll", direction: "down", amount: 2000 },
+          { type: "wait", milliseconds: 2000 },
+          { type: "scroll", direction: "down", amount: 2000 },
+        ],
+      }),
+    });
+
+    if (!resp.ok) {
+      console.error(`[gallery:reuters] Firecrawl HTTP ${resp.status}`);
+      return { ok: false, count: 0, error: `Firecrawl HTTP ${resp.status}` };
+    }
+
+    const data = (await resp.json()) as { success: boolean; data?: { html?: string } };
+    if (!data.success || !data.data?.html) {
+      console.warn("[gallery:reuters] Firecrawl 未返回 HTML");
+      return { ok: false, count: 0, error: "no html content" };
+    }
+
+    const html = data.data.html;
+
+    // 匹配 Reuters resizer 图片 URL
+    const imgRE = /https?:\/\/www\.reuters\.com\/resizer\/v2\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+    const seen = new Set<string>();
+    const urls: string[] = [];
+
+    for (const m of html.matchAll(imgRE)) {
+      const clean = m[0].split("?")[0].split("#")[0];
+      if (!seen.has(clean)) {
+        seen.add(clean);
+        urls.push(m[0]);
+      }
+    }
+
+    // 兜底：匹配 Arc Publishing CDN 图片
+    if (urls.length === 0) {
+      const arcRE = /https?:\/\/cloudfront[^"'\s<>]*\.images\.arcpublishing\.com\/reuters\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+      for (const m of html.matchAll(arcRE)) {
+        const clean = m[0].split("?")[0];
+        if (!seen.has(clean)) {
+          seen.add(clean);
+          urls.push(m[0]);
+        }
+      }
+    }
+
+    if (urls.length === 0) {
+      console.warn("[gallery:reuters] 未发现照片");
+      return { ok: false, count: 0, error: "no photos found" };
+    }
+
+    console.log(`[gallery:reuters] 发现 ${urls.length} 张照片`);
+
+    const photos: GalleryPhoto[] = urls.map((url, i) => {
+      const base = url.split("?")[0];
+      return {
+        id: 500000 + i,
+        src: {
+          large: `${base}?width=1600&quality=80`,
+          medium: `${base}?width=800&quality=80`,
+          small: `${base}?width=400&quality=80`,
+        },
+        photographer: "Reuters",
+        alt: `2026 世界杯精彩瞬间 (Reuters)`,
+        width: 1600,
+        height: 1067,
+        url: REUTERS_WC_URL,
+      };
+    });
+
+    await storePhotos(env, "reuters", photos);
+    console.log(`[gallery:reuters] ✅ ${photos.length} 张照片已写入 KV`);
+    return { ok: true, count: photos.length };
+  } catch (e) {
+    console.error("[gallery:reuters] 收集失败:", (e as Error).message);
+    return { ok: false, count: 0, error: (e as Error).message };
+  }
+}
+
 // ========== KV 存储辅助 ==========
 async function storePhotos(env: Env, source: string, photos: GalleryPhoto[]): Promise<void> {
   if (photos.length === 0) return;
@@ -370,6 +483,7 @@ async function storePhotos(env: Env, source: string, photos: GalleryPhoto[]): Pr
         if (source === "abcnews") return p.id < 300000;
         if (source === "usatoday") return p.id < 300000 || p.id >= 400000;
         if (source === "apnews") return p.id < 400000;
+        if (source === "reuters") return p.id < 500000;
         return true;
       });
     }
@@ -414,4 +528,5 @@ interface Env {
   SYNC_URL: string;
   SYNC_SECRET?: string;
   GALLERY_CACHE: KVNamespace;
+  FIRECRAWL_API_KEY?: string;
 }

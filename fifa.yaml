@@ -1,0 +1,1590 @@
+- generic [ref=e18]:
+  - generic [ref=e20]:
+    - link "Skip to main content" [ref=e21] [cursor=pointer]:
+      - /url: "#main-content"
+      - generic [ref=e22]: Skip to main content
+    - banner [ref=e25]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - button "Open Hamburger Menu" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+          - link "FIFA logo, leads to home page" [ref=e36] [cursor=pointer]:
+            - /url: /
+            - img "FIFA" [ref=e37]
+        - generic [ref=e38]:
+          - navigation [ref=e40]:
+            - menu [ref=e42]:
+              - menuitem "FIFA REWARDS" [ref=e43] [cursor=pointer]
+              - menuitem "FIFA+" [ref=e44] [cursor=pointer]
+              - menuitem "FIFA STORE" [ref=e45] [cursor=pointer]
+              - menuitem "FIFA COLLECT" [ref=e46] [cursor=pointer]
+          - generic [ref=e47]: "|"
+          - 'combobox "Selected language: English" [ref=e51] [cursor=pointer]':
+            - img [ref=e52]
+            - generic [ref=e54]: English
+            - img [ref=e55]
+          - generic [ref=e57]: "|"
+          - generic [ref=e58]:
+            - link "Search" [ref=e59] [cursor=pointer]:
+              - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/standings?searchOverlay=1
+              - img [ref=e60]
+            - button "My Account" [ref=e63] [cursor=pointer]:
+              - img [ref=e64]
+      - generic [ref=e68]:
+        - link "Tournament logo, leads to the tournament home page" [ref=e70] [cursor=pointer]:
+          - /url: /en/tournaments/mens/worldcup/canadamexicousa2026
+          - img "FIFA" [ref=e71]
+        - link "FIFA World Cup 2026™" [ref=e72] [cursor=pointer]:
+          - /url: /en/tournaments/mens/worldcup/canadamexicousa2026
+          - paragraph [ref=e73]: FIFA World Cup 2026™
+        - navigation [ref=e75]:
+          - menubar [ref=e76]:
+            - menuitem "MATCHES" [ref=e78] [cursor=pointer]
+            - menuitem "STANDINGS" [ref=e80] [cursor=pointer]
+            - menuitem "TEAMS & STATS" [ref=e82] [cursor=pointer]:
+              - generic [ref=e83]: TEAMS & STATS
+              - img [ref=e84]
+            - menuitem "LATEST" [ref=e87] [cursor=pointer]:
+              - generic [ref=e88]: LATEST
+              - img [ref=e89]
+            - menuitem "FANTASY & GAMING" [ref=e92] [cursor=pointer]:
+              - generic [ref=e93]: FANTASY & GAMING
+              - img [ref=e94]
+            - menuitem "MORE" [ref=e97] [cursor=pointer]:
+              - generic [ref=e98]: MORE
+              - img [ref=e99]
+    - generic [ref=e102]:
+      - main [ref=e103]:
+        - generic [ref=e104]:
+          - paragraph [ref=e113]: Standings are updated live during matches and are subject to change while games are in progress.
+          - generic [ref=e118]:
+            - heading "Standings and Group Tables" [level=3] [ref=e120]:
+              - generic [ref=e122]: Standings and Group Tables
+            - generic [ref=e123]:
+              - table "Standings and Group Tables - Group A" [ref=e125]:
+                - caption [ref=e126]: Standings and Group Tables - Group A
+                - rowgroup [ref=e127]:
+                  - row "Group A P W D L GF GA GD TCS Pts Form" [ref=e128]:
+                    - columnheader "Group A" [ref=e129]:
+                      - generic "Group A" [ref=e130]
+                    - columnheader "P" [ref=e131]
+                    - columnheader "W" [ref=e132]
+                    - columnheader "D" [ref=e133]
+                    - columnheader "L" [ref=e134]
+                    - columnheader "GF" [ref=e135]
+                    - columnheader "GA" [ref=e136]
+                    - columnheader "GD" [ref=e137]
+                    - columnheader "TCS" [ref=e138]
+                    - columnheader "Pts" [ref=e139]
+                    - columnheader "Form" [ref=e140]
+                - rowgroup [ref=e141]:
+                  - row "Position 1, Mexico, qualified, 9 points" [ref=e142]:
+                    - cell [ref=e143]
+                    - cell "1" [ref=e144]
+                    - cell "Mexico" [ref=e145]:
+                      - link "Mexico" [ref=e146] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/mexico
+                        - generic [ref=e151]: Mexico
+                    - cell "3" [ref=e152]
+                    - cell "3" [ref=e153]
+                    - cell "0" [ref=e154]
+                    - cell "0" [ref=e155]
+                    - cell "6" [ref=e156]
+                    - cell "0" [ref=e157]
+                    - cell "6" [ref=e158]
+                    - cell "-6" [ref=e159]
+                    - cell "9" [ref=e160]
+                    - cell "- -" [ref=e161]:
+                      - list [ref=e162]:
+                        - generic [ref=e166]: "-"
+                        - generic [ref=e167]: "-"
+                  - row "Position 2, South Africa, qualified, 4 points" [ref=e168]:
+                    - cell [ref=e169]
+                    - cell "2" [ref=e170]
+                    - cell "South Africa" [ref=e171]:
+                      - link "South Africa" [ref=e172] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/south-africa
+                        - generic [ref=e177]: South Africa
+                    - cell "3" [ref=e178]
+                    - cell "1" [ref=e179]
+                    - cell "1" [ref=e180]
+                    - cell "1" [ref=e181]
+                    - cell "2" [ref=e182]
+                    - cell "3" [ref=e183]
+                    - cell "-1" [ref=e184]
+                    - cell "-13" [ref=e185]
+                    - cell "4" [ref=e186]
+                    - cell "- -" [ref=e187]:
+                      - list [ref=e188]:
+                        - generic [ref=e192]: "-"
+                        - generic [ref=e193]: "-"
+                  - row "Position 3, Korea Republic, 3 points" [ref=e194]:
+                    - cell [ref=e195]
+                    - cell "3" [ref=e196]
+                    - cell "Korea Republic" [ref=e197]:
+                      - link "Korea Republic" [ref=e198] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/korea-republic
+                        - generic [ref=e203]: Korea Republic
+                    - cell "3" [ref=e204]
+                    - cell "1" [ref=e205]
+                    - cell "0" [ref=e206]
+                    - cell "2" [ref=e207]
+                    - cell "2" [ref=e208]
+                    - cell "3" [ref=e209]
+                    - cell "-1" [ref=e210]
+                    - cell "-4" [ref=e211]
+                    - cell "3" [ref=e212]
+                    - cell "- -" [ref=e213]:
+                      - list [ref=e214]:
+                        - generic [ref=e218]: "-"
+                        - generic [ref=e219]: "-"
+                  - row "Position 4, Czechia, 1 points" [ref=e220]:
+                    - cell [ref=e221]
+                    - cell "4" [ref=e222]
+                    - cell "Czechia" [ref=e223]:
+                      - link "Czechia" [ref=e224] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/czechia
+                        - generic [ref=e229]: Czechia
+                    - cell "3" [ref=e230]
+                    - cell "0" [ref=e231]
+                    - cell "1" [ref=e232]
+                    - cell "2" [ref=e233]
+                    - cell "2" [ref=e234]
+                    - cell "6" [ref=e235]
+                    - cell "-4" [ref=e236]
+                    - cell "-1" [ref=e237]
+                    - cell "1" [ref=e238]
+                    - cell "- -" [ref=e239]:
+                      - list [ref=e240]:
+                        - generic [ref=e244]: "-"
+                        - generic [ref=e245]: "-"
+              - table "Standings and Group Tables - Group B" [ref=e247]:
+                - caption [ref=e248]: Standings and Group Tables - Group B
+                - rowgroup [ref=e249]:
+                  - row "Group B P W D L GF GA GD TCS Pts Form" [ref=e250]:
+                    - columnheader "Group B" [ref=e251]:
+                      - generic "Group B" [ref=e252]
+                    - columnheader "P" [ref=e253]
+                    - columnheader "W" [ref=e254]
+                    - columnheader "D" [ref=e255]
+                    - columnheader "L" [ref=e256]
+                    - columnheader "GF" [ref=e257]
+                    - columnheader "GA" [ref=e258]
+                    - columnheader "GD" [ref=e259]
+                    - columnheader "TCS" [ref=e260]
+                    - columnheader "Pts" [ref=e261]
+                    - columnheader "Form" [ref=e262]
+                - rowgroup [ref=e263]:
+                  - row "Position 1, Switzerland, qualified, 7 points" [ref=e264]:
+                    - cell [ref=e265]
+                    - cell "1" [ref=e266]
+                    - cell "Switzerland" [ref=e267]:
+                      - link "Switzerland" [ref=e268] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/switzerland
+                        - generic [ref=e273]: Switzerland
+                    - cell "3" [ref=e274]
+                    - cell "2" [ref=e275]
+                    - cell "1" [ref=e276]
+                    - cell "0" [ref=e277]
+                    - cell "7" [ref=e278]
+                    - cell "3" [ref=e279]
+                    - cell "4" [ref=e280]
+                    - cell "-3" [ref=e281]
+                    - cell "7" [ref=e282]
+                    - cell "- -" [ref=e283]:
+                      - list [ref=e284]:
+                        - generic [ref=e288]: "-"
+                        - generic [ref=e289]: "-"
+                  - row "Position 2, Canada, qualified, 4 points" [ref=e290]:
+                    - cell [ref=e291]
+                    - cell "2" [ref=e292]
+                    - cell "Canada" [ref=e293]:
+                      - link "Canada" [ref=e294] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/canada
+                        - generic [ref=e299]: Canada
+                    - cell "3" [ref=e300]
+                    - cell "1" [ref=e301]
+                    - cell "1" [ref=e302]
+                    - cell "1" [ref=e303]
+                    - cell "8" [ref=e304]
+                    - cell "3" [ref=e305]
+                    - cell "5" [ref=e306]
+                    - cell "-5" [ref=e307]
+                    - cell "4" [ref=e308]
+                    - cell "- -" [ref=e309]:
+                      - list [ref=e310]:
+                        - generic [ref=e314]: "-"
+                        - generic [ref=e315]: "-"
+                  - row "Position 3, Bosnia and Herzegovina, qualified, 4 points" [ref=e316]:
+                    - cell [ref=e317]
+                    - cell "3" [ref=e318]
+                    - cell "Bosnia and Herzegovina" [ref=e319]:
+                      - link "Bosnia and Herzegovina" [ref=e320] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/bosnia-herzegovina
+                        - generic [ref=e325]: Bosnia and Herzegovina
+                    - cell "3" [ref=e326]
+                    - cell "1" [ref=e327]
+                    - cell "1" [ref=e328]
+                    - cell "1" [ref=e329]
+                    - cell "5" [ref=e330]
+                    - cell "6" [ref=e331]
+                    - cell "-1" [ref=e332]
+                    - cell "-10" [ref=e333]
+                    - cell "4" [ref=e334]
+                    - cell "- -" [ref=e335]:
+                      - list [ref=e336]:
+                        - generic [ref=e340]: "-"
+                        - generic [ref=e341]: "-"
+                  - row "Position 4, Qatar, 1 points" [ref=e342]:
+                    - cell [ref=e343]
+                    - cell "4" [ref=e344]
+                    - cell "Qatar" [ref=e345]:
+                      - link "Qatar" [ref=e346] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/qatar
+                        - generic [ref=e351]: Qatar
+                    - cell "3" [ref=e352]
+                    - cell "0" [ref=e353]
+                    - cell "1" [ref=e354]
+                    - cell "2" [ref=e355]
+                    - cell "2" [ref=e356]
+                    - cell "10" [ref=e357]
+                    - cell "-8" [ref=e358]
+                    - cell "-12" [ref=e359]
+                    - cell "1" [ref=e360]
+                    - cell "- -" [ref=e361]:
+                      - list [ref=e362]:
+                        - generic [ref=e366]: "-"
+                        - generic [ref=e367]: "-"
+              - table "Standings and Group Tables - Group C" [ref=e369]:
+                - caption [ref=e370]: Standings and Group Tables - Group C
+                - rowgroup [ref=e371]:
+                  - row "Group C P W D L GF GA GD TCS Pts Form" [ref=e372]:
+                    - columnheader "Group C" [ref=e373]:
+                      - generic "Group C" [ref=e374]
+                    - columnheader "P" [ref=e375]
+                    - columnheader "W" [ref=e376]
+                    - columnheader "D" [ref=e377]
+                    - columnheader "L" [ref=e378]
+                    - columnheader "GF" [ref=e379]
+                    - columnheader "GA" [ref=e380]
+                    - columnheader "GD" [ref=e381]
+                    - columnheader "TCS" [ref=e382]
+                    - columnheader "Pts" [ref=e383]
+                    - columnheader "Form" [ref=e384]
+                - rowgroup [ref=e385]:
+                  - row "Position 1, Brazil, qualified, 7 points" [ref=e386]:
+                    - cell [ref=e387]
+                    - cell "1" [ref=e388]
+                    - cell "Brazil" [ref=e389]:
+                      - link "Brazil" [ref=e390] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/brazil
+                        - generic [ref=e395]: Brazil
+                    - cell "3" [ref=e396]
+                    - cell "2" [ref=e397]
+                    - cell "1" [ref=e398]
+                    - cell "0" [ref=e399]
+                    - cell "7" [ref=e400]
+                    - cell "1" [ref=e401]
+                    - cell "6" [ref=e402]
+                    - cell "-5" [ref=e403]
+                    - cell "7" [ref=e404]
+                    - cell "- -" [ref=e405]:
+                      - list [ref=e406]:
+                        - generic [ref=e410]: "-"
+                        - generic [ref=e411]: "-"
+                  - row "Position 2, Morocco, qualified, 7 points" [ref=e412]:
+                    - cell [ref=e413]
+                    - cell "2" [ref=e414]
+                    - cell "Morocco" [ref=e415]:
+                      - link "Morocco" [ref=e416] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/morocco
+                        - generic [ref=e421]: Morocco
+                    - cell "3" [ref=e422]
+                    - cell "2" [ref=e423]
+                    - cell "1" [ref=e424]
+                    - cell "0" [ref=e425]
+                    - cell "6" [ref=e426]
+                    - cell "3" [ref=e427]
+                    - cell "3" [ref=e428]
+                    - cell "-1" [ref=e429]
+                    - cell "7" [ref=e430]
+                    - cell "- -" [ref=e431]:
+                      - list [ref=e432]:
+                        - generic [ref=e436]: "-"
+                        - generic [ref=e437]: "-"
+                  - row "Position 3, Scotland, 3 points" [ref=e438]:
+                    - cell [ref=e439]
+                    - cell "3" [ref=e440]
+                    - cell "Scotland" [ref=e441]:
+                      - link "Scotland" [ref=e442] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/scotland
+                        - generic [ref=e447]: Scotland
+                    - cell "3" [ref=e448]
+                    - cell "1" [ref=e449]
+                    - cell "0" [ref=e450]
+                    - cell "2" [ref=e451]
+                    - cell "1" [ref=e452]
+                    - cell "4" [ref=e453]
+                    - cell "-3" [ref=e454]
+                    - cell "-5" [ref=e455]
+                    - cell "3" [ref=e456]
+                    - cell "- -" [ref=e457]:
+                      - list [ref=e458]:
+                        - generic [ref=e462]: "-"
+                        - generic [ref=e463]: "-"
+                  - row "Position 4, Haiti, 0 points" [ref=e464]:
+                    - cell [ref=e465]
+                    - cell "4" [ref=e466]
+                    - cell "Haiti" [ref=e467]:
+                      - link "Haiti" [ref=e468] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/haiti
+                        - generic [ref=e473]: Haiti
+                    - cell "3" [ref=e474]
+                    - cell "0" [ref=e475]
+                    - cell "0" [ref=e476]
+                    - cell "3" [ref=e477]
+                    - cell "2" [ref=e478]
+                    - cell "8" [ref=e479]
+                    - cell "-6" [ref=e480]
+                    - cell "-7" [ref=e481]
+                    - cell "0" [ref=e482]
+                    - cell "- -" [ref=e483]:
+                      - list [ref=e484]:
+                        - generic [ref=e488]: "-"
+                        - generic [ref=e489]: "-"
+              - table "Standings and Group Tables - Group D" [ref=e491]:
+                - caption [ref=e492]: Standings and Group Tables - Group D
+                - rowgroup [ref=e493]:
+                  - row "Group D P W D L GF GA GD TCS Pts Form" [ref=e494]:
+                    - columnheader "Group D" [ref=e495]:
+                      - generic "Group D" [ref=e496]
+                    - columnheader "P" [ref=e497]
+                    - columnheader "W" [ref=e498]
+                    - columnheader "D" [ref=e499]
+                    - columnheader "L" [ref=e500]
+                    - columnheader "GF" [ref=e501]
+                    - columnheader "GA" [ref=e502]
+                    - columnheader "GD" [ref=e503]
+                    - columnheader "TCS" [ref=e504]
+                    - columnheader "Pts" [ref=e505]
+                    - columnheader "Form" [ref=e506]
+                - rowgroup [ref=e507]:
+                  - row "Position 1, USA, qualified, 6 points" [ref=e508]:
+                    - cell [ref=e509]
+                    - cell "1" [ref=e510]
+                    - cell "USA" [ref=e511]:
+                      - link "USA" [ref=e512] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/usa
+                        - generic [ref=e517]: USA
+                    - cell "3" [ref=e518]
+                    - cell "2" [ref=e519]
+                    - cell "0" [ref=e520]
+                    - cell "1" [ref=e521]
+                    - cell "8" [ref=e522]
+                    - cell "4" [ref=e523]
+                    - cell "4" [ref=e524]
+                    - cell "-5" [ref=e525]
+                    - cell "6" [ref=e526]
+                    - cell "- -" [ref=e527]:
+                      - list [ref=e528]:
+                        - generic [ref=e532]: "-"
+                        - generic [ref=e533]: "-"
+                  - row "Position 2, Australia, qualified, 4 points" [ref=e534]:
+                    - cell [ref=e535]
+                    - cell "2" [ref=e536]
+                    - cell "Australia" [ref=e537]:
+                      - link "Australia" [ref=e538] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/australia
+                        - generic [ref=e543]: Australia
+                    - cell "3" [ref=e544]
+                    - cell "1" [ref=e545]
+                    - cell "1" [ref=e546]
+                    - cell "1" [ref=e547]
+                    - cell "2" [ref=e548]
+                    - cell "2" [ref=e549]
+                    - cell "0" [ref=e550]
+                    - cell "-5" [ref=e551]
+                    - cell "4" [ref=e552]
+                    - cell "- -" [ref=e553]:
+                      - list [ref=e554]:
+                        - generic [ref=e558]: "-"
+                        - generic [ref=e559]: "-"
+                  - row "Position 3, Paraguay, qualified, 4 points" [ref=e560]:
+                    - cell [ref=e561]
+                    - cell "3" [ref=e562]
+                    - cell "Paraguay" [ref=e563]:
+                      - link "Paraguay" [ref=e564] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/paraguay
+                        - generic [ref=e569]: Paraguay
+                    - cell "3" [ref=e570]
+                    - cell "1" [ref=e571]
+                    - cell "1" [ref=e572]
+                    - cell "1" [ref=e573]
+                    - cell "2" [ref=e574]
+                    - cell "4" [ref=e575]
+                    - cell "-2" [ref=e576]
+                    - cell "-12" [ref=e577]
+                    - cell "4" [ref=e578]
+                    - cell "- -" [ref=e579]:
+                      - list [ref=e580]:
+                        - generic [ref=e584]: "-"
+                        - generic [ref=e585]: "-"
+                  - row "Position 4, Türkiye, 3 points" [ref=e586]:
+                    - cell [ref=e587]
+                    - cell "4" [ref=e588]
+                    - cell "Türkiye" [ref=e589]:
+                      - link "Türkiye" [ref=e590] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/turkiye
+                        - generic [ref=e595]: Türkiye
+                    - cell "3" [ref=e596]
+                    - cell "1" [ref=e597]
+                    - cell "0" [ref=e598]
+                    - cell "2" [ref=e599]
+                    - cell "3" [ref=e600]
+                    - cell "5" [ref=e601]
+                    - cell "-2" [ref=e602]
+                    - cell "-3" [ref=e603]
+                    - cell "3" [ref=e604]
+                    - cell "- -" [ref=e605]:
+                      - list [ref=e606]:
+                        - generic [ref=e610]: "-"
+                        - generic [ref=e611]: "-"
+              - table "Standings and Group Tables - Group E" [ref=e613]:
+                - caption [ref=e614]: Standings and Group Tables - Group E
+                - rowgroup [ref=e615]:
+                  - row "Group E P W D L GF GA GD TCS Pts Form" [ref=e616]:
+                    - columnheader "Group E" [ref=e617]:
+                      - generic "Group E" [ref=e618]
+                    - columnheader "P" [ref=e619]
+                    - columnheader "W" [ref=e620]
+                    - columnheader "D" [ref=e621]
+                    - columnheader "L" [ref=e622]
+                    - columnheader "GF" [ref=e623]
+                    - columnheader "GA" [ref=e624]
+                    - columnheader "GD" [ref=e625]
+                    - columnheader "TCS" [ref=e626]
+                    - columnheader "Pts" [ref=e627]
+                    - columnheader "Form" [ref=e628]
+                - rowgroup [ref=e629]:
+                  - row "Position 1, Germany, qualified, 6 points" [ref=e630]:
+                    - cell [ref=e631]
+                    - cell "1" [ref=e632]
+                    - cell "Germany" [ref=e633]:
+                      - link "Germany" [ref=e634] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/germany
+                        - generic [ref=e639]: Germany
+                    - cell "3" [ref=e640]
+                    - cell "2" [ref=e641]
+                    - cell "0" [ref=e642]
+                    - cell "1" [ref=e643]
+                    - cell "10" [ref=e644]
+                    - cell "4" [ref=e645]
+                    - cell "6" [ref=e646]
+                    - cell "-1" [ref=e647]
+                    - cell "6" [ref=e648]
+                    - cell "- -" [ref=e649]:
+                      - list [ref=e650]:
+                        - generic [ref=e654]: "-"
+                        - generic [ref=e655]: "-"
+                  - row "Position 2, Côte d'Ivoire, qualified, 6 points" [ref=e656]:
+                    - cell [ref=e657]
+                    - cell "2" [ref=e658]
+                    - cell "Côte d'Ivoire" [ref=e659]:
+                      - link "Côte d'Ivoire" [ref=e660] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/cote-d-ivoire
+                        - generic [ref=e665]: Côte d'Ivoire
+                    - cell "3" [ref=e666]
+                    - cell "2" [ref=e667]
+                    - cell "0" [ref=e668]
+                    - cell "1" [ref=e669]
+                    - cell "4" [ref=e670]
+                    - cell "2" [ref=e671]
+                    - cell "2" [ref=e672]
+                    - cell "-4" [ref=e673]
+                    - cell "6" [ref=e674]
+                    - cell "- -" [ref=e675]:
+                      - list [ref=e676]:
+                        - generic [ref=e680]: "-"
+                        - generic [ref=e681]: "-"
+                  - row "Position 3, Ecuador, 4 points" [ref=e682]:
+                    - cell [ref=e683]
+                    - cell "3" [ref=e684]
+                    - cell "Ecuador" [ref=e685]:
+                      - link "Ecuador" [ref=e686] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/ecuador
+                        - generic [ref=e691]: Ecuador
+                    - cell "3" [ref=e692]
+                    - cell "1" [ref=e693]
+                    - cell "1" [ref=e694]
+                    - cell "1" [ref=e695]
+                    - cell "2" [ref=e696]
+                    - cell "2" [ref=e697]
+                    - cell "0" [ref=e698]
+                    - cell "-5" [ref=e699]
+                    - cell "4" [ref=e700]
+                    - cell "- -" [ref=e701]:
+                      - list [ref=e702]:
+                        - generic [ref=e706]: "-"
+                        - generic [ref=e707]: "-"
+                  - row "Position 4, Curaçao, 1 points" [ref=e708]:
+                    - cell [ref=e709]
+                    - cell "4" [ref=e710]
+                    - cell "Curaçao" [ref=e711]:
+                      - link "Curaçao" [ref=e712] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/curacao
+                        - generic [ref=e717]: Curaçao
+                    - cell "3" [ref=e718]
+                    - cell "0" [ref=e719]
+                    - cell "1" [ref=e720]
+                    - cell "2" [ref=e721]
+                    - cell "1" [ref=e722]
+                    - cell "9" [ref=e723]
+                    - cell "-8" [ref=e724]
+                    - cell "-7" [ref=e725]
+                    - cell "1" [ref=e726]
+                    - cell "- -" [ref=e727]:
+                      - list [ref=e728]:
+                        - generic [ref=e732]: "-"
+                        - generic [ref=e733]: "-"
+              - table "Standings and Group Tables - Group F" [ref=e735]:
+                - caption [ref=e736]: Standings and Group Tables - Group F
+                - rowgroup [ref=e737]:
+                  - row "Group F P W D L GF GA GD TCS Pts Form" [ref=e738]:
+                    - columnheader "Group F" [ref=e739]:
+                      - generic "Group F" [ref=e740]
+                    - columnheader "P" [ref=e741]
+                    - columnheader "W" [ref=e742]
+                    - columnheader "D" [ref=e743]
+                    - columnheader "L" [ref=e744]
+                    - columnheader "GF" [ref=e745]
+                    - columnheader "GA" [ref=e746]
+                    - columnheader "GD" [ref=e747]
+                    - columnheader "TCS" [ref=e748]
+                    - columnheader "Pts" [ref=e749]
+                    - columnheader "Form" [ref=e750]
+                - rowgroup [ref=e751]:
+                  - row "Position 1, Netherlands, qualified, 7 points" [ref=e752]:
+                    - cell [ref=e753]
+                    - cell "1" [ref=e754]
+                    - cell "Netherlands" [ref=e755]:
+                      - link "Netherlands" [ref=e756] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands
+                        - generic [ref=e761]: Netherlands
+                    - cell "3" [ref=e762]
+                    - cell "2" [ref=e763]
+                    - cell "1" [ref=e764]
+                    - cell "0" [ref=e765]
+                    - cell "10" [ref=e766]
+                    - cell "4" [ref=e767]
+                    - cell "6" [ref=e768]
+                    - cell "-3" [ref=e769]
+                    - cell "7" [ref=e770]
+                    - cell "- -" [ref=e771]:
+                      - list [ref=e772]:
+                        - generic [ref=e776]: "-"
+                        - generic [ref=e777]: "-"
+                  - row "Position 2, Japan, qualified, 5 points" [ref=e778]:
+                    - cell [ref=e779]
+                    - cell "2" [ref=e780]
+                    - cell "Japan" [ref=e781]:
+                      - link "Japan" [ref=e782] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/japan
+                        - generic [ref=e787]: Japan
+                    - cell "3" [ref=e788]
+                    - cell "1" [ref=e789]
+                    - cell "2" [ref=e790]
+                    - cell "0" [ref=e791]
+                    - cell "7" [ref=e792]
+                    - cell "3" [ref=e793]
+                    - cell "4" [ref=e794]
+                    - cell "-1" [ref=e795]
+                    - cell "5" [ref=e796]
+                    - cell "- -" [ref=e797]:
+                      - list [ref=e798]:
+                        - generic [ref=e802]: "-"
+                        - generic [ref=e803]: "-"
+                  - row "Position 3, Sweden, qualified, 4 points" [ref=e804]:
+                    - cell [ref=e805]
+                    - cell "3" [ref=e806]
+                    - cell "Sweden" [ref=e807]:
+                      - link "Sweden" [ref=e808] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/sweden
+                        - generic [ref=e813]: Sweden
+                    - cell "3" [ref=e814]
+                    - cell "1" [ref=e815]
+                    - cell "1" [ref=e816]
+                    - cell "1" [ref=e817]
+                    - cell "7" [ref=e818]
+                    - cell "7" [ref=e819]
+                    - cell "0" [ref=e820]
+                    - cell "-5" [ref=e821]
+                    - cell "4" [ref=e822]
+                    - cell "- -" [ref=e823]:
+                      - list [ref=e824]:
+                        - generic [ref=e828]: "-"
+                        - generic [ref=e829]: "-"
+                  - row "Position 4, Tunisia, 0 points" [ref=e830]:
+                    - cell [ref=e831]
+                    - cell "4" [ref=e832]
+                    - cell "Tunisia" [ref=e833]:
+                      - link "Tunisia" [ref=e834] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/tunisia
+                        - generic [ref=e839]: Tunisia
+                    - cell "3" [ref=e840]
+                    - cell "0" [ref=e841]
+                    - cell "0" [ref=e842]
+                    - cell "3" [ref=e843]
+                    - cell "2" [ref=e844]
+                    - cell "12" [ref=e845]
+                    - cell "-10" [ref=e846]
+                    - cell "-1" [ref=e847]
+                    - cell "0" [ref=e848]
+                    - cell "- -" [ref=e849]:
+                      - list [ref=e850]:
+                        - generic [ref=e854]: "-"
+                        - generic [ref=e855]: "-"
+              - table "Standings and Group Tables - Group G" [ref=e857]:
+                - caption [ref=e858]: Standings and Group Tables - Group G
+                - rowgroup [ref=e859]:
+                  - row "Group G P W D L GF GA GD TCS Pts Form" [ref=e860]:
+                    - columnheader "Group G" [ref=e861]:
+                      - generic "Group G" [ref=e862]
+                    - columnheader "P" [ref=e863]
+                    - columnheader "W" [ref=e864]
+                    - columnheader "D" [ref=e865]
+                    - columnheader "L" [ref=e866]
+                    - columnheader "GF" [ref=e867]
+                    - columnheader "GA" [ref=e868]
+                    - columnheader "GD" [ref=e869]
+                    - columnheader "TCS" [ref=e870]
+                    - columnheader "Pts" [ref=e871]
+                    - columnheader "Form" [ref=e872]
+                - rowgroup [ref=e873]:
+                  - row "Position 1, Belgium, qualified, 5 points" [ref=e874]:
+                    - cell [ref=e875]
+                    - cell "1" [ref=e876]
+                    - cell "Belgium" [ref=e877]:
+                      - link "Belgium" [ref=e878] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/belgium
+                        - generic [ref=e883]: Belgium
+                    - cell "3" [ref=e884]
+                    - cell "1" [ref=e885]
+                    - cell "2" [ref=e886]
+                    - cell "0" [ref=e887]
+                    - cell "6" [ref=e888]
+                    - cell "2" [ref=e889]
+                    - cell "4" [ref=e890]
+                    - cell "-7" [ref=e891]
+                    - cell "5" [ref=e892]
+                    - cell "- -" [ref=e893]:
+                      - list [ref=e894]:
+                        - generic [ref=e898]: "-"
+                        - generic [ref=e899]: "-"
+                  - row "Position 2, Egypt, qualified, 5 points" [ref=e900]:
+                    - cell [ref=e901]
+                    - cell "2" [ref=e902]
+                    - cell "Egypt" [ref=e903]:
+                      - link "Egypt" [ref=e904] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/egypt
+                        - generic [ref=e909]: Egypt
+                    - cell "3" [ref=e910]
+                    - cell "1" [ref=e911]
+                    - cell "2" [ref=e912]
+                    - cell "0" [ref=e913]
+                    - cell "5" [ref=e914]
+                    - cell "3" [ref=e915]
+                    - cell "2" [ref=e916]
+                    - cell "-6" [ref=e917]
+                    - cell "5" [ref=e918]
+                    - cell "- -" [ref=e919]:
+                      - list [ref=e920]:
+                        - generic [ref=e924]: "-"
+                        - generic [ref=e925]: "-"
+                  - row "Position 3, IR Iran, 3 points" [ref=e926]:
+                    - cell [ref=e927]
+                    - cell "3" [ref=e928]
+                    - cell "IR Iran" [ref=e929]:
+                      - link "IR Iran" [ref=e930] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/ir-iran
+                        - generic [ref=e935]: IR Iran
+                    - cell "3" [ref=e936]
+                    - cell "0" [ref=e937]
+                    - cell "3" [ref=e938]
+                    - cell "0" [ref=e939]
+                    - cell "3" [ref=e940]
+                    - cell "3" [ref=e941]
+                    - cell "0" [ref=e942]
+                    - cell "-6" [ref=e943]
+                    - cell "3" [ref=e944]
+                    - cell "- -" [ref=e945]:
+                      - list [ref=e946]:
+                        - generic [ref=e950]: "-"
+                        - generic [ref=e951]: "-"
+                  - row "Position 4, New Zealand, 1 points" [ref=e952]:
+                    - cell [ref=e953]
+                    - cell "4" [ref=e954]
+                    - cell "New Zealand" [ref=e955]:
+                      - link "New Zealand" [ref=e956] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/new-zealand
+                        - generic [ref=e961]: New Zealand
+                    - cell "3" [ref=e962]
+                    - cell "0" [ref=e963]
+                    - cell "1" [ref=e964]
+                    - cell "2" [ref=e965]
+                    - cell "4" [ref=e966]
+                    - cell "10" [ref=e967]
+                    - cell "-6" [ref=e968]
+                    - cell "-4" [ref=e969]
+                    - cell "1" [ref=e970]
+                    - cell "- -" [ref=e971]:
+                      - list [ref=e972]:
+                        - generic [ref=e976]: "-"
+                        - generic [ref=e977]: "-"
+              - table "Standings and Group Tables - Group H" [ref=e979]:
+                - caption [ref=e980]: Standings and Group Tables - Group H
+                - rowgroup [ref=e981]:
+                  - row "Group H P W D L GF GA GD TCS Pts Form" [ref=e982]:
+                    - columnheader "Group H" [ref=e983]:
+                      - generic "Group H" [ref=e984]
+                    - columnheader "P" [ref=e985]
+                    - columnheader "W" [ref=e986]
+                    - columnheader "D" [ref=e987]
+                    - columnheader "L" [ref=e988]
+                    - columnheader "GF" [ref=e989]
+                    - columnheader "GA" [ref=e990]
+                    - columnheader "GD" [ref=e991]
+                    - columnheader "TCS" [ref=e992]
+                    - columnheader "Pts" [ref=e993]
+                    - columnheader "Form" [ref=e994]
+                - rowgroup [ref=e995]:
+                  - row "Position 1, Spain, qualified, 7 points" [ref=e996]:
+                    - cell [ref=e997]
+                    - cell "1" [ref=e998]
+                    - cell "Spain" [ref=e999]:
+                      - link "Spain" [ref=e1000] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/spain
+                        - generic [ref=e1005]: Spain
+                    - cell "3" [ref=e1006]
+                    - cell "2" [ref=e1007]
+                    - cell "1" [ref=e1008]
+                    - cell "0" [ref=e1009]
+                    - cell "5" [ref=e1010]
+                    - cell "0" [ref=e1011]
+                    - cell "5" [ref=e1012]
+                    - cell "-2" [ref=e1013]
+                    - cell "7" [ref=e1014]
+                    - cell "- -" [ref=e1015]:
+                      - list [ref=e1016]:
+                        - generic [ref=e1020]: "-"
+                        - generic [ref=e1021]: "-"
+                  - row "Position 2, Cabo Verde, qualified, 3 points" [ref=e1022]:
+                    - cell [ref=e1023]
+                    - cell "2" [ref=e1024]
+                    - cell "Cabo Verde" [ref=e1025]:
+                      - link "Cabo Verde" [ref=e1026] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/cabo-verde
+                        - generic [ref=e1031]: Cabo Verde
+                    - cell "3" [ref=e1032]
+                    - cell "0" [ref=e1033]
+                    - cell "3" [ref=e1034]
+                    - cell "0" [ref=e1035]
+                    - cell "2" [ref=e1036]
+                    - cell "2" [ref=e1037]
+                    - cell "0" [ref=e1038]
+                    - cell "-4" [ref=e1039]
+                    - cell "3" [ref=e1040]
+                    - cell "- -" [ref=e1041]:
+                      - list [ref=e1042]:
+                        - generic [ref=e1046]: "-"
+                        - generic [ref=e1047]: "-"
+                  - row "Position 3, Uruguay, 2 points" [ref=e1048]:
+                    - cell [ref=e1049]
+                    - cell "3" [ref=e1050]
+                    - cell "Uruguay" [ref=e1051]:
+                      - link "Uruguay" [ref=e1052] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/uruguay
+                        - generic [ref=e1057]: Uruguay
+                    - cell "3" [ref=e1058]
+                    - cell "0" [ref=e1059]
+                    - cell "2" [ref=e1060]
+                    - cell "1" [ref=e1061]
+                    - cell "3" [ref=e1062]
+                    - cell "4" [ref=e1063]
+                    - cell "-1" [ref=e1064]
+                    - cell "-9" [ref=e1065]
+                    - cell "2" [ref=e1066]
+                    - cell "- -" [ref=e1067]:
+                      - list [ref=e1068]:
+                        - generic [ref=e1072]: "-"
+                        - generic [ref=e1073]: "-"
+                  - row "Position 4, Saudi Arabia, 2 points" [ref=e1074]:
+                    - cell [ref=e1075]
+                    - cell "4" [ref=e1076]
+                    - cell "Saudi Arabia" [ref=e1077]:
+                      - link "Saudi Arabia" [ref=e1078] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/saudi-arabia
+                        - generic [ref=e1083]: Saudi Arabia
+                    - cell "3" [ref=e1084]
+                    - cell "0" [ref=e1085]
+                    - cell "2" [ref=e1086]
+                    - cell "1" [ref=e1087]
+                    - cell "1" [ref=e1088]
+                    - cell "5" [ref=e1089]
+                    - cell "-4" [ref=e1090]
+                    - cell "-6" [ref=e1091]
+                    - cell "2" [ref=e1092]
+                    - cell "- -" [ref=e1093]:
+                      - list [ref=e1094]:
+                        - generic [ref=e1098]: "-"
+                        - generic [ref=e1099]: "-"
+              - table "Standings and Group Tables - Group I" [ref=e1101]:
+                - caption [ref=e1102]: Standings and Group Tables - Group I
+                - rowgroup [ref=e1103]:
+                  - row "Group I P W D L GF GA GD TCS Pts Form" [ref=e1104]:
+                    - columnheader "Group I" [ref=e1105]:
+                      - generic "Group I" [ref=e1106]
+                    - columnheader "P" [ref=e1107]
+                    - columnheader "W" [ref=e1108]
+                    - columnheader "D" [ref=e1109]
+                    - columnheader "L" [ref=e1110]
+                    - columnheader "GF" [ref=e1111]
+                    - columnheader "GA" [ref=e1112]
+                    - columnheader "GD" [ref=e1113]
+                    - columnheader "TCS" [ref=e1114]
+                    - columnheader "Pts" [ref=e1115]
+                    - columnheader "Form" [ref=e1116]
+                - rowgroup [ref=e1117]:
+                  - row "Position 1, France, qualified, 9 points" [ref=e1118]:
+                    - cell [ref=e1119]
+                    - cell "1" [ref=e1120]
+                    - cell "France" [ref=e1121]:
+                      - link "France" [ref=e1122] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/france
+                        - generic [ref=e1127]: France
+                    - cell "3" [ref=e1128]
+                    - cell "3" [ref=e1129]
+                    - cell "0" [ref=e1130]
+                    - cell "0" [ref=e1131]
+                    - cell "10" [ref=e1132]
+                    - cell "2" [ref=e1133]
+                    - cell "8" [ref=e1134]
+                    - cell "-1" [ref=e1135]
+                    - cell "9" [ref=e1136]
+                    - cell "- -" [ref=e1137]:
+                      - list [ref=e1138]:
+                        - generic [ref=e1142]: "-"
+                        - generic [ref=e1143]: "-"
+                  - row "Position 2, Norway, qualified, 6 points" [ref=e1144]:
+                    - cell [ref=e1145]
+                    - cell "2" [ref=e1146]
+                    - cell "Norway" [ref=e1147]:
+                      - link "Norway" [ref=e1148] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/norway
+                        - generic [ref=e1153]: Norway
+                    - cell "3" [ref=e1154]
+                    - cell "2" [ref=e1155]
+                    - cell "0" [ref=e1156]
+                    - cell "1" [ref=e1157]
+                    - cell "8" [ref=e1158]
+                    - cell "7" [ref=e1159]
+                    - cell "1" [ref=e1160]
+                    - cell "-1" [ref=e1161]
+                    - cell "6" [ref=e1162]
+                    - cell "- -" [ref=e1163]:
+                      - list [ref=e1164]:
+                        - generic [ref=e1168]: "-"
+                        - generic [ref=e1169]: "-"
+                  - row "Position 3, Senegal, 3 points" [ref=e1170]:
+                    - cell [ref=e1171]
+                    - cell "3" [ref=e1172]
+                    - cell "Senegal" [ref=e1173]:
+                      - link "Senegal" [ref=e1174] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/senegal
+                        - generic [ref=e1179]: Senegal
+                    - cell "3" [ref=e1180]
+                    - cell "1" [ref=e1181]
+                    - cell "0" [ref=e1182]
+                    - cell "2" [ref=e1183]
+                    - cell "8" [ref=e1184]
+                    - cell "6" [ref=e1185]
+                    - cell "2" [ref=e1186]
+                    - cell "-2" [ref=e1187]
+                    - cell "3" [ref=e1188]
+                    - cell "- -" [ref=e1189]:
+                      - list [ref=e1190]:
+                        - generic [ref=e1194]: "-"
+                        - generic [ref=e1195]: "-"
+                  - row "Position 4, Iraq, 0 points" [ref=e1196]:
+                    - cell [ref=e1197]
+                    - cell "4" [ref=e1198]
+                    - cell "Iraq" [ref=e1199]:
+                      - link "Iraq" [ref=e1200] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/iraq
+                        - generic [ref=e1205]: Iraq
+                    - cell "3" [ref=e1206]
+                    - cell "0" [ref=e1207]
+                    - cell "0" [ref=e1208]
+                    - cell "3" [ref=e1209]
+                    - cell "1" [ref=e1210]
+                    - cell "12" [ref=e1211]
+                    - cell "-11" [ref=e1212]
+                    - cell "-8" [ref=e1213]
+                    - cell "0" [ref=e1214]
+                    - cell "- -" [ref=e1215]:
+                      - list [ref=e1216]:
+                        - generic [ref=e1220]: "-"
+                        - generic [ref=e1221]: "-"
+              - table "Standings and Group Tables - Group J" [ref=e1223]:
+                - caption [ref=e1224]: Standings and Group Tables - Group J
+                - rowgroup [ref=e1225]:
+                  - row "Group J P W D L GF GA GD TCS Pts Form" [ref=e1226]:
+                    - columnheader "Group J" [ref=e1227]:
+                      - generic "Group J" [ref=e1228]
+                    - columnheader "P" [ref=e1229]
+                    - columnheader "W" [ref=e1230]
+                    - columnheader "D" [ref=e1231]
+                    - columnheader "L" [ref=e1232]
+                    - columnheader "GF" [ref=e1233]
+                    - columnheader "GA" [ref=e1234]
+                    - columnheader "GD" [ref=e1235]
+                    - columnheader "TCS" [ref=e1236]
+                    - columnheader "Pts" [ref=e1237]
+                    - columnheader "Form" [ref=e1238]
+                - rowgroup [ref=e1239]:
+                  - row "Position 1, Argentina, qualified, 6 points" [ref=e1240]:
+                    - cell [ref=e1241]
+                    - cell "1" [ref=e1242]
+                    - cell "Argentina" [ref=e1243]:
+                      - link "Argentina" [ref=e1244] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/argentina
+                        - generic [ref=e1249]: Argentina
+                    - cell "2" [ref=e1250]
+                    - cell "2" [ref=e1251]
+                    - cell "0" [ref=e1252]
+                    - cell "0" [ref=e1253]
+                    - cell "5" [ref=e1254]
+                    - cell "0" [ref=e1255]
+                    - cell "5" [ref=e1256]
+                    - cell "-2" [ref=e1257]
+                    - cell "6" [ref=e1258]
+                    - cell "- - -" [ref=e1259]:
+                      - list [ref=e1260]:
+                        - generic [ref=e1263]: "-"
+                        - generic [ref=e1264]: "-"
+                        - generic [ref=e1265]: "-"
+                  - row "Position 2, Austria, 3 points" [ref=e1266]:
+                    - cell [ref=e1267]
+                    - cell "2" [ref=e1268]
+                    - cell "Austria" [ref=e1269]:
+                      - link "Austria" [ref=e1270] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/austria
+                        - generic [ref=e1275]: Austria
+                    - cell "2" [ref=e1276]
+                    - cell "1" [ref=e1277]
+                    - cell "0" [ref=e1278]
+                    - cell "1" [ref=e1279]
+                    - cell "3" [ref=e1280]
+                    - cell "3" [ref=e1281]
+                    - cell "0" [ref=e1282]
+                    - cell "-3" [ref=e1283]
+                    - cell "3" [ref=e1284]
+                    - cell "- - -" [ref=e1285]:
+                      - list [ref=e1286]:
+                        - generic [ref=e1289]: "-"
+                        - generic [ref=e1290]: "-"
+                        - generic [ref=e1291]: "-"
+                  - row "Position 3, Algeria, 3 points" [ref=e1292]:
+                    - cell [ref=e1293]
+                    - cell "3" [ref=e1294]
+                    - cell "Algeria" [ref=e1295]:
+                      - link "Algeria" [ref=e1296] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/algeria
+                        - generic [ref=e1301]: Algeria
+                    - cell "2" [ref=e1302]
+                    - cell "1" [ref=e1303]
+                    - cell "0" [ref=e1304]
+                    - cell "1" [ref=e1305]
+                    - cell "2" [ref=e1306]
+                    - cell "4" [ref=e1307]
+                    - cell "-2" [ref=e1308]
+                    - cell "-1" [ref=e1309]
+                    - cell "3" [ref=e1310]
+                    - cell "- - -" [ref=e1311]:
+                      - list [ref=e1312]:
+                        - generic [ref=e1315]: "-"
+                        - generic [ref=e1316]: "-"
+                        - generic [ref=e1317]: "-"
+                  - row "Position 4, Jordan, 0 points" [ref=e1318]:
+                    - cell [ref=e1319]
+                    - cell "4" [ref=e1320]
+                    - cell "Jordan" [ref=e1321]:
+                      - link "Jordan" [ref=e1322] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/jordan
+                        - generic [ref=e1327]: Jordan
+                    - cell "2" [ref=e1328]
+                    - cell "0" [ref=e1329]
+                    - cell "0" [ref=e1330]
+                    - cell "2" [ref=e1331]
+                    - cell "2" [ref=e1332]
+                    - cell "5" [ref=e1333]
+                    - cell "-3" [ref=e1334]
+                    - cell "-1" [ref=e1335]
+                    - cell "0" [ref=e1336]
+                    - cell "- - -" [ref=e1337]:
+                      - list [ref=e1338]:
+                        - generic [ref=e1341]: "-"
+                        - generic [ref=e1342]: "-"
+                        - generic [ref=e1343]: "-"
+              - table "Standings and Group Tables - Group K" [ref=e1345]:
+                - caption [ref=e1346]: Standings and Group Tables - Group K
+                - rowgroup [ref=e1347]:
+                  - row "Group K P W D L GF GA GD TCS Pts Form" [ref=e1348]:
+                    - columnheader "Group K" [ref=e1349]:
+                      - generic "Group K" [ref=e1350]
+                    - columnheader "P" [ref=e1351]
+                    - columnheader "W" [ref=e1352]
+                    - columnheader "D" [ref=e1353]
+                    - columnheader "L" [ref=e1354]
+                    - columnheader "GF" [ref=e1355]
+                    - columnheader "GA" [ref=e1356]
+                    - columnheader "GD" [ref=e1357]
+                    - columnheader "TCS" [ref=e1358]
+                    - columnheader "Pts" [ref=e1359]
+                    - columnheader "Form" [ref=e1360]
+                - rowgroup [ref=e1361]:
+                  - row "Position 1, Colombia, 6 points" [ref=e1362]:
+                    - cell [ref=e1363]
+                    - cell "1" [ref=e1364]
+                    - cell "Colombia" [ref=e1365]:
+                      - link "Colombia" [ref=e1366] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/colombia
+                        - generic [ref=e1371]: Colombia
+                    - cell "2" [ref=e1372]
+                    - cell "2" [ref=e1373]
+                    - cell "0" [ref=e1374]
+                    - cell "0" [ref=e1375]
+                    - cell "4" [ref=e1376]
+                    - cell "1" [ref=e1377]
+                    - cell "3" [ref=e1378]
+                    - cell "-3" [ref=e1379]
+                    - cell "6" [ref=e1380]
+                    - cell "- - -" [ref=e1381]:
+                      - list [ref=e1382]:
+                        - generic [ref=e1385]: "-"
+                        - generic [ref=e1386]: "-"
+                        - generic [ref=e1387]: "-"
+                  - row "Position 2, Portugal, 4 points" [ref=e1388]:
+                    - cell [ref=e1389]
+                    - cell "2" [ref=e1390]
+                    - cell "Portugal" [ref=e1391]:
+                      - link "Portugal" [ref=e1392] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/portugal
+                        - generic [ref=e1397]: Portugal
+                    - cell "2" [ref=e1398]
+                    - cell "1" [ref=e1399]
+                    - cell "1" [ref=e1400]
+                    - cell "0" [ref=e1401]
+                    - cell "6" [ref=e1402]
+                    - cell "1" [ref=e1403]
+                    - cell "5" [ref=e1404]
+                    - cell "-4" [ref=e1405]
+                    - cell "4" [ref=e1406]
+                    - cell "- - -" [ref=e1407]:
+                      - list [ref=e1408]:
+                        - generic [ref=e1411]: "-"
+                        - generic [ref=e1412]: "-"
+                        - generic [ref=e1413]: "-"
+                  - row "Position 3, Congo DR, 1 points" [ref=e1414]:
+                    - cell [ref=e1415]
+                    - cell "3" [ref=e1416]
+                    - cell "Congo DR" [ref=e1417]:
+                      - link "Congo DR" [ref=e1418] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/congo-dr
+                        - generic [ref=e1423]: Congo DR
+                    - cell "2" [ref=e1424]
+                    - cell "0" [ref=e1425]
+                    - cell "1" [ref=e1426]
+                    - cell "1" [ref=e1427]
+                    - cell "1" [ref=e1428]
+                    - cell "2" [ref=e1429]
+                    - cell "-1" [ref=e1430]
+                    - cell "-2" [ref=e1431]
+                    - cell "1" [ref=e1432]
+                    - cell "- - -" [ref=e1433]:
+                      - list [ref=e1434]:
+                        - generic [ref=e1437]: "-"
+                        - generic [ref=e1438]: "-"
+                        - generic [ref=e1439]: "-"
+                  - row "Position 4, Uzbekistan, 0 points" [ref=e1440]:
+                    - cell [ref=e1441]
+                    - cell "4" [ref=e1442]
+                    - cell "Uzbekistan" [ref=e1443]:
+                      - link "Uzbekistan" [ref=e1444] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/uzbekistan
+                        - generic [ref=e1449]: Uzbekistan
+                    - cell "2" [ref=e1450]
+                    - cell "0" [ref=e1451]
+                    - cell "0" [ref=e1452]
+                    - cell "2" [ref=e1453]
+                    - cell "1" [ref=e1454]
+                    - cell "8" [ref=e1455]
+                    - cell "-7" [ref=e1456]
+                    - cell "-2" [ref=e1457]
+                    - cell "0" [ref=e1458]
+                    - cell "- - -" [ref=e1459]:
+                      - list [ref=e1460]:
+                        - generic [ref=e1463]: "-"
+                        - generic [ref=e1464]: "-"
+                        - generic [ref=e1465]: "-"
+              - table "Standings and Group Tables - Group L" [ref=e1467]:
+                - caption [ref=e1468]: Standings and Group Tables - Group L
+                - rowgroup [ref=e1469]:
+                  - row "Group L P W D L GF GA GD TCS Pts Form" [ref=e1470]:
+                    - columnheader "Group L" [ref=e1471]:
+                      - generic "Group L" [ref=e1472]
+                    - columnheader "P" [ref=e1473]
+                    - columnheader "W" [ref=e1474]
+                    - columnheader "D" [ref=e1475]
+                    - columnheader "L" [ref=e1476]
+                    - columnheader "GF" [ref=e1477]
+                    - columnheader "GA" [ref=e1478]
+                    - columnheader "GD" [ref=e1479]
+                    - columnheader "TCS" [ref=e1480]
+                    - columnheader "Pts" [ref=e1481]
+                    - columnheader "Form" [ref=e1482]
+                - rowgroup [ref=e1483]:
+                  - row "Position 1, England, 4 points" [ref=e1484]:
+                    - cell [ref=e1485]
+                    - cell "1" [ref=e1486]
+                    - cell "England" [ref=e1487]:
+                      - link "England" [ref=e1488] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/england
+                        - generic [ref=e1493]: England
+                    - cell "2" [ref=e1494]
+                    - cell "1" [ref=e1495]
+                    - cell "1" [ref=e1496]
+                    - cell "0" [ref=e1497]
+                    - cell "4" [ref=e1498]
+                    - cell "2" [ref=e1499]
+                    - cell "2" [ref=e1500]
+                    - cell "-1" [ref=e1501]
+                    - cell "4" [ref=e1502]
+                    - cell "- - -" [ref=e1503]:
+                      - list [ref=e1504]:
+                        - generic [ref=e1507]: "-"
+                        - generic [ref=e1508]: "-"
+                        - generic [ref=e1509]: "-"
+                  - row "Position 2, Ghana, 4 points" [ref=e1510]:
+                    - cell [ref=e1511]
+                    - cell "2" [ref=e1512]
+                    - cell "Ghana" [ref=e1513]:
+                      - link "Ghana" [ref=e1514] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/ghana
+                        - generic [ref=e1519]: Ghana
+                    - cell "2" [ref=e1520]
+                    - cell "1" [ref=e1521]
+                    - cell "1" [ref=e1522]
+                    - cell "0" [ref=e1523]
+                    - cell "1" [ref=e1524]
+                    - cell "0" [ref=e1525]
+                    - cell "1" [ref=e1526]
+                    - cell "-2" [ref=e1527]
+                    - cell "4" [ref=e1528]
+                    - cell "- - -" [ref=e1529]:
+                      - list [ref=e1530]:
+                        - generic [ref=e1533]: "-"
+                        - generic [ref=e1534]: "-"
+                        - generic [ref=e1535]: "-"
+                  - row "Position 3, Croatia, 3 points" [ref=e1536]:
+                    - cell [ref=e1537]
+                    - cell "3" [ref=e1538]
+                    - cell "Croatia" [ref=e1539]:
+                      - link "Croatia" [ref=e1540] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/croatia
+                        - generic [ref=e1545]: Croatia
+                    - cell "2" [ref=e1546]
+                    - cell "1" [ref=e1547]
+                    - cell "0" [ref=e1548]
+                    - cell "1" [ref=e1549]
+                    - cell "3" [ref=e1550]
+                    - cell "4" [ref=e1551]
+                    - cell "-1" [ref=e1552]
+                    - cell "-1" [ref=e1553]
+                    - cell "3" [ref=e1554]
+                    - cell "- - -" [ref=e1555]:
+                      - list [ref=e1556]:
+                        - generic [ref=e1559]: "-"
+                        - generic [ref=e1560]: "-"
+                        - generic [ref=e1561]: "-"
+                  - row "Position 4, Panama, 0 points" [ref=e1562]:
+                    - cell [ref=e1563]
+                    - cell "4" [ref=e1564]
+                    - cell "Panama" [ref=e1565]:
+                      - link "Panama" [ref=e1566] [cursor=pointer]:
+                        - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/panama
+                        - generic [ref=e1571]: Panama
+                    - cell "2" [ref=e1572]
+                    - cell "0" [ref=e1573]
+                    - cell "0" [ref=e1574]
+                    - cell "2" [ref=e1575]
+                    - cell "0" [ref=e1576]
+                    - cell "2" [ref=e1577]
+                    - cell "-2" [ref=e1578]
+                    - cell "-3" [ref=e1579]
+                    - cell "0" [ref=e1580]
+                    - cell "- - -" [ref=e1581]:
+                      - list [ref=e1582]:
+                        - generic [ref=e1585]: "-"
+                        - generic [ref=e1586]: "-"
+                        - generic [ref=e1587]: "-"
+            - generic [ref=e1589]:
+              - generic [ref=e1590]:
+                - list [ref=e1591]:
+                  - listitem [ref=e1592]: = Confirmed Qualified
+                  - listitem [ref=e1594]: = Qualified next round
+                  - listitem [ref=e1596]: = Live Qualified
+                  - listitem [ref=e1598]: = Live Eliminated
+                  - listitem [ref=e1600]: = Eliminated
+                - list [ref=e1602]:
+                  - listitem [ref=e1603]: P = Matches Played
+                  - listitem [ref=e1604]: W = Wins
+                  - listitem [ref=e1605]: D = Draws
+                  - listitem [ref=e1606]: L = Loss
+                  - listitem [ref=e1607]: GF = Goals For
+                  - listitem [ref=e1608]: GA = Goals Against
+                  - listitem [ref=e1609]: GD = Goal Difference
+                  - listitem [ref=e1610]: TCS = Team Conduct Score
+                  - listitem [ref=e1611]: Pts = Points
+              - list [ref=e1613]:
+                - listitem [ref=e1614]: = Wins
+                - listitem [ref=e1616]: = Draws
+                - listitem [ref=e1618]: = Loss
+                - listitem [ref=e1620]: "- = Not played"
+          - region "Standings and Group Tables" [ref=e1625]:
+            - heading "Third place standings" [level=3] [ref=e1627]:
+              - generic [ref=e1629]: Third place standings
+            - table "Third place standings" [ref=e1631]:
+              - caption [ref=e1632]: Third place standings
+              - rowgroup [ref=e1633]:
+                - row "Team P W D L GF GA GD TCS Pts Form" [ref=e1634]:
+                  - columnheader "Team" [ref=e1635]:
+                    - generic [ref=e1636]: Team
+                  - columnheader "P" [ref=e1637]
+                  - columnheader "W" [ref=e1638]
+                  - columnheader "D" [ref=e1639]
+                  - columnheader "L" [ref=e1640]
+                  - columnheader "GF" [ref=e1641]
+                  - columnheader "GA" [ref=e1642]
+                  - columnheader "GD" [ref=e1643]
+                  - columnheader "TCS" [ref=e1644]
+                  - columnheader "Pts" [ref=e1645]
+                  - columnheader "Form" [ref=e1646]
+              - rowgroup [ref=e1647]:
+                - row "Position 1, Sweden, 4 points" [ref=e1648]:
+                  - cell [ref=e1649]
+                  - cell "1" [ref=e1650]
+                  - cell "Sweden" [ref=e1651]:
+                    - link "Sweden" [ref=e1652] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/sweden
+                      - generic [ref=e1656]:
+                        - generic [ref=e1657]: Sweden
+                        - generic [ref=e1658]: Group F
+                  - cell "3" [ref=e1659]
+                  - cell "1" [ref=e1660]
+                  - cell "1" [ref=e1661]
+                  - cell "1" [ref=e1662]
+                  - cell "7" [ref=e1663]
+                  - cell "7" [ref=e1664]
+                  - cell "0" [ref=e1665]
+                  - cell "-5" [ref=e1666]
+                  - cell "4" [ref=e1667]
+                  - cell "- -" [ref=e1668]:
+                    - list [ref=e1669]:
+                      - generic [ref=e1673]: "-"
+                      - generic [ref=e1674]: "-"
+                - row "Position 2, Ecuador, 4 points" [ref=e1675]:
+                  - cell [ref=e1676]
+                  - cell "2" [ref=e1677]
+                  - cell "Ecuador" [ref=e1678]:
+                    - link "Ecuador" [ref=e1679] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/ecuador
+                      - generic [ref=e1683]:
+                        - generic [ref=e1684]: Ecuador
+                        - generic [ref=e1685]: Group E
+                  - cell "3" [ref=e1686]
+                  - cell "1" [ref=e1687]
+                  - cell "1" [ref=e1688]
+                  - cell "1" [ref=e1689]
+                  - cell "2" [ref=e1690]
+                  - cell "2" [ref=e1691]
+                  - cell "0" [ref=e1692]
+                  - cell "-5" [ref=e1693]
+                  - cell "4" [ref=e1694]
+                  - cell "- -" [ref=e1695]:
+                    - list [ref=e1696]:
+                      - generic [ref=e1700]: "-"
+                      - generic [ref=e1701]: "-"
+                - row "Position 3, Bosnia and Herzegovina, 4 points" [ref=e1702]:
+                  - cell [ref=e1703]
+                  - cell "3" [ref=e1704]
+                  - cell "Bosnia and Herzegovina" [ref=e1705]:
+                    - link "Bosnia and Herzegovina" [ref=e1706] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/bosnia-herzegovina
+                      - generic [ref=e1710]:
+                        - generic [ref=e1711]: Bosnia and Herzegovina
+                        - generic [ref=e1712]: Group B
+                  - cell "3" [ref=e1713]
+                  - cell "1" [ref=e1714]
+                  - cell "1" [ref=e1715]
+                  - cell "1" [ref=e1716]
+                  - cell "5" [ref=e1717]
+                  - cell "6" [ref=e1718]
+                  - cell "-1" [ref=e1719]
+                  - cell "-10" [ref=e1720]
+                  - cell "4" [ref=e1721]
+                  - cell "- -" [ref=e1722]:
+                    - list [ref=e1723]:
+                      - generic [ref=e1727]: "-"
+                      - generic [ref=e1728]: "-"
+                - row "Position 4, Paraguay, 4 points" [ref=e1729]:
+                  - cell [ref=e1730]
+                  - cell "4" [ref=e1731]
+                  - cell "Paraguay" [ref=e1732]:
+                    - link "Paraguay" [ref=e1733] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/paraguay
+                      - generic [ref=e1737]:
+                        - generic [ref=e1738]: Paraguay
+                        - generic [ref=e1739]: Group D
+                  - cell "3" [ref=e1740]
+                  - cell "1" [ref=e1741]
+                  - cell "1" [ref=e1742]
+                  - cell "1" [ref=e1743]
+                  - cell "2" [ref=e1744]
+                  - cell "4" [ref=e1745]
+                  - cell "-2" [ref=e1746]
+                  - cell "-12" [ref=e1747]
+                  - cell "4" [ref=e1748]
+                  - cell "- - -" [ref=e1749]:
+                    - list [ref=e1750]:
+                      - generic [ref=e1753]: "-"
+                      - generic [ref=e1754]: "-"
+                      - generic [ref=e1755]: "-"
+                - row "Position 5, Senegal, 3 points" [ref=e1756]:
+                  - cell [ref=e1757]
+                  - cell "5" [ref=e1758]
+                  - cell "Senegal" [ref=e1759]:
+                    - link "Senegal" [ref=e1760] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/senegal
+                      - generic [ref=e1764]:
+                        - generic [ref=e1765]: Senegal
+                        - generic [ref=e1766]: Group I
+                  - cell "3" [ref=e1767]
+                  - cell "1" [ref=e1768]
+                  - cell "0" [ref=e1769]
+                  - cell "2" [ref=e1770]
+                  - cell "8" [ref=e1771]
+                  - cell "6" [ref=e1772]
+                  - cell "2" [ref=e1773]
+                  - cell "-2" [ref=e1774]
+                  - cell "3" [ref=e1775]
+                  - cell "- -" [ref=e1776]:
+                    - list [ref=e1777]:
+                      - generic [ref=e1781]: "-"
+                      - generic [ref=e1782]: "-"
+                - row "Position 6, IR Iran, 3 points" [ref=e1783]:
+                  - cell [ref=e1784]
+                  - cell "6" [ref=e1785]
+                  - cell "IR Iran" [ref=e1786]:
+                    - link "IR Iran" [ref=e1787] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/ir-iran
+                      - generic [ref=e1791]:
+                        - generic [ref=e1792]: IR Iran
+                        - generic [ref=e1793]: Group G
+                  - cell "3" [ref=e1794]
+                  - cell "0" [ref=e1795]
+                  - cell "3" [ref=e1796]
+                  - cell "0" [ref=e1797]
+                  - cell "3" [ref=e1798]
+                  - cell "3" [ref=e1799]
+                  - cell "0" [ref=e1800]
+                  - cell "-6" [ref=e1801]
+                  - cell "3" [ref=e1802]
+                  - cell "- - -" [ref=e1803]:
+                    - list [ref=e1804]:
+                      - generic [ref=e1807]: "-"
+                      - generic [ref=e1808]: "-"
+                      - generic [ref=e1809]: "-"
+                - row "Position 7, Croatia, 3 points" [ref=e1810]:
+                  - cell [ref=e1811]
+                  - cell "7" [ref=e1812]
+                  - cell "Croatia" [ref=e1813]:
+                    - link "Croatia" [ref=e1814] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/croatia
+                      - generic [ref=e1818]:
+                        - generic [ref=e1819]: Croatia
+                        - generic [ref=e1820]: Group L
+                  - cell "2" [ref=e1821]
+                  - cell "1" [ref=e1822]
+                  - cell "0" [ref=e1823]
+                  - cell "1" [ref=e1824]
+                  - cell "3" [ref=e1825]
+                  - cell "4" [ref=e1826]
+                  - cell "-1" [ref=e1827]
+                  - cell "-1" [ref=e1828]
+                  - cell "3" [ref=e1829]
+                  - cell "- - -" [ref=e1830]:
+                    - list [ref=e1831]:
+                      - generic [ref=e1834]: "-"
+                      - generic [ref=e1835]: "-"
+                      - generic [ref=e1836]: "-"
+                - row "Position 8, Korea Republic, 3 points" [ref=e1837]:
+                  - cell [ref=e1838]
+                  - cell "8" [ref=e1839]
+                  - cell "Korea Republic" [ref=e1840]:
+                    - link "Korea Republic" [ref=e1841] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/korea-republic
+                      - generic [ref=e1845]:
+                        - generic [ref=e1846]: Korea Republic
+                        - generic [ref=e1847]: Group A
+                  - cell "3" [ref=e1848]
+                  - cell "1" [ref=e1849]
+                  - cell "0" [ref=e1850]
+                  - cell "2" [ref=e1851]
+                  - cell "2" [ref=e1852]
+                  - cell "3" [ref=e1853]
+                  - cell "-1" [ref=e1854]
+                  - cell "-4" [ref=e1855]
+                  - cell "3" [ref=e1856]
+                  - cell "- - -" [ref=e1857]:
+                    - list [ref=e1858]:
+                      - generic [ref=e1861]: "-"
+                      - generic [ref=e1862]: "-"
+                      - generic [ref=e1863]: "-"
+                - row "Position 9, Algeria, 3 points" [ref=e1864]:
+                  - cell [ref=e1865]
+                  - cell "9" [ref=e1866]
+                  - cell "Algeria" [ref=e1867]:
+                    - link "Algeria" [ref=e1868] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/algeria
+                      - generic [ref=e1872]:
+                        - generic [ref=e1873]: Algeria
+                        - generic [ref=e1874]: Group J
+                  - cell "2" [ref=e1875]
+                  - cell "1" [ref=e1876]
+                  - cell "0" [ref=e1877]
+                  - cell "1" [ref=e1878]
+                  - cell "2" [ref=e1879]
+                  - cell "4" [ref=e1880]
+                  - cell "-2" [ref=e1881]
+                  - cell "-1" [ref=e1882]
+                  - cell "3" [ref=e1883]
+                  - cell "- - -" [ref=e1884]:
+                    - list [ref=e1885]:
+                      - generic [ref=e1888]: "-"
+                      - generic [ref=e1889]: "-"
+                      - generic [ref=e1890]: "-"
+                - row "Position 10, Scotland, 3 points" [ref=e1891]:
+                  - cell [ref=e1892]
+                  - cell "10" [ref=e1893]
+                  - cell "Scotland" [ref=e1894]:
+                    - link "Scotland" [ref=e1895] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/scotland
+                      - generic [ref=e1899]:
+                        - generic [ref=e1900]: Scotland
+                        - generic [ref=e1901]: Group C
+                  - cell "3" [ref=e1902]
+                  - cell "1" [ref=e1903]
+                  - cell "0" [ref=e1904]
+                  - cell "2" [ref=e1905]
+                  - cell "1" [ref=e1906]
+                  - cell "4" [ref=e1907]
+                  - cell "-3" [ref=e1908]
+                  - cell "-5" [ref=e1909]
+                  - cell "3" [ref=e1910]
+                  - cell "- -" [ref=e1911]:
+                    - list [ref=e1912]:
+                      - generic [ref=e1916]: "-"
+                      - generic [ref=e1917]: "-"
+                - row "Position 11, Uruguay, 2 points" [ref=e1918]:
+                  - cell [ref=e1919]
+                  - cell "11" [ref=e1920]
+                  - cell "Uruguay" [ref=e1921]:
+                    - link "Uruguay" [ref=e1922] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/uruguay
+                      - generic [ref=e1926]:
+                        - generic [ref=e1927]: Uruguay
+                        - generic [ref=e1928]: Group H
+                  - cell "3" [ref=e1929]
+                  - cell "0" [ref=e1930]
+                  - cell "2" [ref=e1931]
+                  - cell "1" [ref=e1932]
+                  - cell "3" [ref=e1933]
+                  - cell "4" [ref=e1934]
+                  - cell "-1" [ref=e1935]
+                  - cell "-9" [ref=e1936]
+                  - cell "2" [ref=e1937]
+                  - cell "- - -" [ref=e1938]:
+                    - list [ref=e1939]:
+                      - generic [ref=e1942]: "-"
+                      - generic [ref=e1943]: "-"
+                      - generic [ref=e1944]: "-"
+                - row "Position 12, Congo DR, 1 points" [ref=e1945]:
+                  - cell [ref=e1946]
+                  - cell "12" [ref=e1947]
+                  - cell "Congo DR" [ref=e1948]:
+                    - link "Congo DR" [ref=e1949] [cursor=pointer]:
+                      - /url: /en/tournaments/mens/worldcup/canadamexicousa2026/teams/congo-dr
+                      - generic [ref=e1953]:
+                        - generic [ref=e1954]: Congo DR
+                        - generic [ref=e1955]: Group K
+                  - cell "2" [ref=e1956]
+                  - cell "0" [ref=e1957]
+                  - cell "1" [ref=e1958]
+                  - cell "1" [ref=e1959]
+                  - cell "1" [ref=e1960]
+                  - cell "2" [ref=e1961]
+                  - cell "-1" [ref=e1962]
+                  - cell "-2" [ref=e1963]
+                  - cell "1" [ref=e1964]
+                  - cell "- - -" [ref=e1965]:
+                    - list [ref=e1966]:
+                      - generic [ref=e1969]: "-"
+                      - generic [ref=e1970]: "-"
+                      - generic [ref=e1971]: "-"
+            - generic [ref=e1973]:
+              - generic [ref=e1974]:
+                - list [ref=e1975]:
+                  - listitem [ref=e1976]: = Confirmed Qualified
+                  - listitem [ref=e1978]: = Qualified next round
+                  - listitem [ref=e1980]: = Live Qualified
+                  - listitem [ref=e1982]: = Live Eliminated
+                  - listitem [ref=e1984]: = Eliminated
+                - list [ref=e1986]:
+                  - listitem [ref=e1987]: P = Matches Played
+                  - listitem [ref=e1988]: W = Wins
+                  - listitem [ref=e1989]: D = Draws
+                  - listitem [ref=e1990]: L = Loss
+                  - listitem [ref=e1991]: GF = Goals For
+                  - listitem [ref=e1992]: GA = Goals Against
+                  - listitem [ref=e1993]: GD = Goal Difference
+                  - listitem [ref=e1994]: TCS = Team Conduct Score
+                  - listitem [ref=e1995]: Pts = Points
+              - list [ref=e1997]:
+                - listitem [ref=e1998]: = Wins
+                - listitem [ref=e2000]: = Draws
+                - listitem [ref=e2002]: = Loss
+                - listitem [ref=e2004]: "- = Not played"
+      - separator [ref=e2055]
+  - dialog "您的隐私" [ref=e2067]:
+    - generic [ref=e2069]:
+      - generic [ref=e2071]:
+        - heading "您的隐私" [level=2] [ref=e2072]
+        - generic [ref=e2073]:
+          - text: 我们使用 Cookie 对内容和广告进行个性化设置、提供社交媒体功能和分析我们的流量。我们还与我们的社交媒体、广告和分析合作伙伴分享您对我们的网站的使用情况的相关信息。您可以点击右侧的按钮来选择 Cookie 首选项，并要求“不得出售或分享我的个人信息”。
+          - link "有关您的隐私的更多信息, 在新窗口中打开" [ref=e2074] [cursor=pointer]:
+            - /url: https://www.fifa.com/legal/data-protection-portal/
+            - text: 数据保护门户网站
+      - generic [ref=e2076]:
+        - button "首选项中心, 打开首选项中心对话框" [ref=e2077] [cursor=pointer]: 首选项中心
+        - button "全部拒绝" [ref=e2078] [cursor=pointer]
+        - button "我同意" [ref=e2079] [cursor=pointer]

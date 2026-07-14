@@ -255,6 +255,186 @@ export function teamRecentMatches(teamId: number, finished: MatchRaw[], limit = 
   return finished.filter((m) => m.homeTeam.id === teamId || m.awayTeam.id === teamId).slice(0, limit);
 }
 
+/* ───── 淘汰赛数据 ───── */
+
+const KO_STAGES = ["LAST_32", "LAST_16", "QUARTER_FINALS", "SEMI_FINALS", "THIRD_PLACE", "FINAL"] as const;
+
+const STAGE_ZH_MAP: Record<string, string> = {
+  LAST_32: "32强",
+  LAST_16: "16强",
+  QUARTER_FINALS: "1/4决赛",
+  SEMI_FINALS: "半决赛",
+  THIRD_PLACE: "季军赛",
+  FINAL: "决赛",
+};
+
+/** 判断比赛是否属于淘汰赛阶段 */
+export function isKnockoutStage(stage: string): boolean {
+  const s = stage.toUpperCase();
+  return KO_STAGES.some((k) => k === s) || s.includes("KNOCKOUT") || s.includes("FINAL") || s === "LAST_32" || s === "LAST_16" || s === "QUARTER_FINALS" || s === "SEMI_FINALS";
+}
+
+/** 淘汰赛阶段中文名 */
+export function stageZh(stage: string): string {
+  return STAGE_ZH_MAP[stage.toUpperCase()] ?? stage.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** 单场淘汰赛记录 */
+export interface KnockoutMatchRecord {
+  stage: string;
+  stageLabel: string;
+  match: MatchRaw;
+  result: "W" | "L" | "D";
+  goalsFor: number;
+  goalsAgainst: number;
+  opponentName: string;
+  scoredByGoals: boolean; // 是否通过点球获胜（常规/加时打平）
+}
+
+/** 球队淘汰赛统计 */
+export interface TeamKnockoutStats {
+  played: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  matches: KnockoutMatchRecord[];
+  bestStage: string;
+  eliminated: boolean;
+}
+
+/** 提取某支球队的淘汰赛数据 */
+export function teamKnockoutStats(teamId: number, matches: MatchRaw[]): TeamKnockoutStats | null {
+  const ko = matches.filter(
+    (m) => m.status === "FINISHED" && (m.homeTeam.id === teamId || m.awayTeam.id === teamId) && isKnockoutStage(m.stage),
+  );
+  if (ko.length === 0) return null;
+
+  // 按日期正序（早→晚）
+  ko.sort((a, b) => a.utcDate.localeCompare(b.utcDate));
+
+  const records: KnockoutMatchRecord[] = [];
+  let wins = 0, losses = 0, draws = 0, gf = 0, ga = 0;
+
+  for (const m of ko) {
+    const home = m.homeTeam.id === teamId;
+    const hg = m.score.fullTime.home ?? 0;
+    const ag = m.score.fullTime.away ?? 0;
+    const goalsFor = home ? hg : ag;
+    const goalsAgainst = home ? ag : hg;
+    const opp = home ? m.awayTeam : m.homeTeam;
+
+    // 判断结果：考虑加时/点球后的 winner
+    let result: "W" | "L" | "D";
+    const wonByPenalties = m.score.winner && m.score.winner !== "DRAW" && hg === ag;
+    if (m.score.winner === "HOME_TEAM" && home) result = "W";
+    else if (m.score.winner === "AWAY_TEAM" && !home) result = "W";
+    else if (m.score.winner === "DRAW" || !m.score.winner) result = "D";
+    else result = "L";
+
+    if (result === "W") wins++;
+    else if (result === "L") losses++;
+    else draws++;
+
+    gf += goalsFor;
+    ga += goalsAgainst;
+
+    records.push({
+      stage: m.stage,
+      stageLabel: STAGE_ZH_MAP[m.stage.toUpperCase()] ?? m.stage,
+      match: m,
+      result,
+      goalsFor,
+      goalsAgainst,
+      opponentName: opp.name,
+      scoredByGoals: m.score.duration === "PENALTY_SHOOTOUT" || wonByPenalties,
+    });
+  }
+
+  // 最佳成绩：按 KO_STAGES 顺序找最靠后的已赛阶段
+  let bestStage = "";
+  for (const s of KO_STAGES) {
+    if (records.some((r) => r.stage.toUpperCase() === s)) bestStage = STAGE_ZH_MAP[s] ?? s;
+  }
+
+  // 如果最后一场输了且不是季军赛/决赛（即淘汰），标记为已出局
+  const eliminated = records.length > 0 && records[records.length - 1].result === "L" && records[records.length - 1].stage.toUpperCase() !== "THIRD_PLACE";
+
+  return { played: ko.length, wins, losses, draws, goalsFor: gf, goalsAgainst: ga, matches: records, bestStage, eliminated };
+}
+
+/** 提取某支球队的淘汰赛进球球员 */
+export interface KnockoutScorer {
+  playerId: number;
+  playerName: string;
+  goals: number;
+  stages: string[];
+}
+
+export function teamKnockoutScorers(teamId: number, matches: MatchRaw[]): KnockoutScorer[] {
+  const ko = matches.filter(
+    (m) => m.status === "FINISHED" && (m.homeTeam.id === teamId || m.awayTeam.id === teamId) && isKnockoutStage(m.stage),
+  );
+  const byPlayer = new Map<string, { name: string; goals: number; stages: Set<string> }>();
+  for (const m of ko) {
+    const goals = m.goals ?? [];
+    const isHome = m.homeTeam.id === teamId;
+    const teamName = isHome ? m.homeTeam.name : m.awayTeam.name;
+    for (const g of goals) {
+      // 通过 id 或 name 判断进球是否属于当前球队
+      const belongsToTeam = g.team?.id != null
+        ? g.team.id === teamId
+        : g.team?.name === teamName;
+      if (!belongsToTeam) continue;
+      const key = g.scorer.id != null ? String(g.scorer.id) : g.scorer.name;
+      const cur = byPlayer.get(key) ?? { name: g.scorer.name, goals: 0, stages: new Set() };
+      cur.goals++;
+      cur.stages.add(STAGE_ZH_MAP[m.stage.toUpperCase()] ?? m.stage);
+      byPlayer.set(key, cur);
+    }
+  }
+  return [...byPlayer.entries()]
+    .map(([id, v]) => ({ playerId: Number(id) || 0, playerName: v.name, goals: v.goals, stages: [...v.stages] }))
+    .sort((a, b) => b.goals - a.goals);
+}
+
+/** 球员进球统计（分小组赛/淘汰赛） */
+export interface PlayerGoals {
+  playerName: string;
+  groupGoals: number;
+  knockoutGoals: number;
+  totalGoals: number;
+}
+
+/** 统计一支球队所有球员的进球数，按小组赛和淘汰赛分开 */
+export function teamPlayerGoals(teamId: number, matches: MatchRaw[]): Map<string, PlayerGoals> {
+  const teamMatches = matches.filter(
+    (m) => m.status === "FINISHED" && (m.homeTeam.id === teamId || m.awayTeam.id === teamId),
+  );
+  const map = new Map<string, PlayerGoals>();
+  for (const m of teamMatches) {
+    const goals = m.goals ?? [];
+    const isGroup = m.stage === "GROUP_STAGE";
+    const isHome = m.homeTeam.id === teamId;
+    const teamName = isHome ? m.homeTeam.name : m.awayTeam.name;
+    for (const g of goals) {
+      // 通过 id 或 name 判断进球是否属于当前球队
+      const belongsToTeam = g.team?.id != null
+        ? g.team.id === teamId
+        : g.team?.name === teamName;
+      if (!belongsToTeam) continue;
+      const key = g.scorer.id != null ? String(g.scorer.id) : g.scorer.name;
+      const cur = map.get(key) ?? { playerName: g.scorer.name, groupGoals: 0, knockoutGoals: 0, totalGoals: 0 };
+      if (isGroup) cur.groupGoals++;
+      else cur.knockoutGoals++;
+      cur.totalGoals++;
+      map.set(key, cur);
+    }
+  }
+  return map;
+}
+
 /** 过滤今日比赛：已完赛 + 进行中 + 待踢（按北京时间当天） */
 export function todayMatches(split: SplitMatches): { matches: MatchRaw[]; fallback: boolean } {
   const now = new Date();

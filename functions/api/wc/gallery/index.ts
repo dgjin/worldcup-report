@@ -7,8 +7,9 @@
  *   3. ABC News       — 最佳比赛图集（Reuters/Getty/AP）
  *   4. USA Today      — 每日比赛图集（50+ 张，Getty/USA Today Staff）
  *   5. AP News        — 每日精选图集（AP Photo 专业摄影师）
+ *   6. Reuters        — 世界杯专题图集（Firecrawl 抓取）
  *
- * 缓存策略：KV 24h / NewsAPI 30min / ABC News 1h / USA Today 1h / AP News 1h
+ * 缓存策略：KV 24h / NewsAPI 30min / ABC News 1h / USA Today 1h / AP News 1h / Reuters 1h
  */
 interface GalleryPhoto {
   id: number;
@@ -23,6 +24,7 @@ interface GalleryPhoto {
 interface Env {
   NEWSAPI_KEY?: string;
   GALLERY_CACHE?: KVNamespace;
+  FIRECRAWL_API_KEY?: string;
 }
 
 const ABC_GALLERY_URL = "https://abcnews.go.com/Sports/photos/best-photos-fifa-world-cup-2026-133075564";
@@ -59,18 +61,20 @@ async function fetchFromKV(kv: KVNamespace): Promise<{ photos: GalleryPhoto[]; c
 }
 
 /** 后台异步刷新 KV（不阻塞响应） */
-async function bgRefreshKV(kv: KVNamespace): Promise<void> {
+async function bgRefreshKV(kv: KVNamespace, env: Env): Promise<void> {
   try {
-    const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
+    const [abcPhotos, usaPhotos, apPhotos, reutersPhotos] = await Promise.all([
       fetchAbcNews().catch(() => null),
       fetchUsaToday().catch(() => null),
       fetchApNews().catch(() => null),
+      fetchReuters(env).catch(() => null),
     ]);
 
     const allPhotos: GalleryPhoto[] = [];
     if (abcPhotos) allPhotos.push(...abcPhotos);
     if (usaPhotos) allPhotos.push(...usaPhotos);
     if (apPhotos) allPhotos.push(...apPhotos);
+    if (reutersPhotos) allPhotos.push(...reutersPhotos);
 
     if (allPhotos.length > 0) {
       // 去重
@@ -83,10 +87,78 @@ async function bgRefreshKV(kv: KVNamespace): Promise<void> {
       });
 
       await kv.put("latest", JSON.stringify({ photos: unique, collectedAt: new Date().toISOString() }));
-      console.log(`[gallery] KV 后台刷新成功，${unique.length} 张照片（ABC+USA+AP）`);
+      console.log(`[gallery] KV 后台刷新成功，${unique.length} 张照片（ABC+USA+AP+Reuters）`);
     }
   } catch (e) {
     console.error("[gallery] KV 后台刷新失败:", (e as Error).message);
+  }
+}
+
+// ============ 策略 5: Reuters (Firecrawl) ==========
+const REUTERS_WC_URL = "https://www.reuters.com/sports/world-cup/";
+const FIRECRAWL_API = "https://api.firecrawl.dev/v1/scrape";
+
+async function fetchReuters(env: Env): Promise<GalleryPhoto[] | null> {
+  if (!env.FIRECRAWL_API_KEY) return null;
+
+  try {
+    const resp = await fetch(FIRECRAWL_API, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${env.FIRECRAWL_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: REUTERS_WC_URL,
+        formats: ["html"],
+        waitFor: 5000,
+        actions: [
+          { type: "scroll", direction: "down", amount: 2000 },
+          { type: "wait", milliseconds: 2000 },
+          { type: "scroll", direction: "down", amount: 2000 },
+        ],
+      }),
+    });
+    if (!resp.ok) return null;
+    const data = (await resp.json()) as { success: boolean; data?: { html?: string } };
+    if (!data.success || !data.data?.html) return null;
+
+    const html = data.data.html;
+    const imgRE = /https?:\/\/www\.reuters\.com\/resizer\/v2\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+    const seen = new Set<string>();
+    const urls: string[] = [];
+    for (const m of html.matchAll(imgRE)) {
+      const clean = m[0].split("?")[0].split("#")[0];
+      if (!seen.has(clean)) { seen.add(clean); urls.push(m[0]); }
+    }
+
+    if (urls.length === 0) {
+      const arcRE = /https?:\/\/cloudfront[^"'\s<>]*\.images\.arcpublishing\.com\/reuters\/[^"'\s<>]+\.(?:jpg|webp|png)/gi;
+      for (const m of html.matchAll(arcRE)) {
+        const clean = m[0].split("?")[0];
+        if (!seen.has(clean)) { seen.add(clean); urls.push(m[0]); }
+      }
+    }
+
+    if (urls.length === 0) return null;
+
+    return urls.map((url, i) => {
+      const base = url.split("?")[0];
+      return {
+        id: 500000 + i,
+        src: {
+          large: `${base}?width=1600&quality=80`,
+          medium: `${base}?width=800&quality=80`,
+          small: `${base}?width=400&quality=80`,
+        },
+        photographer: "Reuters",
+        alt: `2026 世界杯精彩瞬间 (Reuters)`,
+        width: 1600, height: 1067,
+        url: REUTERS_WC_URL,
+      };
+    });
+  } catch {
+    return null;
   }
 }
 
@@ -287,7 +359,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 
       // KV 过期 → 后台异步刷新（不阻塞当前响应）
       if (isStale) {
-        ctx.waitUntil(bgRefreshKV(kv));
+        ctx.waitUntil(bgRefreshKV(kv, ctx.env));
       }
 
       const start = (page - 1) * PER_PAGE;
@@ -367,6 +439,23 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       photos: slice,
       next_page: start + PER_PAGE < apPhotos.length ? String(page + 1) : undefined,
       source: "apnews",
+    }), {
+      headers: {
+        ...headers,
+        "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      },
+    });
+  }
+
+  // 策略 5: Reuters 世界杯图集（Firecrawl 抓取，无需 Key）
+  const reutersPhotos = await fetchReuters(ctx.env);
+  if (reutersPhotos) {
+    const start = (page - 1) * PER_PAGE;
+    const slice = reutersPhotos.slice(start, start + PER_PAGE);
+    return new Response(JSON.stringify({
+      photos: slice,
+      next_page: start + PER_PAGE < reutersPhotos.length ? String(page + 1) : undefined,
+      source: "reuters",
     }), {
       headers: {
         ...headers,

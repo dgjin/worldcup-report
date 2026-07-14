@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { Camera, ChevronLeft, ChevronRight, ExternalLink, Heart, Pause, Play, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Camera, ChevronLeft, ChevronRight, Download, ExternalLink, Heart, Music, Pause, Play, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useGallery, getPhotoKey, type GalleryPhoto } from "../api/gallery";
 import { cn, Card, SectionHeading, Loader } from "../components/ui";
@@ -200,9 +200,11 @@ function Lightbox({
               ? "USA Today 图集"
               : source === "apnews"
                 ? "AP News 图集"
-                : source === "combined"
-                  ? "赛事图集"
-                  : "阅读原文"} <ExternalLink className="h-3 w-3" />
+                : source === "reuters"
+                  ? "Reuters 图集"
+                  : source === "combined"
+                    ? "赛事图集"
+                    : "阅读原文"} <ExternalLink className="h-3 w-3" />
         </a>
       </div>
     </motion.div>
@@ -340,7 +342,44 @@ export default function Gallery() {
   const { photos, loading, error, loadMore, hasMore, moreLoading, reload, source, collectedAt, stale, refreshing, refresh, likes, likePhoto, liking } = useGallery();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [toast, setToast] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(null);
   const isMobile = useIsMobile();
+
+  // 主题曲背景音乐
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const THEME_SONG_URL = "/audio/wc2026-theme.m4a";
+  const THEME_SONG_TITLE = "Dai Dai · 2026 世界杯主题曲 (Shakira & Burna Boy)";
+
+  const fmtTime = (s: number) => {
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  const toggleMusic = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play().catch(() => {
+        setToast({ kind: "error", text: "未找到主题曲音频，请将 2026 世界杯主题曲 mp3 放到 public/audio/wc2026-theme.mp3" });
+      });
+    } else {
+      audio.pause();
+    }
+  }, []);
+
+  const seekMusic = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = Math.max(0, Math.min(1, ratio)) * duration;
+  }, [duration]);
 
   // 点击「更新图片」：刷新完成后用 toast 提示相比上次新增了多少张
   const handleRefresh = useCallback(async () => {
@@ -366,6 +405,39 @@ export default function Gallery() {
     const t = setTimeout(() => setToast(null), 2500);
     return () => clearTimeout(t);
   }, [toast]);
+
+  // 批量下载原图（通过服务端 API 打包，避免浏览器 CORS 限制）
+  const handleDownload = useCallback(async () => {
+    if (downloading) return;
+    setDownloading(true);
+    setDownloadProgress({ done: 0, total: photos.length });
+    try {
+      const resp = await fetch("/api/wc/gallery/download");
+      if (!resp.ok) {
+        const msg = await resp.json().catch(() => ({ error: `HTTP ${resp.status}` }));
+        throw new Error((msg as { error: string }).error);
+      }
+
+      const blob = await resp.blob();
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const filename = `worldcup-gallery-${dateStr}.zip`;
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(objectUrl);
+
+      setToast({ kind: "success", text: `已下载 ${filename}` });
+    } catch (e) {
+      setToast({ kind: "error", text: `下载失败：${(e as Error).message}` });
+    } finally {
+      setDownloading(false);
+      setDownloadProgress(null);
+    }
+  }, [downloading, photos]);
 
   // 格式化更新时间
   const updatedAt = collectedAt
@@ -425,6 +497,22 @@ export default function Gallery() {
               </span>
             )}
             <button
+              onClick={handleDownload}
+              disabled={downloading || photos.length === 0}
+              className={cn(
+                "flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium transition-colors",
+                downloading
+                  ? "border-gold/30 bg-gold/10 text-gold/60"
+                  : "border-gold/40 bg-gold/5 text-gold hover:border-gold/60 hover:bg-gold/10",
+              )}
+              title="批量下载所有高清原图"
+            >
+              <Download className={cn("h-3 w-3", downloading && "animate-pulse")} />
+              {downloading
+                ? downloadProgress ? `打包中 ${downloadProgress.done}/${downloadProgress.total}` : "打包中..."
+                : "下载原图"}
+            </button>
+            <button
               onClick={handleRefresh}
               disabled={refreshing}
               className={cn(
@@ -440,6 +528,35 @@ export default function Gallery() {
           </div>
         }
       />
+
+      {/* 主题曲背景音乐播放条（顶部） */}
+      <div className="flex items-center gap-3 rounded-xl border border-line/50 bg-surface-2/60 px-4 py-2.5">
+        <button
+          onClick={toggleMusic}
+          className={cn(
+            "grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors",
+            playing ? "bg-primary/15 text-primary" : "bg-surface text-muted hover:text-ink",
+          )}
+          aria-label={playing ? "暂停主题曲" : "播放主题曲"}
+        >
+          {playing ? <Pause className="h-4 w-4" /> : <Music className="h-4 w-4" />}
+        </button>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-2">
+            <span className="truncate text-xs font-medium text-ink">{THEME_SONG_TITLE}</span>
+            <span className="shrink-0 text-[10px] tabular-nums text-muted">{fmtTime(currentTime)} / {fmtTime(duration)}</span>
+          </div>
+          <div
+            onClick={seekMusic}
+            className="mt-1.5 h-1.5 w-full cursor-pointer overflow-hidden rounded-full bg-line/50"
+          >
+            <div
+              className="h-full rounded-full bg-primary transition-all"
+              style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+            />
+          </div>
+        </div>
+      </div>
 
       {stale && !refreshing && (
         <div className="flex items-center gap-1.5 rounded-lg border border-gold/30 bg-gold/[0.07] px-3 py-1.5 text-[11px] text-gold/80">
@@ -488,12 +605,27 @@ export default function Gallery() {
                 ? "照片来源于 USA Today 每日比赛图集（Getty Images / USA Today Staff），版权归原作者所有"
                 : source === "apnews"
                   ? "照片来源于 AP News 每日精选图集（AP Photo），版权归原作者所有"
-                  : source === "combined"
-                    ? "照片综合来源于 ABC News / USA Today / AP News 比赛图集，版权归原作者所有"
-                    : "照片来源于 NewsAPI 新闻媒体，版权归原作者所有"}
+                  : source === "reuters"
+                    ? "照片来源于 Reuters 世界杯专题图集，版权归原作者所有"
+                    : source === "combined"
+                      ? "照片综合来源于 ABC News / USA Today / AP News / Reuters 比赛图集，版权归原作者所有"
+                      : "照片来源于 NewsAPI 新闻媒体，版权归原作者所有"}
           </p>
         </>
       )}
+
+      {/* 主题曲音频元素（隐藏） */}
+      <audio
+        ref={audioRef}
+        src={THEME_SONG_URL}
+        preload="none"
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEnded={() => setPlaying(false)}
+        onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onError={() => setPlaying(false)}
+      />
 
       {/* 灯箱 */}
       <AnimatePresence>

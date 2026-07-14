@@ -13,7 +13,7 @@ export interface GalleryPhoto {
 export interface GalleryData {
   photos: GalleryPhoto[];
   next_page?: string;
-  source?: "newsapi" | "abcnews";
+  source?: "newsapi" | "abcnews" | "usatoday" | "apnews" | "reuters";
   collectedAt?: string;
   stale?: boolean;
 }
@@ -26,7 +26,7 @@ export interface GalleryState {
   loadMore: () => void;
   hasMore: boolean;
   reload: () => void;
-  source: "newsapi" | "abcnews" | null;
+  source: "newsapi" | "abcnews" | "usatoday" | "apnews" | "reuters" | "combined" | null;
   collectedAt: string | null;
   stale: boolean;
   refreshing: boolean;
@@ -46,7 +46,7 @@ async function fetchGallery(page: number, signal?: AbortSignal): Promise<Gallery
   return (await res.json()) as GalleryData;
 }
 
-async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number; added?: number }> {
+async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number; added?: number; results?: Record<string, number> }> {
   const res = await fetch("/api/wc/gallery/refresh", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -87,7 +87,7 @@ export function useGallery(): GalleryState {
   const [moreLoading, setMoreLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
-  const [source, setSource] = useState<"newsapi" | "abcnews" | null>(null);
+  const [source, setSource] = useState<GalleryState["source"]>(null);
   const [collectedAt, setCollectedAt] = useState<string | null>(null);
   const [stale, setStale] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -167,6 +167,7 @@ export function useGallery(): GalleryState {
             : results.abcnews > 0 ? "abcnews" as const
             : results.usatoday > 0 ? "usatoday" as const
             : results.apnews > 0 ? "apnews" as const
+            : results.reuters > 0 ? "reuters" as const
             : "abcnews" as const)
           : "abcnews" as const;
         setSource(dynamicSource);

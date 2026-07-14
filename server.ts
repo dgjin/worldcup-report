@@ -2,6 +2,7 @@ import express from "express";
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import archiver from "archiver";
 import {
   createClient as createSbClient,
   writeWcData,
@@ -518,6 +519,115 @@ async function start() {
     }
   });
   // ====== 照片点赞 API END ======
+
+  // ====== 批量下载原图 API ======
+  app.get("/api/wc/gallery/download", async (_req, res) => {
+    try {
+      // 获取所有照片（优先本地缓存，其次各数据源）
+      let allPhotos: GalleryPhoto[] = [];
+      const local = loadLocalCache();
+      if (local && local.photos.length > 0) {
+        allPhotos = local.photos;
+      } else {
+        const [abcPhotos, usaPhotos, apPhotos] = await Promise.all([
+          tryAbcNews().catch(() => null),
+          tryUsaToday().catch(() => null),
+          tryApNews().catch(() => null),
+        ]);
+        if (abcPhotos) allPhotos.push(...abcPhotos);
+        if (usaPhotos) allPhotos.push(...usaPhotos);
+        if (apPhotos) allPhotos.push(...apPhotos);
+        // 去重
+        const seen = new Set<string>();
+        allPhotos = allPhotos.filter(p => {
+          const k = p.src.medium;
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        });
+      }
+
+      if (allPhotos.length === 0) {
+        res.status(404).json({ error: "暂无照片可下载" });
+        return;
+      }
+
+      const photoCount = allPhotos.length;
+      const dateStr = new Date().toISOString().slice(0, 10);
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", `attachment; filename="worldcup-gallery-${dateStr}.zip"`);
+      res.setHeader("Transfer-Encoding", "chunked");
+
+      const archive = archiver("zip", { zlib: { level: 1 } }); // level 1 = 最快压缩
+      archive.on("error", (err) => {
+        console.error("[download] archiver error:", err.message);
+        if (!res.headersSent) res.status(500).end();
+      });
+
+      archive.pipe(res);
+
+      let downloaded = 0;
+      let skipped = 0;
+
+      // 并行下载图片，限制并发数
+      const CONCURRENCY = 8;
+      const queue = [...allPhotos];
+
+      async function downloadAndAppend(photo: GalleryPhoto): Promise<void> {
+        const originalUrl = photo.src.large;
+        // 提取文件名
+        const urlPath = originalUrl.split("?")[0];
+        const rawName = urlPath.split("/").pop() || `photo-${photo.id}`;
+        // 确保有扩展名
+        const ext = rawName.includes(".") ? "" : ".jpg";
+        const fileName = `${photo.id}_${rawName}${ext}`;
+
+        try {
+          const imgResp = await fetch(originalUrl, {
+            headers: { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" },
+          });
+          if (!imgResp.ok) {
+            skipped++;
+            return;
+          }
+          const buffer = Buffer.from(await imgResp.arrayBuffer());
+          archive.append(buffer, { name: fileName });
+          downloaded++;
+        } catch {
+          skipped++;
+        }
+      }
+
+      // 并发控制
+      const workers: Promise<void>[] = [];
+      for (let i = 0; i < Math.min(CONCURRENCY, queue.length); i++) {
+        const worker = (async () => {
+          while (queue.length > 0) {
+            const photo = queue.shift()!;
+            await downloadAndAppend(photo);
+          }
+        })();
+        workers.push(worker);
+      }
+
+      await Promise.all(workers);
+
+      // 添加一个 README 文件
+      archive.append(
+        `世界杯 2026 精彩瞬间原图合集\n下载时间: ${new Date().toLocaleString("zh-CN")}\n总计: ${photoCount} 张照片（成功下载 ${downloaded} 张，跳过 ${skipped} 张）\n数据来源: ABC News / USA Today / AP News / Reuters\n版权归原作者所有，仅供个人欣赏\n`,
+        { name: "README.txt" },
+      );
+
+      await archive.finalize();
+      console.log(`[download] zip 完成：${downloaded}/${photoCount} 张，跳过 ${skipped} 张`);
+    } catch (e) {
+      console.error("[download] error:", (e as Error).message);
+      if (!res.headersSent) {
+        res.status(500).json({ error: (e as Error).message });
+      }
+    }
+  });
+  // ====== 批量下载原图 API END ======
 
   // ====== 访问计数 API ======
 

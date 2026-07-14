@@ -15,7 +15,7 @@ export default defineConfig({
       closeBundle() {
         const src = path.resolve(__dirname, "public");
         const dest = path.resolve(__dirname, outDir);
-        for (const f of ["_routes.json", "_redirects"]) {
+        for (const f of ["_routes.json", "_redirects", "_headers"]) {
           const srcPath = path.join(src, f);
           const destPath = path.join(dest, f);
           if (fs.existsSync(srcPath)) fs.copyFileSync(srcPath, destPath);
