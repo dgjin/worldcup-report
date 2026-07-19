@@ -87,7 +87,7 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
   return (
     <motion.section
       aria-labelledby="champion-moment-title"
-      className="relative mb-7 overflow-hidden rounded-[1.75rem] border border-gold/35 bg-gradient-to-br from-[#4a0710] via-[#821323] to-[#3a0711] px-4 py-8 text-center shadow-[0_24px_70px_-35px_rgba(127,16,35,0.9)] sm:px-8 sm:py-10"
+      className="champion-moment relative mb-7 overflow-hidden rounded-[1.75rem] border px-4 py-8 text-center sm:px-8 sm:py-10"
       initial={shouldReduceMotion ? false : "hidden"}
       animate={shouldReduceMotion ? false : "visible"}
       variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
@@ -98,18 +98,26 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
           key={photo.id}
           src={photo.src.large}
           alt={photo.alt || "西班牙队捧起世界杯冠军奖杯"}
-          className="absolute inset-0 h-full w-full object-cover opacity-30 mix-blend-luminosity"
+          className="champion-photo absolute inset-0 h-full w-full object-cover"
           onLoad={() => setLoadedPhotoId(photo.id)}
           onError={() => setPhotoFailed(true)}
         />
       )}
-      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-black/20 via-[#5f0915]/45 to-[#240308]/90" />
-      <div aria-hidden="true" className="absolute -left-20 top-1/2 h-px w-64 -rotate-12 bg-gradient-to-r from-transparent to-gold/45" />
-      <div aria-hidden="true" className="absolute -right-20 top-1/3 h-px w-64 rotate-12 bg-gradient-to-l from-transparent to-gold/45" />
-      <div aria-hidden="true" className="absolute left-5 top-0 h-32 w-3 -rotate-[18deg] bg-gold/10 sm:left-16" />
-      <div aria-hidden="true" className="absolute right-5 top-0 h-32 w-3 rotate-[18deg] bg-gold/10 sm:right-16" />
+      <div aria-hidden="true" className="champion-radiance absolute inset-0" />
+      <div aria-hidden="true" className="champion-ribbon champion-ribbon--left absolute" />
+      <div aria-hidden="true" className="champion-ribbon champion-ribbon--right absolute" />
+      <div aria-hidden="true" className="champion-particles absolute inset-0">
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+        <span className="champion-particle" />
+      </div>
+      <div aria-hidden="true" className="champion-vignette absolute inset-0" />
 
-      <div className="relative z-10">
+      <div className="champion-content relative z-10">
         <div className="flex items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-[0.35em] text-gold sm:text-xs">
           <span aria-hidden="true" className="tracking-[0.2em]">★★</span>
           <span>夺冠时刻</span>
@@ -117,7 +125,7 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
         </div>
 
         <motion.div
-          className="relative mx-auto mt-5 grid h-24 w-24 place-items-center rounded-full border border-gold/40 bg-gold/10 text-gold shadow-[0_0_45px_rgba(245,190,70,0.22)]"
+          className="champion-emblem relative mx-auto mt-5 grid h-24 w-24 place-items-center rounded-full border border-gold/40 bg-gold/10 text-gold shadow-[0_0_45px_rgba(245,190,70,0.22)]"
           initial={shouldReduceMotion ? false : "hidden"}
           animate={shouldReduceMotion ? false : "visible"}
           variants={{ hidden: { opacity: 0, scale: 0.82 }, visible: { opacity: 1, scale: 1 } }}
@@ -140,7 +148,7 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
             href={photo.url}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 inline-block text-[10px] text-white/45 underline-offset-2 transition-colors hover:text-white/75 hover:underline"
+            className="mt-4 inline-block text-[10px] text-white/60 underline-offset-2 transition-colors hover:text-white/85 hover:underline"
           >
             摄影/来源：{photo.photographer}
           </a>
