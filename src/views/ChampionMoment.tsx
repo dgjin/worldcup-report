@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Crown, Trophy } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useGallery } from "../api/gallery";
 import { Flag, cn } from "../components/ui";
 import { findSpainFinal, selectSpainCeremonyPhoto } from "../lib/champion";
@@ -29,8 +29,9 @@ function Scorers({ goals, teamId, align }: { goals?: MatchGoal[]; teamId: number
 }
 
 function FinalScore({ match }: { match: MatchRaw }) {
-  const homeScore = match.score.fullTime.home ?? 0;
-  const awayScore = match.score.fullTime.away ?? 0;
+  const homeScore = match.score.fullTime.home;
+  const awayScore = match.score.fullTime.away;
+  const hasFinalScore = typeof homeScore === "number" && typeof awayScore === "number";
 
   return (
     <div className="relative z-10 mx-auto mt-7 w-full max-w-2xl rounded-2xl border border-white/15 bg-black/30 px-3 py-3 shadow-2xl backdrop-blur-md sm:px-5">
@@ -44,9 +45,15 @@ function FinalScore({ match }: { match: MatchRaw }) {
         </div>
 
         <div className="flex items-center gap-2 font-display text-2xl font-black tabular-nums text-white sm:text-3xl">
-          <span>{homeScore}</span>
-          <span className="text-sm font-medium text-white/40">—</span>
-          <span>{awayScore}</span>
+          {hasFinalScore ? (
+            <>
+              <span>{homeScore}</span>
+              <span className="text-sm font-medium text-white/40">—</span>
+              <span>{awayScore}</span>
+            </>
+          ) : (
+            <span className="text-sm font-medium text-white/55">比分同步中</span>
+          )}
         </div>
 
         <div className="min-w-0 text-left">
@@ -63,6 +70,7 @@ function FinalScore({ match }: { match: MatchRaw }) {
 
 export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
   const { photos } = useGallery();
+  const shouldReduceMotion = useReducedMotion();
   const final = useMemo(() => findSpainFinal(matches), [matches]);
   const photo = useMemo(() => selectSpainCeremonyPhoto(photos), [photos]);
   const [photoFailed, setPhotoFailed] = useState(false);
@@ -80,8 +88,8 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
     <motion.section
       aria-labelledby="champion-moment-title"
       className="relative mb-7 overflow-hidden rounded-[1.75rem] border border-gold/35 bg-gradient-to-br from-[#4a0710] via-[#821323] to-[#3a0711] px-4 py-8 text-center shadow-[0_24px_70px_-35px_rgba(127,16,35,0.9)] sm:px-8 sm:py-10"
-      initial="hidden"
-      animate="visible"
+      initial={shouldReduceMotion ? false : "hidden"}
+      animate={shouldReduceMotion ? false : "visible"}
       variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
       transition={{ duration: 0.55, ease: "easeOut" }}
     >
@@ -110,6 +118,8 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
 
         <motion.div
           className="relative mx-auto mt-5 grid h-24 w-24 place-items-center rounded-full border border-gold/40 bg-gold/10 text-gold shadow-[0_0_45px_rgba(245,190,70,0.22)]"
+          initial={shouldReduceMotion ? false : "hidden"}
+          animate={shouldReduceMotion ? false : "visible"}
           variants={{ hidden: { opacity: 0, scale: 0.82 }, visible: { opacity: 1, scale: 1 } }}
           transition={{ delay: 0.1, duration: 0.45, ease: "easeOut" }}
         >
