@@ -18,4 +18,6 @@ assert.match(champion, /比分同步中/);
 assert.match(champion, /useReducedMotion/);
 assert.match(champion, /initial=\{shouldReduceMotion \? false : "hidden"\}/);
 assert.match(champion, /animate=\{shouldReduceMotion \? false : "visible"\}/);
+assert.match(champion, /useAllGalleryPhotos/);
+assert.doesNotMatch(champion, /\buseGallery\b/);
 console.log("ChampionMoment source contract tests passed");

@@ -40,10 +40,60 @@ export interface GalleryState {
   liking: Record<string, boolean>;
 }
 
-async function fetchGallery(page: number, signal?: AbortSignal): Promise<GalleryData> {
+async function fetchGallery(page: number | string, signal?: AbortSignal): Promise<GalleryData> {
   const res = await fetch(`/api/wc/gallery?page=${page}&_t=${Date.now()}`, { signal, cache: "no-store" });
   if (!res.ok) throw new Error(`Gallery API 返回 ${res.status}`);
   return (await res.json()) as GalleryData;
+}
+
+/** Read every gallery page without loading likes or exposing gallery mutations. */
+export async function loadAllGalleryPhotos(signal?: AbortSignal): Promise<GalleryPhoto[]> {
+  const photos: GalleryPhoto[] = [];
+  const visitedPages = new Set<string>();
+  let page = "1";
+
+  while (!visitedPages.has(page)) {
+    visitedPages.add(page);
+    const data = await fetchGallery(page, signal);
+    photos.push(...data.photos);
+
+    const nextPage = data.next_page?.trim();
+    if (!nextPage) break;
+    page = nextPage;
+  }
+
+  return photos;
+}
+
+/** Read-only all-pages gallery state for consumers that do not own gallery controls. */
+export function useAllGalleryPhotos(): Pick<GalleryState, "photos" | "loading" | "error"> {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const ac = new AbortController();
+
+    loadAllGalleryPhotos(ac.signal)
+      .then((loadedPhotos) => {
+        if (!ac.signal.aborted) {
+          setPhotos(loadedPhotos);
+          setError(null);
+        }
+      })
+      .catch((cause: unknown) => {
+        if (!ac.signal.aborted && (cause as Error).name !== "AbortError") {
+          setError((cause as Error).message);
+        }
+      })
+      .finally(() => {
+        if (!ac.signal.aborted) setLoading(false);
+      });
+
+    return () => ac.abort();
+  }, []);
+
+  return { photos, loading, error };
 }
 
 async function refreshGallery(): Promise<GalleryData & { ok?: boolean; message?: string; total?: number; added?: number; results?: Record<string, number> }> {

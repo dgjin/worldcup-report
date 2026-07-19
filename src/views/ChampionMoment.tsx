@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Crown, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useGallery } from "../api/gallery";
+import { useAllGalleryPhotos } from "../api/gallery";
 import { Flag, cn } from "../components/ui";
 import { findSpainFinal, selectSpainCeremonyPhoto } from "../lib/champion";
 import { playerZh, teamZh } from "../lib/teams";
@@ -69,7 +69,7 @@ function FinalScore({ match }: { match: MatchRaw }) {
 }
 
 export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
-  const { photos } = useGallery();
+  const { photos } = useAllGalleryPhotos();
   const shouldReduceMotion = useReducedMotion();
   const final = useMemo(() => findSpainFinal(matches), [matches]);
   const photo = useMemo(() => selectSpainCeremonyPhoto(photos), [photos]);
