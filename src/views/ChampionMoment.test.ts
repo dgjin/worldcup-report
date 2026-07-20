@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import type { MatchRaw } from "../types/worldcup";
+import type { MatchGoal, MatchRaw } from "../types/worldcup";
 import ChampionMoment from "./ChampionMoment";
 
 const champion = readFileSync(new URL("./ChampionMoment.tsx", import.meta.url), "utf8");
@@ -38,12 +38,35 @@ const finalWithoutGoals: MatchRaw = {
   score: { winner: "HOME_TEAM", fullTime: { home: 2, away: 1 } },
   goals: [],
 };
+const goal = (minute: number, type: MatchGoal["type"] = "REGULAR"): MatchGoal => ({
+  minute,
+  type,
+  team: { id: 760, name: "Spain" },
+  scorer: { id: minute, name: `Player ${minute}` },
+});
 const missingGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, { matches: [finalWithoutGoals] }));
 assert.match(missingGoalsMarkup, /进球信息同步中/);
 const absentGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
   matches: [{ ...finalWithoutGoals, goals: undefined }],
 }));
 assert.match(absentGoalsMarkup, /进球信息同步中/);
+const zeroZeroMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
+  matches: [{
+    ...finalWithoutGoals,
+    score: { winner: "DRAW", fullTime: { home: 0, away: 0 } },
+    goals: [],
+  }],
+}));
+assert.doesNotMatch(zeroZeroMarkup, /进球信息同步中/);
+const partialGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
+  matches: [{ ...finalWithoutGoals, goals: [goal(12), goal(54, "OWN_GOAL")] }],
+}));
+assert.match(partialGoalsMarkup, /进球信息同步中/);
+const completeGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
+  matches: [{ ...finalWithoutGoals, goals: [goal(12), goal(54, "OWN_GOAL"), goal(78)] }],
+}));
+assert.doesNotMatch(completeGoalsMarkup, /进球信息同步中/);
+assert.match(champion, /hasIncompleteGoalEvents\(match\)/);
 
 assert.doesNotMatch(champion, /\buseEffect\b/);
 assert.match(champion, /failedPhotoId/);

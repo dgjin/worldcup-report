@@ -26,6 +26,14 @@ export function findSpainFinal(matches: MatchRaw[]): MatchRaw | null {
     .sort((a, b) => b.utcDate.localeCompare(a.utcDate))[0] ?? null;
 }
 
+export function hasIncompleteGoalEvents(match: MatchRaw): boolean {
+  const { home, away } = match.score.fullTime;
+  if (typeof home !== "number" || typeof away !== "number") return false;
+
+  const expectedGoalEvents = Math.max(0, home) + Math.max(0, away);
+  return (match.goals?.length ?? 0) < expectedGoalEvents;
+}
+
 export function selectSpainCeremonyPhoto(photos: GalleryPhoto[]): GalleryPhoto | null {
   const ranked = photos.flatMap((photo, index) => {
     const text = `${photo.alt} ${photo.url}`.toLocaleLowerCase("en");

@@ -3,7 +3,7 @@ import { Crown, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useChampionPhotos } from "../api/gallery";
 import { Flag, cn } from "../components/ui";
-import { findSpainFinal, selectSpainCeremonyPhoto } from "../lib/champion";
+import { findSpainFinal, hasIncompleteGoalEvents, selectSpainCeremonyPhoto } from "../lib/champion";
 import { playerZh, teamZh } from "../lib/teams";
 import type { MatchGoal, MatchRaw } from "../types/worldcup";
 
@@ -32,7 +32,7 @@ function FinalScore({ match }: { match: MatchRaw }) {
   const homeScore = match.score.fullTime.home;
   const awayScore = match.score.fullTime.away;
   const hasFinalScore = typeof homeScore === "number" && typeof awayScore === "number";
-  const goalInformationMissing = !match.goals || match.goals.length === 0;
+  const goalInformationMissing = hasIncompleteGoalEvents(match);
 
   return (
     <div className="relative z-10 mx-auto mt-7 w-full max-w-2xl rounded-2xl border border-white/15 bg-black/30 px-3 py-3 shadow-2xl backdrop-blur-md sm:px-5">

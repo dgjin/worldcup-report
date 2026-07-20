@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import type { GalleryPhoto } from "../api/gallery";
-import type { MatchRaw } from "../types/worldcup";
+import type { MatchGoal, MatchRaw } from "../types/worldcup";
 import { findSpainFinal, selectSpainCeremonyPhoto } from "./champion";
 
 const final = (overrides: Partial<MatchRaw> = {}): MatchRaw => ({
@@ -30,6 +30,13 @@ const photo = (id: number, alt: string, width = 1600, height = 900): GalleryPhot
   },
 });
 
+const goal = (minute: number, type: MatchGoal["type"] = "REGULAR"): MatchGoal => ({
+  minute,
+  type,
+  team: { id: 760, name: "Spain" },
+  scorer: { id: minute, name: `Player ${minute}` },
+});
+
 assert.equal(findSpainFinal([final({ stage: "SEMI_FINALS" })]), null);
 assert.equal(findSpainFinal([final({ status: "TIMED" })]), null);
 assert.equal(findSpainFinal([final({ id: 1 }), final({ id: 2, utcDate: "2026-07-20T01:00:00Z" })])?.id, 2);
@@ -40,5 +47,35 @@ assert.equal(selectSpainCeremonyPhoto([
   photo(1, "Spanish champions lift the trophy", 900, 1400),
   photo(2, "Spain crowned champions with trophy", 1600, 900),
 ])?.id, 2);
+assert.equal(selectSpainCeremonyPhoto([
+  photo(1, "Spain crowned champions with trophy", 900, 1400),
+  photo(2, "Spain crowned champions with trophy", 1200, 0),
+])?.id, 1, "unknown height must not receive a landscape bonus");
+
+const championApi = await import("./champion");
+const exportedApi = championApi as Record<string, unknown>;
+assert.equal(
+  typeof exportedApi.hasIncompleteGoalEvents,
+  "function",
+  "champion helpers should expose score-relative goal-event completeness",
+);
+const hasIncompleteGoalEvents = exportedApi.hasIncompleteGoalEvents as (match: MatchRaw) => boolean;
+
+assert.equal(hasIncompleteGoalEvents(final({
+  score: { winner: "DRAW", fullTime: { home: 0, away: 0 } },
+  goals: [],
+})), false, "a 0-0 final needs no goal events");
+assert.equal(hasIncompleteGoalEvents(final({
+  score: { winner: "HOME_TEAM", fullTime: { home: 1, away: 0 } },
+  goals: undefined,
+})), true, "a 1-0 final is incomplete without its goal event");
+assert.equal(hasIncompleteGoalEvents(final({ goals: [goal(12), goal(54, "OWN_GOAL")] })), true,
+  "a 2-1 final with only two goal events remains incomplete");
+assert.equal(hasIncompleteGoalEvents(final({ goals: [goal(12), goal(54, "OWN_GOAL"), goal(78)] })), false,
+  "own goals count as score events when the event total is complete");
+assert.equal(hasIncompleteGoalEvents(final({
+  score: { winner: null, fullTime: { home: null, away: null } },
+  goals: [],
+})), false, "goal completeness is unknown until the numeric score arrives");
 
 console.log("champion selector tests passed");
