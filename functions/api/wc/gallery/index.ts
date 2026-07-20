@@ -11,6 +11,8 @@
  *
  * 缓存策略：KV 24h / NewsAPI 30min / ABC News 1h / USA Today 1h / AP News 1h / Reuters 1h
  */
+import { findChampionGalleryPhoto } from "../../../../src/lib/champion.js";
+
 interface GalleryPhoto {
   id: number;
   src: { large: string; medium: string; small: string };
@@ -349,6 +351,27 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   const kv = ctx.env.GALLERY_CACHE;
 
   const headers = { "Content-Type": "application/json" };
+
+  // 冠军主视觉只读分支：扫描完整 KV；无匹配时至多发起一次定向 NewsAPI 请求。
+  // 此分支不分页、不触发后台刷新，也不会回退到逐来源抓取链。
+  if (url.searchParams.get("champion") === "1") {
+    const cached = kv ? await fetchFromKV(kv) : null;
+    const championResult = await findChampionGalleryPhoto(cached?.photos ?? [], newsKey);
+    return new Response(JSON.stringify({
+      photos: championResult.photo ? [championResult.photo] : [],
+      ...(championResult.source === "newsapi" ? { source: "newsapi" } : {}),
+      ...(championResult.source === "cache" && cached
+        ? { source: "abcnews", collectedAt: cached.collectedAt }
+        : {}),
+    }), {
+      headers: {
+        ...headers,
+        "Cache-Control": championResult.photo
+          ? "public, max-age=900, s-maxage=3600"
+          : "public, max-age=60, s-maxage=300",
+      },
+    });
+  }
 
   // 策略 0: KV 缓存（超过 24h 自动后台刷新）
   if (kv) {

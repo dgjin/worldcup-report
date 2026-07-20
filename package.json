@@ -8,7 +8,7 @@
     "build": "vite build",
     "start": "node dist/server.cjs",
     "snapshot": "node data/build-snapshot.mjs",
-    "test": "tsx src/lib/champion.test.ts && tsx src/api/gallery.all-pages.test.ts && tsx src/views/ChampionMoment.test.ts && tsx src/lib/transform.test.ts && tsx src/App.header.test.ts && tsx src/views/GroupStandings.visits.test.ts",
+    "test": "tsx src/lib/champion.test.ts && tsx src/api/gallery.champion.test.ts && tsx functions/api/wc/gallery/index.test.ts && tsx src/views/ChampionMoment.test.ts && tsx src/lib/transform.test.ts && tsx src/App.header.test.ts && tsx src/views/GroupStandings.visits.test.ts",
     "collect": "node scripts/collect-gallery.mjs",
     "lint": "tsc --noEmit",
     "deploy": "vite build && npx wrangler pages deploy dist/client --project-name=worldcup-report --branch=main --commit-dirty=true",

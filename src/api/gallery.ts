@@ -46,27 +46,16 @@ async function fetchGallery(page: number | string, signal?: AbortSignal): Promis
   return (await res.json()) as GalleryData;
 }
 
-/** Read every gallery page without loading likes or exposing gallery mutations. */
-export async function loadAllGalleryPhotos(signal?: AbortSignal): Promise<GalleryPhoto[]> {
-  const photos: GalleryPhoto[] = [];
-  const visitedPages = new Set<string>();
-  let page = "1";
-
-  while (!visitedPages.has(page)) {
-    visitedPages.add(page);
-    const data = await fetchGallery(page, signal);
-    photos.push(...data.photos);
-
-    const nextPage = data.next_page?.trim();
-    if (!nextPage) break;
-    page = nextPage;
-  }
-
-  return photos;
+/** One bounded read-only request; the server owns cache scanning and selection. */
+export async function loadChampionPhotos(signal?: AbortSignal): Promise<GalleryPhoto[]> {
+  const res = await fetch("/api/wc/gallery?champion=1", { signal });
+  if (!res.ok) throw new Error(`Gallery API 返回 ${res.status}`);
+  const data = (await res.json()) as GalleryData;
+  return data.photos;
 }
 
-/** Read-only all-pages gallery state for consumers that do not own gallery controls. */
-export function useAllGalleryPhotos(): Pick<GalleryState, "photos" | "loading" | "error"> {
+/** Read-only champion-photo state with no likes, refresh, or pagination controls. */
+export function useChampionPhotos(): Pick<GalleryState, "photos" | "loading" | "error"> {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -74,7 +63,7 @@ export function useAllGalleryPhotos(): Pick<GalleryState, "photos" | "loading" |
   useEffect(() => {
     const ac = new AbortController();
 
-    loadAllGalleryPhotos(ac.signal)
+    loadChampionPhotos(ac.signal)
       .then((loadedPhotos) => {
         if (!ac.signal.aborted) {
           setPhotos(loadedPhotos);

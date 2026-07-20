@@ -10,6 +10,7 @@ import {
   type WcDataType,
 } from "./functions/lib/supabase.js";
 import { getWcData, toJson } from "./functions/lib/snapshot.js";
+import { findChampionGalleryPhoto } from "./src/lib/champion.js";
 import type { MatchRaw } from "./src/types/worldcup";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -342,9 +343,29 @@ async function start() {
   app.get("/api/wc/gallery", async (req, res) => {
     const page = parseInt(req.query.page as string, 10) || 1;
     const perPage = 24;
+    const local = loadLocalCache();
+
+    // 冠军主视觉只读分支：扫描所有已缓存元数据；没有匹配时仅查询一次 NewsAPI。
+    if (req.query.champion === "1") {
+      const cachedPhotos = [
+        ...(local?.photos ?? []),
+        ...(abcCache?.photos ?? []),
+        ...(usaCache?.photos ?? []),
+        ...(apCache?.photos ?? []),
+      ];
+      const championResult = await findChampionGalleryPhoto(cachedPhotos, NEWSAPI_KEY);
+      res.set("Cache-Control", championResult.photo ? "public, max-age=900" : "public, max-age=60");
+      res.json({
+        photos: championResult.photo ? [championResult.photo] : [],
+        ...(championResult.source === "newsapi" ? { source: "newsapi" } : {}),
+        ...(championResult.source === "cache" && local
+          ? { source: "abcnews", collectedAt: local.collectedAt }
+          : {}),
+      });
+      return;
+    }
 
     // 策略 0: 本地 JSON 缓存（脚本每日收集，最快最稳定）
-    const local = loadLocalCache();
     if (local) {
       const start = (page - 1) * perPage;
       const slice = local.photos.slice(start, start + perPage);

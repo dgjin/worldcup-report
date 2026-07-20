@@ -226,6 +226,7 @@ html[data-theme="light"] body::before {
     transparent 89% 100%
   );
   box-shadow: 0 5px 16px rgb(35 0 7 / 22%);
+  transform: translateX(0) rotate(var(--champion-ribbon-angle)) scaleX(var(--champion-ribbon-scale));
   animation: champion-sweep 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
