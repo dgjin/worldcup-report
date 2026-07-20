@@ -47,11 +47,11 @@ const goal = (minute: number, type: MatchGoal["type"] = "REGULAR"): MatchGoal =>
   scorer: { id: minute, name: `Player ${minute}` },
 });
 const missingGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, { matches: [finalWithoutGoals] }));
-assert.match(missingGoalsMarkup, /进球信息同步中/);
+assert.doesNotMatch(missingGoalsMarkup, /进球信息同步中/);
 const absentGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
   matches: [{ ...finalWithoutGoals, goals: undefined }],
 }));
-assert.match(absentGoalsMarkup, /进球信息同步中/);
+assert.doesNotMatch(absentGoalsMarkup, /进球信息同步中/);
 const zeroZeroMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
   matches: [{
     ...finalWithoutGoals,
@@ -63,12 +63,13 @@ assert.doesNotMatch(zeroZeroMarkup, /进球信息同步中/);
 const partialGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
   matches: [{ ...finalWithoutGoals, goals: [goal(12), goal(54, "OWN_GOAL")] }],
 }));
-assert.match(partialGoalsMarkup, /进球信息同步中/);
+assert.doesNotMatch(partialGoalsMarkup, /进球信息同步中/);
+assert.match(partialGoalsMarkup, /Player 12/);
 const completeGoalsMarkup = renderToStaticMarkup(createElement(ChampionMoment, {
   matches: [{ ...finalWithoutGoals, goals: [goal(12), goal(54, "OWN_GOAL"), goal(78)] }],
 }));
 assert.doesNotMatch(completeGoalsMarkup, /进球信息同步中/);
-assert.match(champion, /hasIncompleteGoalEvents\(match\)/);
+assert.doesNotMatch(champion, /进球信息同步中|hasIncompleteGoalEvents/);
 
 assert.doesNotMatch(champion, /\buseEffect\b/);
 assert.match(champion, /failedPhotoId/);
