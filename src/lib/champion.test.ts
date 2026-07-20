@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import type { GalleryPhoto } from "../api/gallery";
 import type { MatchGoal, MatchRaw } from "../types/worldcup";
-import { findSpainFinal, selectSpainCeremonyPhoto } from "./champion";
+import { findChampionGalleryPhoto, findSpainFinal, selectSpainCeremonyPhoto } from "./champion";
 
 const final = (overrides: Partial<MatchRaw> = {}): MatchRaw => ({
   id: 1,
@@ -51,6 +51,37 @@ assert.equal(selectSpainCeremonyPhoto([
   photo(1, "Spain crowned champions with trophy", 900, 1400),
   photo(2, "Spain crowned champions with trophy", 1200, 0),
 ])?.id, 1, "unknown height must not receive a landscape bonus");
+
+const abortTimeoutDescriptor = Object.getOwnPropertyDescriptor(AbortSignal, "timeout");
+assert.ok(abortTimeoutDescriptor, "the runtime must provide AbortSignal.timeout");
+const timeoutSignal = AbortSignal.abort(new DOMException("timed out", "TimeoutError"));
+let requestedTimeoutMs: number | undefined;
+let receivedSignal: AbortSignal | null | undefined;
+
+Object.defineProperty(AbortSignal, "timeout", {
+  ...abortTimeoutDescriptor,
+  value(milliseconds: number) {
+    requestedTimeoutMs = milliseconds;
+    return timeoutSignal;
+  },
+});
+
+try {
+  const timedOutResult = await findChampionGalleryPhoto([], "news-key", async (_input, init) => {
+    receivedSignal = init?.signal;
+    if (receivedSignal?.aborted) throw receivedSignal.reason;
+    return new Response(JSON.stringify({ articles: [] }));
+  });
+
+  assert.equal(receivedSignal, timeoutSignal, "the NewsAPI fallback fetch must receive its timeout signal");
+  assert.ok(
+    typeof requestedTimeoutMs === "number" && requestedTimeoutMs > 0 && requestedTimeoutMs <= 10_000,
+    "the NewsAPI fallback timeout must be finite, positive, and short",
+  );
+  assert.deepEqual(timedOutResult, { photo: null, source: null }, "a timed-out fallback must fail closed");
+} finally {
+  Object.defineProperty(AbortSignal, "timeout", abortTimeoutDescriptor);
+}
 
 const championApi = await import("./champion");
 const exportedApi = championApi as Record<string, unknown>;

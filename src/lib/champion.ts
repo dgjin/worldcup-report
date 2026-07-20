@@ -5,6 +5,7 @@ const SPAIN_TERMS = ["spain", "spanish", "西班牙"];
 const CEREMONY_TERMS = ["champion", "trophy", "lift", "crown", "冠军", "捧杯", "颁奖"];
 const CHAMPION_NEWS_QUERY = "Spain World Cup champion trophy ceremony";
 const CHAMPION_NEWS_PAGE_SIZE = 20;
+const CHAMPION_NEWS_TIMEOUT_MS = 5_000;
 
 interface NewsApiArticle {
   title?: string | null;
@@ -77,7 +78,9 @@ export async function findChampionGalleryPhoto(
   });
 
   try {
-    const response = await fetcher(`https://newsapi.org/v2/everything?${params}`);
+    const response = await fetcher(`https://newsapi.org/v2/everything?${params}`, {
+      signal: AbortSignal.timeout(CHAMPION_NEWS_TIMEOUT_MS),
+    });
     if (!response.ok) return { photo: null, source: null };
 
     const data = await response.json() as { articles?: NewsApiArticle[] };
