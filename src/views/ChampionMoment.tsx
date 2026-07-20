@@ -20,7 +20,7 @@ function Scorers({ goals, teamId, align }: { goals?: MatchGoal[]; teamId: number
 
   return (
     <div className={cn(
-      "mt-1 flex min-w-0 flex-col gap-x-2 gap-y-0.5 text-base leading-snug text-white/65 sm:flex-row sm:flex-wrap",
+      "mt-1 flex min-w-0 flex-col gap-x-2 gap-y-0.5 text-base leading-snug text-white/55 sm:flex-row sm:flex-wrap",
       align === "right"
         ? "items-end text-right sm:items-baseline sm:justify-end"
         : "items-start text-left sm:items-baseline sm:justify-start",
@@ -43,17 +43,17 @@ function FinalScore({ match }: { match: MatchRaw }) {
   const hasFinalScore = typeof homeScore === "number" && typeof awayScore === "number";
 
   return (
-    <div className="relative z-10 mx-auto mt-7 w-full max-w-2xl rounded-2xl border border-white/15 bg-black/30 px-3 py-3 shadow-2xl backdrop-blur-md sm:px-5">
+    <div className="relative z-10 mx-auto mt-7 w-full max-w-2xl rounded-2xl border border-white/10 bg-black/15 px-3 py-3 backdrop-blur-sm sm:px-5">
       <div className="grid grid-cols-1 items-start gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:gap-3">
         <div className="min-w-0 text-right">
           <div className="flex items-center justify-end gap-2">
-            <span className="truncate text-base font-semibold text-white">{teamZh(match.homeTeam.name)}</span>
+            <span className="truncate text-base font-semibold text-white/80">{teamZh(match.homeTeam.name)}</span>
             <Flag name={match.homeTeam.name} className="text-lg" />
           </div>
           <Scorers goals={match.goals} teamId={match.homeTeam.id} align="right" />
         </div>
 
-        <div className="flex items-center justify-self-center gap-2 font-display text-2xl font-black tabular-nums text-white sm:text-3xl">
+        <div className="flex items-center justify-self-center gap-2 font-display text-2xl font-black tabular-nums text-white/85 sm:text-3xl">
           {hasFinalScore ? (
             <>
               <span>{homeScore}</span>
@@ -68,7 +68,7 @@ function FinalScore({ match }: { match: MatchRaw }) {
         <div className="min-w-0 text-left">
           <div className="flex items-center gap-2">
             <Flag name={match.awayTeam.name} className="text-lg" />
-            <span className="truncate text-base font-semibold text-white">{teamZh(match.awayTeam.name)}</span>
+            <span className="truncate text-base font-semibold text-white/80">{teamZh(match.awayTeam.name)}</span>
           </div>
           <Scorers goals={match.goals} teamId={match.awayTeam.id} align="left" />
         </div>

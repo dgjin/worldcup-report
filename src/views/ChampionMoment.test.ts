@@ -87,6 +87,12 @@ assert.match(
   /className="[^"]*min-h-11[^"]*text-xs[^"]*"[\s\S]*?摄影\/来源：\{photo\.photographer\}/,
   "photo credit must use 12px text while retaining a 44px touch target",
 );
+assert.match(champion, /border-white\/10 bg-black\/15/);
+assert.match(champion, /backdrop-blur-sm/);
+assert.doesNotMatch(champion, /shadow-2xl|backdrop-blur-md|border-white\/15|bg-black\/30/);
+assert.match(champion, /font-display[^"\n]*text-white\/85/);
+assert.equal((champion.match(/text-white\/80/g) ?? []).length, 2);
+assert.match(champion, /text-base leading-snug text-white\/55/);
 
 const photoRule = css.match(/\.champion-photo\s*\{([^}]*)\}/)?.[1];
 assert.ok(photoRule, "champion photo rule must exist");
