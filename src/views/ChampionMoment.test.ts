@@ -83,6 +83,15 @@ assert.match(champion, /height=\{photo\.height > 0 \? photo\.height : undefined\
 assert.doesNotMatch(champion, /text-\[10px\]|\btext-xs\b|\btext-sm\b/);
 assert.match(champion, /min-h-11[^"\n]*text-base|text-base[^"\n]*min-h-11/);
 
+const photoRule = css.match(/\.champion-photo\s*\{([^}]*)\}/)?.[1];
+assert.ok(photoRule, "champion photo rule must exist");
+assert.match(photoRule, /opacity:\s*0\.94/);
+assert.match(photoRule, /filter:\s*none/);
+assert.match(photoRule, /mix-blend-mode:\s*normal/);
+assert.doesNotMatch(photoRule, /mask-image|-webkit-mask-image|luminosity|saturate\(/);
+assert.match(css, /\.champion-radiance\s*\{[^}]*opacity:\s*0\.32/s);
+assert.match(css, /\.champion-ribbon\s*\{[^}]*opacity:\s*0\.36/s);
+
 const ribbonRule = css.match(/\.champion-ribbon \{([\s\S]*?)\n\}/)?.[1] ?? "";
 assert.match(
   ribbonRule,
