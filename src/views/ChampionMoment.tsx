@@ -165,7 +165,7 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
             href={photo.url}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 inline-flex min-h-11 items-center text-base text-white/60 underline-offset-2 transition-colors hover:text-white/85 hover:underline"
+            className="mt-4 inline-flex min-h-11 items-center text-xs text-white/60 underline-offset-2 transition-colors hover:text-white/85 hover:underline"
           >
             摄影/来源：{photo.photographer}
           </a>

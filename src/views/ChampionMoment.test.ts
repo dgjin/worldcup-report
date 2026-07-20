@@ -80,8 +80,12 @@ assert.match(champion, /srcSet=/);
 assert.match(champion, /sizes=/);
 assert.match(champion, /width=\{photo\.width > 0 \? photo\.width : undefined\}/);
 assert.match(champion, /height=\{photo\.height > 0 \? photo\.height : undefined\}/);
-assert.doesNotMatch(champion, /text-\[10px\]|\btext-xs\b|\btext-sm\b/);
-assert.match(champion, /min-h-11[^"\n]*text-base|text-base[^"\n]*min-h-11/);
+assert.doesNotMatch(champion, /text-\[10px\]|\btext-sm\b/);
+assert.match(
+  champion,
+  /className="[^"]*min-h-11[^"]*text-xs[^"]*"[\s\S]*?摄影\/来源：\{photo\.photographer\}/,
+  "photo credit must use 12px text while retaining a 44px touch target",
+);
 
 const photoRule = css.match(/\.champion-photo\s*\{([^}]*)\}/)?.[1];
 assert.ok(photoRule, "champion photo rule must exist");
