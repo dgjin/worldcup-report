@@ -3,7 +3,12 @@ import { Crown, Trophy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useChampionPhotos } from "../api/gallery";
 import { Flag, cn } from "../components/ui";
-import { findSpainFinal, hasIncompleteGoalEvents, selectSpainCeremonyPhoto } from "../lib/champion";
+import {
+  CURATED_SPAIN_CHAMPION_PHOTO,
+  findSpainFinal,
+  hasIncompleteGoalEvents,
+  selectSpainCeremonyPhoto,
+} from "../lib/champion";
 import { playerZh, teamZh } from "../lib/teams";
 import type { MatchGoal, MatchRaw } from "../types/worldcup";
 
@@ -81,9 +86,12 @@ export default function ChampionMoment({ matches }: { matches: MatchRaw[] }) {
   const { photos } = useChampionPhotos();
   const shouldReduceMotion = useReducedMotion();
   const final = useMemo(() => findSpainFinal(matches), [matches]);
-  const photo = useMemo(() => selectSpainCeremonyPhoto(photos), [photos]);
+  const galleryPhoto = useMemo(() => selectSpainCeremonyPhoto(photos), [photos]);
   const [failedPhotoId, setFailedPhotoId] = useState<number | null>(null);
   const [loadedPhotoId, setLoadedPhotoId] = useState<number | null>(null);
+  const photo = failedPhotoId === CURATED_SPAIN_CHAMPION_PHOTO.id
+    ? galleryPhoto
+    : CURATED_SPAIN_CHAMPION_PHOTO;
 
   const photoFailed = Boolean(photo && failedPhotoId === photo.id);
   const showPhoto = Boolean(photo && !photoFailed);

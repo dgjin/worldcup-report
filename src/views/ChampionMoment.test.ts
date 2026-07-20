@@ -24,6 +24,8 @@ assert.match(champion, /useReducedMotion/);
 assert.match(champion, /initial=\{shouldReduceMotion \? false : "hidden"\}/);
 assert.match(champion, /animate=\{shouldReduceMotion \? false : "visible"\}/);
 assert.match(champion, /useChampionPhotos/);
+assert.match(champion, /CURATED_SPAIN_CHAMPION_PHOTO/);
+assert.match(champion, /failedPhotoId === CURATED_SPAIN_CHAMPION_PHOTO\.id/);
 assert.doesNotMatch(champion, /useAllGalleryPhotos|\buseGallery\b/);
 
 const finalWithoutGoals: MatchRaw = {

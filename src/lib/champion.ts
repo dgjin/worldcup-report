@@ -14,6 +14,23 @@ interface NewsApiArticle {
   source?: { name?: string | null } | null;
 }
 
+const CURATED_SPAIN_CHAMPION_IMAGE =
+  "https://i.abcnewsfe.com/a/ad56e011-7a81-433b-b446-683f812a9b0d/wc-39-gty-gmh-260719_1784501493590_hpMain_sl_3x2.jpg";
+
+export const CURATED_SPAIN_CHAMPION_PHOTO: GalleryPhoto = {
+  id: -20260719,
+  src: {
+    small: `${CURATED_SPAIN_CHAMPION_IMAGE}?w=640`,
+    medium: `${CURATED_SPAIN_CHAMPION_IMAGE}?w=1024`,
+    large: `${CURATED_SPAIN_CHAMPION_IMAGE}?w=1600`,
+  },
+  photographer: "Juan Mabromata/AFP via Getty Images",
+  alt: "Spain midfielder Rodri lifts the trophy with his teammates after winning the FIFA World Cup 2026 final",
+  width: 1600,
+  height: 1067,
+  url: "https://abcnews.com/Sports/photos/best-photos-fifa-world-cup-2026-133075564",
+};
+
 export interface ChampionGalleryResult {
   photo: GalleryPhoto | null;
   source: "cache" | "newsapi" | null;

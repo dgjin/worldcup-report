@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import type { GalleryPhoto } from "../api/gallery";
 import type { MatchGoal, MatchRaw } from "../types/worldcup";
-import { findChampionGalleryPhoto, findSpainFinal, selectSpainCeremonyPhoto } from "./champion";
+import { CURATED_SPAIN_CHAMPION_PHOTO, findChampionGalleryPhoto, findSpainFinal, selectSpainCeremonyPhoto } from "./champion";
 
 const final = (overrides: Partial<MatchRaw> = {}): MatchRaw => ({
   id: 1,
@@ -51,6 +51,14 @@ assert.equal(selectSpainCeremonyPhoto([
   photo(1, "Spain crowned champions with trophy", 900, 1400),
   photo(2, "Spain crowned champions with trophy", 1200, 0),
 ])?.id, 1, "unknown height must not receive a landscape bonus");
+
+assert.equal(CURATED_SPAIN_CHAMPION_PHOTO.photographer, "Juan Mabromata/AFP via Getty Images");
+assert.match(CURATED_SPAIN_CHAMPION_PHOTO.alt, /Rodri.*lifts the trophy/i);
+assert.match(CURATED_SPAIN_CHAMPION_PHOTO.src.large, /ad56e011-7a81-433b-b446-683f812a9b0d/);
+assert.equal(
+  CURATED_SPAIN_CHAMPION_PHOTO.url,
+  "https://abcnews.com/Sports/photos/best-photos-fifa-world-cup-2026-133075564",
+);
 
 const abortTimeoutDescriptor = Object.getOwnPropertyDescriptor(AbortSignal, "timeout");
 assert.ok(abortTimeoutDescriptor, "the runtime must provide AbortSignal.timeout");
